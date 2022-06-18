@@ -1,0 +1,77 @@
+.who_we_are_container {
+  position: relative;
+  height: 100vh;
+  margin-top: 50vh;
+  margin-bottom: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.profile_container {
+  width: clamp(300px, 25%, 500px);
+  height: fit-content;
+  position: relative;
+}
+.image_border {
+  stroke: #000;
+  stroke-width: 2;
+  width: 100%;
+  position: absolute;
+  top: 40px;
+  left: 5px;
+  z-index: -1;
+}
+
+.profile_photo {
+  width: 100%;
+  border-radius: 20px;
+  position: relative;
+  top: 20px;
+  left: 20px;
+}
+
+.text_container {
+  /* border: 1px solid green; */
+  width: clamp(200px, 40%, 800px);
+  position: relative;
+}
+
+.get_in_touch {
+  font-size: 16px;
+  font-weight: 200;
+  letter-spacing: 1px;
+  padding: 13px 20px 13px;
+  outline: 0;
+  border: 1px solid black;
+  cursor: pointer;
+  position: absolute;
+  right: 5%;
+  background-color: rgba(0, 0, 0, 0);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.get_in_touch:after {
+  content: "";
+  background-color: #ffe54c;
+  width: 100%;
+  z-index: -1;
+  position: absolute;
+  height: 100%;
+  top: 7px;
+  left: 7px;
+  transition: 0.2s;
+}
+
+.get_in_touch:hover:after {
+  top: 0px;
+  left: 0px;
+}
+
+@media (max-width: 800px) {
+  .who_we_are_container {
+    flex-direction: column;
+  }
+}

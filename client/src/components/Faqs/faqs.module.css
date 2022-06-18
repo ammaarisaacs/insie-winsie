@@ -1,0 +1,30 @@
+.faqs_container {
+  border: 1px solid red;
+  position: relative;
+  width: 100%;
+  /* overflow: hidden; */
+  margin-top: 20vh;
+}
+.faq_container0 > *,
+.faq_container1 > *,
+.faq_container3 > *,
+.faq_container3 > * {
+  border: 1px solid green;
+}
+
+.faq_container0 {
+  background-color: rgb(45, 123, 171);
+  border-top-left-radius: 300px;
+  height: 500px;
+  margin-left: auto;
+  padding: 1rem;
+}
+
+.faq_container1 {
+}
+
+.faq_container2 {
+}
+
+.faq_container3 {
+}

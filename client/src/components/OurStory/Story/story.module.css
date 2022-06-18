@@ -1,0 +1,19 @@
+.story_outer_container {
+  margin-top: 10vw;
+  border: 1px solid red;
+  height: 500px;
+}
+
+.story_inner_container {
+  height: 400px;
+  background-color: aqua;
+  overflow-x: auto;
+  scroll-behavior: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.story_line {
+  width: 2500px;
+  height: 80%;
+  border: 8px solid red;
+}

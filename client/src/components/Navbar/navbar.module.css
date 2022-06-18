@@ -1,0 +1,73 @@
+/* :root {
+  --nav-height: 10vh;
+} */
+
+.nav_container,
+.navbar_links,
+.nav_end_links {
+  display: flex;
+  align-items: center;
+}
+
+.nav_end_links {
+  gap: 20px;
+}
+
+.nav_container {
+  padding: 1vw;
+  justify-content: space-between;
+  height: var(--navbar-height);
+  width: 100vw;
+  max-width: 100%;
+  min-width: 400px;
+}
+
+.hamburger_menu {
+  transform: scale(0.5);
+}
+
+.hamburger_menu line {
+  display: none;
+}
+
+.navbar_link_container {
+  position: relative;
+}
+
+.navbar_link {
+  margin: 5vw;
+  list-style-type: none;
+  text-decoration: none;
+  color: black;
+  z-index: 1;
+}
+
+.navbar_link_container svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 5rem;
+  stroke-dasharray: 2038;
+  stroke-dashoffset: 2038;
+  transition: stroke-dashoffset 0.4s ease-in-out;
+  stroke-width: 3;
+  z-index: -1;
+}
+
+.navbar_link_container:hover svg {
+  stroke-dashoffset: 0;
+}
+
+@media screen and (max-width: 767px) {
+  .hamburger_menu {
+    margin: 0 1rem;
+  }
+  .hamburger_menu line {
+    display: block;
+  }
+  .navbar_links,
+  .admin_link {
+    display: none;
+  }
+}

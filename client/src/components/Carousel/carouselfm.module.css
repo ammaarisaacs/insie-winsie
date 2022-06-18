@@ -1,0 +1,21 @@
+.track {
+  cursor: grab;
+  /* margin-top: 12rem; */
+  margin-top: 50vh;
+  margin-bottom: 50vh;
+  position: relative;
+}
+
+.slider {
+  display: flex;
+  width: fit-content;
+  gap: 1rem;
+  margin: 2rem 1rem;
+}
+
+.slider img {
+  min-width: 350px;
+  max-width: 400px;
+  border-radius: 5rem;
+  pointer-events: none;
+}
