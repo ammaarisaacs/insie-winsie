@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Blob } from "../";
 import styles from "./faqs.module.css";
 
 const Faqs = ({ faq, i }) => {
+  const [start, setStart] = useState(false);
+
   const [ref, inView] = useInView({
     threshold: 0.5,
     triggerOnce: true,
@@ -17,17 +20,49 @@ const Faqs = ({ faq, i }) => {
         className={styles[className]}
         ref={ref}
         key={faq.question + i}
-        initial={{ width: "0%" }}
+        initial={{
+          opacity: 0,
+          x: i % 2 ? "-50%" : "50%",
+          // x: i % 2 ? "100%" : "-100%",
+          ...(i % 2
+            ? { borderTopRightRadius: "0px" }
+            : { borderTopLeftRadius: "0px" }),
+        }}
         animate={
           inView && {
-            width: "80%",
-            transition: { duration: 1.5, type: "tween", ease: "easeOut" },
+            opacity: 1,
+            x: "0%",
+            ...(i % 2
+              ? { borderTopRightRadius: "300px" }
+              : { borderTopLeftRadius: "300px" }),
+            transition: { duration: 1, type: "tween", ease: "easeOut" },
           }
         }
+        onAnimationComplete={() => setStart(true)}
       >
-        <h3>{faq.question}</h3>
-        <p>{i == 0 ? faq.answer.areas : faq.answer}</p>
+        <motion.h3
+          initial={{ opacity: 0 }}
+          animate={start && { opacity: 1, transition: { duration: 1 } }}
+        >
+          {faq.question}
+        </motion.h3>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={start && { opacity: 1, transition: { duration: 1 } }}
+          className={styles.faq_paragraph_container}
+        >
+          {i == 0
+            ? faq.answer.areas.map((area) => {
+                return (
+                  <span key={area} className={styles.area}>
+                    {area}
+                  </span>
+                );
+              })
+            : faq.answer}
+        </motion.p>
       </motion.div>
+
       <Blob
         paths={[
           "M444.5,289Q398,328,380.5,370.5Q363,413,317,419Q271,425,216.5,453.5Q162,482,119.5,443Q77,404,69.5,350Q62,296,75,253Q88,210,89.5,159.5Q91,109,136.5,90Q182,71,227.5,68Q273,65,317,77Q361,89,398.5,120.5Q436,152,463.5,201Q491,250,444.5,289Z",

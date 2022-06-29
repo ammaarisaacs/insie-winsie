@@ -35,10 +35,13 @@ const Cart = () => {
                 key={item.product.id}
               >
                 <div className={styles.cart_item}>
-                  <img src={item.product.url} alt="product" />
+                  <img
+                    src={`http://localhost:5000/static/${item.product.media[0].file_name}`}
+                    alt="product"
+                  />
                   <div className={styles.cart_item_details}>
                     <p>{item.product.name}</p>
-                    <p>{item.product.price}</p>
+                    <p>{`R ${item.product.price}`}</p>
                   </div>
                 </div>
 
@@ -59,7 +62,7 @@ const Cart = () => {
                 </div>
 
                 <div className={styles.total_price_container}>
-                  {item.product.price * item.orderQty}
+                  {`R ${(item.product.price * item.orderQty).toFixed(2)}`}
                 </div>
 
                 <button
@@ -72,8 +75,8 @@ const Cart = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <circle cx="25" cy="25" r="24.5" />
-                    <path d="M10.8933 11L38.8933 39" stroke-linecap="round" />
-                    <path d="M10.8933 39L38.8933 11" stroke-linecap="round" />
+                    <path d="M10.8933 11L38.8933 39" />
+                    <path d="M10.8933 39L38.8933 11" />
                   </svg>
                 </button>
               </motion.div>
@@ -81,16 +84,41 @@ const Cart = () => {
           })}
           <div className={styles.totals_container}>
             <p className={styles.subtotal}>subtotal</p>
-            <p className={styles.total_price}>{totalPrice}</p>
+            <p className={styles.total_price}>{`R ${totalPrice.toFixed(2)}`}</p>
           </div>
         </>
       ) : (
         <div className={styles.no_cart_container}>
-          <h4 className={styles.no_cart_message}>No Products in Cart</h4>
+          <div
+            style={{
+              height: "fit-content",
+              overflow: "hidden",
+              marginBottom: "1rem",
+            }}
+          >
+            {"no products in cart".split("").map((l, i) => {
+              return (
+                <motion.span
+                  style={{ display: "inline-block" }}
+                  initial={{ y: 30 }}
+                  animate={{
+                    y: 0,
+                    transition: { delay: i * 0.1, duration: 0.3 },
+                  }}
+                >
+                  {l}
+                </motion.span>
+              );
+            })}
+          </div>
           <Link to="/products">
-            <button className={styles.continue_shopping}>
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 1 } }}
+              className={styles.continue_shopping}
+            >
               Continue Shopping
-            </button>
+            </motion.button>
           </Link>
         </div>
       )}

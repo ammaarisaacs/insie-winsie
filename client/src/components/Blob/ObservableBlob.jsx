@@ -22,6 +22,8 @@ const ObservableBlob = ({
   scale,
   rootMargin,
   zIndex,
+  color,
+  position,
 }) => {
   const [ref, inView] = useInView({
     ...(threshold && { threshold: threshold }),
@@ -49,9 +51,8 @@ const ObservableBlob = ({
 
         ...(zIndex && { zIndex: zIndex }),
 
-        position: "absolute",
+        position: position || "absolute",
         fill: "white",
-        zIndex: -1,
         overflow: "visible",
       }}
       viewBox={`${viewBox[0]} ${viewBox[1]} ${viewBox[2]} ${viewBox[3]}`}
@@ -66,6 +67,7 @@ const ObservableBlob = ({
       }
     >
       <motion.path
+        style={{ ...(color && { fill: color }) }}
         initial={{ d: paths[0] }}
         animate={
           inView && {

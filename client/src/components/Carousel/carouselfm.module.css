@@ -19,3 +19,7 @@
   border-radius: 5rem;
   pointer-events: none;
 }
+
+.carousel_info {
+  border: 1px solid red;
+}

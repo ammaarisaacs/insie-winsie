@@ -4,8 +4,8 @@
 
 .product_container {
   width: var(--product-width);
-  /* height: calc(var(--product-width) * 5 / 4); */
-  height: fit-content;
+  height: calc(var(--product-width) * 5 / 4);
+  /* height: fit-content; */
   border-top-right-radius: 100px;
   border-bottom-left-radius: 50px;
   border: 2px dashed #90d4e2;
@@ -20,6 +20,7 @@
 
 .product_info_container {
   width: 85%;
+  margin-top: auto;
 }
 
 .product_image {

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 
 const DrawPath = ({
+  className,
   path,
   viewBox,
   top,
@@ -18,6 +19,7 @@ const DrawPath = ({
   delay = 0,
   zIndex,
   animateWhen,
+  position,
 }) => {
   const draw = {
     hidden: { pathLength: 0, opacity: 0 },
@@ -36,6 +38,7 @@ const DrawPath = ({
   };
   return (
     <motion.svg
+      className={className}
       viewBox={`${viewBox[0]} ${viewBox[1]} ${viewBox[2]} ${viewBox[3]}`}
       xmlns="http://www.w3.org/2000/svg"
       initial="hidden"
@@ -56,7 +59,7 @@ const DrawPath = ({
 
         ...(zIndex && { zIndex: zIndex }),
 
-        position: "absolute",
+        position: position || "absolute",
         fill: "white",
         overflow: "visible",
       }}

@@ -24,11 +24,11 @@ const faqs = [
 
 const FaqPage = () => {
   return (
-    <div style={{ border: "1px solid red" }}>
+    <>
       {faqs.map((faq, i) => {
-        return <Faqs faq={faq} i={i} />;
+        return <Faqs key={faq.answer} faq={faq} i={i} />;
       })}
-    </div>
+    </>
   );
 };
 

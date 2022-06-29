@@ -1,5 +1,7 @@
+import { OrderSummary } from "../components";
+
 const CheckoutPage = () => {
-  return <div>Checkout</div>;
+  return <OrderSummary />;
 };
 
 export default CheckoutPage;

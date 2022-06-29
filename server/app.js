@@ -1,32 +1,32 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-
-const db = require("./configs/db");
-
-try {
-  db.authenticate().then(() => {
-    console.log("Databse connection has been established successfully.");
-  });
-} catch (error) {
-  console.error("Unable to connect to the database:", error);
-}
+const path = require("path");
 
 require("dotenv").config();
 
-const productsRoute = require("./routes/products");
-// const cartRoute = require("./routes/cart");
-// const checkoutRoute = require("./routes/checkout");
-
 const PORT = process.env.PORT || 5000;
-const HOST = process.env.HOST || "localhost";
+
+const productsRoute = require("./routes/products");
+const checkoutRoute = require("./routes/checkout");
+const contactsRoute = require("./routes/contact");
+
+const apiErrorHandler = require("./middlewares/error");
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use("/static", express.static(path.join(__dirname, "public")));
 
 app.use("/products", productsRoute);
+app.use("/checkout", checkoutRoute);
+app.use("/contact", contactsRoute);
+
+app.use(apiErrorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
+
+// possibly the model needs have the belongsto for both product and category id's
+// possibly the references must also be placed in the item model

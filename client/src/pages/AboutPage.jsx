@@ -1,10 +1,9 @@
-import { OurStory, Story, WhoWeAre } from "../components";
+import { OurStory, WhoWeAre } from "../components";
 
 const AboutPage = () => {
   return (
     <>
       <OurStory />
-      <Story />
       <WhoWeAre />
     </>
   );

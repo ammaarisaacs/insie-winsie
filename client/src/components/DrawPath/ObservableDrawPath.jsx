@@ -20,6 +20,8 @@ const ObservableDrawPath = ({
   delay = 0,
   zIndex,
   rootMargin,
+  className,
+  position,
 }) => {
   const [ref, inView] = useInView({
     ...(threshold && { threshold: threshold }),
@@ -46,6 +48,7 @@ const ObservableDrawPath = ({
   return (
     <motion.svg
       ref={ref}
+      className={className}
       viewBox={`${viewBox[0]} ${viewBox[1]} ${viewBox[2]} ${viewBox[3]}`}
       xmlns="http://www.w3.org/2000/svg"
       initial="hidden"
@@ -66,9 +69,8 @@ const ObservableDrawPath = ({
 
         ...(zIndex && { zIndex: zIndex }),
 
-        position: "absolute",
+        position: position || "absolute",
         fill: "white",
-        overflow: "visible",
       }}
     >
       <motion.path

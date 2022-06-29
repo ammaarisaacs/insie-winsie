@@ -11,22 +11,56 @@ import { motion } from "framer-motion";
 // https://youtu.be/NZKUirTtxcg
 
 const filterIcons = [
-  "onesie.png",
-  "baby-body.png",
-  "baby-socks.png",
-  "sneakers.png",
-  "baby-hat.png",
-  "onesie.png",
-  "onesie.png",
-  "baby-body.png",
+  {
+    name: "onesie.png",
+    query: "rompers",
+  },
+  {
+    name: "baby-body.png",
+    query: "aprons",
+  },
+  {
+    name: "baby-socks.png",
+    query: "bibs",
+  },
+  {
+    name: "sneakers.png",
+    query: "mittens",
+  },
+  {
+    name: "baby-hat.png",
+    query: "berets",
+  },
 ];
 
 const Products = () => {
+  // debouncing + throttling
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterQuery, setFilterQuery] = useState("");
+
   const [products, setProducts] = useState([]);
 
-  const fetchData = async () => {
+  const handleChange = (e) => {
+    setSearchQuery(...filterQuery, e.target.value);
+  };
+
+  const handleFilterClick = (query) => {
+    setFilterQuery(query);
+  };
+
+  // could possibly use the category type as an index when searching in database query to quicken search
+  const fetchOtherData = async (searchQuery, filterQuery) => {
     try {
-      const { data } = await api.fetchProducts();
+      const { data } = await api.fetchProducts(searchQuery, filterQuery);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchData = async (searchQuery, filterQuery) => {
+    try {
+      const { data } = await api.fetchProducts(searchQuery, filterQuery);
       setProducts(data);
     } catch (error) {
       console.log(error);
@@ -41,24 +75,23 @@ const Products = () => {
 
   return (
     <div className={styles.container}>
-      {/* <div className={styles.banner}>BANNER HERE</div> */}
-
       <div className={styles.sort_section}>
         <input
           className={styles.search_bar}
           type="search"
           placeholder="Search"
+          onChange={(e) => handleChange(e)}
         />
-        {filterIcons.map((url) => (
+        {filterIcons.map(({ name, query }) => (
           <motion.button
             whileHover={{ y: -5 }}
             className={styles.filter_button}
-            key={url}
+            key={name}
+            onClick={() => handleFilterClick(query)}
           >
             <img
               className={styles.filter_icons}
-              src={require(`../../assets/images/${url}`)}
-              key={url}
+              src={require(`../../assets/images/${name}`)}
             />
           </motion.button>
         ))}

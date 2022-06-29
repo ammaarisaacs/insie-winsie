@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const Context = createContext();
 
@@ -6,37 +7,54 @@ export const useStateContext = () => useContext(Context);
 
 export const StateContext = ({ children }) => {
   const [orderQty, setOrderQuantity] = useState(1);
-  const [cartItems, setCartItems] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [totalQty, setTotalQty] = useState(0);
-  // will display totalQty in cart emblem
+  const [totalPrice, setTotalPrice] = useLocalStorage("total price", 0);
+  const [totalQty, setTotalQty] = useLocalStorage("total quantity", 0);
+  const [cartItems, setCartItems] = useLocalStorage("shopping cart", []);
+  const [shippingData, setShippingData] = useState({
+    firstname: "",
+    lastname: "",
+    cellphone: "",
+    email: "",
+    street: "",
+    area: "",
+    city: "",
+    province: "",
+    zipcode: "",
+  });
+  const [shippingRate, setShippingRate] = useState(0);
 
   let foundCartItem;
 
   const removeCartItem = (id) => {
     foundCartItem = cartItems.find((item) => item.product.id === id);
+
+    const {
+      product: { price },
+      orderQty,
+    } = foundCartItem;
+
     const filteredCartItems = cartItems.filter(
       (item) => item.product.id !== id
     );
+
     // either use reduce to get all the quantities and prices
 
     setCartItems(filteredCartItems);
 
-    setTotalPrice(
-      (prevTotalPrice) =>
-        prevTotalPrice - foundCartItem.product.price * foundCartItem.orderQty
-    );
+    setTotalPrice((prevTotalPrice) => prevTotalPrice - price * orderQty);
 
-    setTotalQty((prevTotalQty) => prevTotalQty - foundCartItem.orderQty);
+    setTotalQty((prevTotalQty) => prevTotalQty - orderQty);
   };
 
   const updateCartQty = (id, change) => {
     foundCartItem = cartItems.find((item) => item.product.id === id);
 
-    if (
-      change === "inc" &&
-      foundCartItem.orderQty < foundCartItem.product.stockQty
-    ) {
+    const {
+      orderQty,
+      product: { stock_qty, price },
+    } = foundCartItem;
+
+    if (change === "inc" && orderQty < stock_qty) {
       setCartItems(
         cartItems.map((item) =>
           item.product.id === id
@@ -44,11 +62,11 @@ export const StateContext = ({ children }) => {
             : item
         )
       );
+
       setTotalQty((prevTotalQty) => prevTotalQty + 1);
-      setTotalPrice(
-        (prevTotalPrice) => prevTotalPrice + foundCartItem.product.price
-      );
-    } else if (change === "dec" && foundCartItem.orderQty > 1) {
+
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + price);
+    } else if (change === "dec" && orderQty > 1) {
       setCartItems(
         cartItems.map((item) =>
           item.product.id === id
@@ -56,21 +74,19 @@ export const StateContext = ({ children }) => {
             : item
         )
       );
+
       setTotalQty((prevTotalQty) => prevTotalQty - 1);
-      setTotalPrice(
-        (prevTotalPrice) => prevTotalPrice - foundCartItem.product.price
-      );
+
+      setTotalPrice((prevTotalPrice) => prevTotalPrice - price);
     }
   };
 
   const addToCart = (product) => {
-    const productIsInCart = cartItems.find(
-      (item) => item.product.id === product.id
-    );
+    const { id, price } = product;
 
-    setTotalPrice(
-      (prevTotalPrice) => prevTotalPrice + product.price * orderQty
-    );
+    const productIsInCart = cartItems.find((item) => item.product.id === id);
+
+    setTotalPrice((prevTotalPrice) => prevTotalPrice + price * orderQty);
 
     setTotalQty((prevTotalQty) => prevTotalQty + orderQty);
 
@@ -120,6 +136,10 @@ export const StateContext = ({ children }) => {
         setTotalQty,
         updateCartQty,
         removeCartItem,
+        shippingData,
+        setShippingData,
+        shippingRate,
+        setShippingRate,
       }}
     >
       {children}

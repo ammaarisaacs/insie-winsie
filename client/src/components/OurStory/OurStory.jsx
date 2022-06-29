@@ -1,8 +1,8 @@
 import styles from "./ourstory.module.css";
 import { motion } from "framer-motion";
-import { Blob } from "..";
+import { Blob, ObservableDrawPath } from "..";
 import { useInView } from "react-intersection-observer";
-import { BabyPath, ourStoryPaths } from "../../constants/paths";
+import { babyPath, ourStoryPaths } from "../../constants/paths";
 
 const Baby = () => {
   const [ref, inView] = useInView({
@@ -18,7 +18,7 @@ const Baby = () => {
       transition: {
         pathLength: {
           type: "easeOut",
-          duration: 8,
+          duration: 6,
           delay: 0.2,
         },
         opacity: { duration: 2 },
@@ -29,7 +29,7 @@ const Baby = () => {
     <div ref={ref} className={styles.our_story_container}>
       <motion.h3
         initial={{ opacity: 0, y: 10 }}
-        animate={inView && { opacity: 1, y: 0, transition: { duration: 2 } }}
+        animate={inView && { opacity: 1, y: 0, transition: { duration: 1 } }}
         className={styles.our_story_heading}
       >
         Our Story
@@ -57,7 +57,7 @@ const Baby = () => {
           variants={draw}
           initial="hidden"
           animate="visible"
-          d={BabyPath}
+          d={babyPath}
           stroke="black"
         />
       </svg>
@@ -67,12 +67,22 @@ const Baby = () => {
         bottom={1}
         left={-100}
         width="40%"
-        minWidth={600}
+        minWidth={500}
         threshold={1}
         growTime={1.2}
         morphAt={0.3}
         morphTime={1}
         animateWhen={inView}
+        color="#e8fde9"
+      />
+      <ObservableDrawPath
+        path="M348 475.5C269 381.5 167.5 412.5 128.5 401C89.5 389.5 62.5 409 36.5 344.5C10.5 280 -18.5 295.5 17 229.5C52.5 163.5 34.5 188 104 147.5C173.5 107 196 73 238 31C271.6 -2.6 325.333 -1.33333 348 3.5"
+        viewBox={[0, 0, 349, 476]}
+        drawTime={1.5}
+        thickness={1}
+        animateWhen={inView}
+        threshold={0.5}
+        className={styles.svg_right}
       />
     </div>
   );

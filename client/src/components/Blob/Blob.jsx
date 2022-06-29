@@ -20,6 +20,7 @@ const Blob = ({
   scale,
   zIndex,
   animateWhen,
+  color,
 }) => {
   return (
     <motion.svg
@@ -57,6 +58,7 @@ const Blob = ({
       }
     >
       <motion.path
+        style={{ ...(color && { fill: color }) }}
         initial={{ d: paths[0] }}
         animate={
           animateWhen && {

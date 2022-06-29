@@ -29,7 +29,13 @@ export { default as ObservableBlob } from "./Blob/ObservableBlob";
 export { default as DrawPath } from "./DrawPath/DrawPath";
 export { default as ObservableDrawPath } from "./DrawPath/ObservableDrawPath";
 export { default as PageTransition } from "./PageTransition/PageTransition";
+export { default as AnimateWord } from "./AnimateWord/AnimateWord";
 
 export { default as OurStory } from "./OurStory/OurStory";
 export { default as Story } from "./OurStory/Story/Story";
 export { default as WhoWeAre } from "./WhoWeAre/WhoWeAre";
+
+export { default as OrderSummary } from "./OrderSummary/OrderSummary";
+export { default as ShippingForm } from "./ShippingForm/ShippingForm";
+
+export { default as ContactForm } from "./ContactForm/ContactForm";

@@ -14,22 +14,23 @@ const Product = ({ product, index }) => {
           key={product.id}
           initial={{
             opacity: 0,
-            scale: 0,
           }}
           animate={{
             opacity: 1,
-            scale: 1,
             transition: {
-              delay: index * 0.2,
+              delay: index * 0.3,
               ease: "easeOut",
               duration: 1,
             },
           }}
         >
-          <img src={product.url} className={styles.product_image} />
+          <img
+            src={`http://localhost:5000/static/${product.media[0].file_name}`}
+            className={styles.product_image}
+          />
           <div className={styles.product_info_container}>
             <p className={styles.product_name}>{product.name}</p>
-            <span className={styles.product_price}>{product.price}</span>
+            <span className={styles.product_price}>{`R ${product.price}`}</span>
           </div>
         </motion.div>
       </Link>

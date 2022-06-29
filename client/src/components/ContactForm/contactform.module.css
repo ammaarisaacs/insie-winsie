@@ -1,0 +1,75 @@
+:root {
+  --color-gray: #737888;
+  --color-lighter-gray: #e3e5ed;
+  --color-light-gray: #f7f7fa;
+}
+
+.contact_form_container {
+  width: clamp(300px, 40%, 600px);
+  height: fit-content;
+  margin: 0 auto;
+}
+
+.form {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.fields2 {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
+}
+
+.field {
+  border: 1px solid var(--color-lighter-gray);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.field__label {
+  color: var(--color-gray);
+  font-size: 0.6rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.field__input {
+  border: 0;
+  outline: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field:focus-within {
+  border-color: #000;
+}
+
+.button {
+  background-color: #000;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  border: 0;
+  cursor: pointer;
+  outline: 0;
+}
+
+.button:focus-visible {
+  background-color: #333;
+}
+
+@media (max-width: 800px) {
+  .fields2 {
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
+  }
+}
