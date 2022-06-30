@@ -1,4 +1,4 @@
-const { product, media, category_item } = require("../models");
+const { product, media, category_detail, category_item } = require("../models");
 const ApiError = require("../errors/errors");
 
 const multer = require("multer");
@@ -24,11 +24,10 @@ exports.createProduct = async function (req, res, next) {
       next(ApiError.internal());
     });
 };
-
+category_item;
 exports.fetchProducts = async function (req, res, next) {
-  // const products = await product.findAll({ include: "media" });
   const products = await product.findAll({
-    include: [{ model: media }, { model: category_item }],
+    include: [{ model: media }, { model: category_detail, as: "category" }],
   });
 
   if (!products) next(ApiError.internal());
@@ -41,7 +40,10 @@ exports.fetchProduct = async function (req, res, next) {
 
   if (id.isNaN) return next(ApiError.invalidId());
 
-  const foundProduct = await product.findOne({ where: { id } });
+  const foundProduct = await product.findOne({
+    include: "media",
+    where: { id },
+  });
 
   if (!foundProduct) next(ApiError.notAvailable());
 

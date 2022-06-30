@@ -4,11 +4,10 @@ module.exports = (sequelize, DataTypes) => {
   class category_detail extends Model {
     static associate(models) {
       category_detail.belongsToMany(models.product, {
-        // through: models.category_item,
-        through: models.category_item,
+        through: "category_item",
         timestamps: false,
-        // through: "category_item",
-        // as: "category_detail",
+        foreignKey: "category_id",
+        as: "product",
       });
     }
   }
@@ -18,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      // tableName: "category_detail",
+      tableName: "category_detail",
+      freezeTableName: true,
       modelName: "category_detail",
     }
   );

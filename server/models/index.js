@@ -34,6 +34,10 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
+sequelize.sync().then((req) => {
+  console.log("Database synced.");
+});
+
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);

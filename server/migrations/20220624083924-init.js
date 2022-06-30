@@ -24,10 +24,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      // category_id: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false,
-      // },
       in_carousel: {
         type: Sequelize.BOOLEAN,
       },
@@ -101,32 +97,32 @@ module.exports = {
       },
     });
 
-    await queryInterface.createTable("category_item", {
-      // id: {
-      //   allowNull: false,
-      //   autoIncrement: true,
-      //   primaryKey: true,
-      //   type: Sequelize.INTEGER,
-      // },
-      product_id: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        references: {
-          model: "product",
-          key: "id",
-        },
-      },
-      category_id: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        references: {
-          model: "product",
-          key: "id",
-        },
-      },
-    });
+    // await queryInterface.createTable("category_item", {
+    // id: {
+    //   allowNull: false,
+    //   autoIncrement: true,
+    //   primaryKey: true,
+    //   type: Sequelize.INTEGER,
+    // },
+    // product_id: {
+    //   allowNull: false,
+    //   type: Sequelize.INTEGER,
+    //   primaryKey: true,
+    // references: {
+    //   model: "product",
+    //   key: "id",
+    // },
+    // },
+    // category_id: {
+    //   allowNull: false,
+    //   type: Sequelize.INTEGER,
+    //   primaryKey: true,
+    // references: {
+    //   model: "product",
+    //   key: "id",
+    // },
+    // },
+    // });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable("category_item");

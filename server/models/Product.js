@@ -3,14 +3,13 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class product extends Model {
     static associate(models) {
-      // product.hasMany(models.media, { foreignKey: "product_id", as: "media" });
       product.hasMany(models.media, { foreignKey: "product_id" });
 
       product.belongsToMany(models.category_detail, {
-        through: models.category_item,
+        through: "category_item",
         timestamps: false,
-        // through: "category_item",
-        // as: "product",
+        foreignKey: "product_id",
+        as: "category",
       });
     }
   }
@@ -20,12 +19,12 @@ module.exports = (sequelize, DataTypes) => {
       description: { type: DataTypes.STRING, allowNull: false },
       price: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
       stock_qty: { type: DataTypes.INTEGER, allowNull: false },
-      // category_id: { type: DataTypes.INTEGER, allowNull: false },
       in_carousel: { type: DataTypes.BOOLEAN },
     },
     {
       sequelize,
-      // tableName: "product",
+      tableName: "product",
+      freezeTableName: true,
       modelName: "product",
     }
   );

@@ -30,3 +30,6 @@ app.listen(PORT, () => {
 
 // possibly the model needs have the belongsto for both product and category id's
 // possibly the references must also be placed in the item model
+// as attribute
+// foreignkey arribute
+//
