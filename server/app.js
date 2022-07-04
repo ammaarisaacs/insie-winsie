@@ -8,7 +8,7 @@ require("dotenv").config();
 const PORT = process.env.PORT || 5000;
 
 const productsRoute = require("./routes/products");
-const checkoutRoute = require("./routes/checkout");
+const checkoutRoute = require("./routes/order");
 const contactsRoute = require("./routes/contact");
 
 const apiErrorHandler = require("./middlewares/error");
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use("/static", express.static(path.join(__dirname, "public")));
 
 app.use("/products", productsRoute);
-app.use("/checkout", checkoutRoute);
+app.use("/order", checkoutRoute);
 app.use("/contact", contactsRoute);
 
 app.use(apiErrorHandler);

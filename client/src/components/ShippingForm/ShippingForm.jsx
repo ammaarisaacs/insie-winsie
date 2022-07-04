@@ -19,7 +19,7 @@ const ShippingForm = ({
     // setShippingData(Object.assign(shippingData, {}));
     try {
       const { data } = await api.sendShippingData(shippingData);
-
+      console.log(data);
       setShippingRate(data);
     } catch (error) {
       console.log(error);

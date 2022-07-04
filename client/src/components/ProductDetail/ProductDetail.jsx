@@ -4,10 +4,15 @@ import * as api from "../../api";
 import { useParams } from "react-router-dom";
 import { useStateContext } from "../../context/StateContext";
 
+// state for a seperate quantity that adds to the orderQty and defaults back to one everytime this component is rendered
+
+// derived state might be a problem
+
+// could pass product through props only if usehistory shows products was the page before
+
 const ProductDetail = () => {
   const [product, setProduct] = useState({});
-  // state for a seperate quantity that adds to the orderQty and defaults back to one everytime this component is rendered
-  // derived state might be a problem
+  const [loading, setLoading] = useState(false);
 
   const { orderQty, incQty, decQty, addToCart } = useStateContext();
 
@@ -17,6 +22,7 @@ const ProductDetail = () => {
     try {
       const { data } = await api.fetchProduct(id);
       setProduct(data);
+      setLoading(true);
     } catch (error) {
       console.log(error);
     }
@@ -29,7 +35,14 @@ const ProductDetail = () => {
   return (
     <div className={styles.product_detail_container}>
       {/* carousel of images here */}
-      <img src={product.url} />
+
+      {loading ? (
+        <img
+          src={`http://localhost:5000/static/${product.media[0].file_name}`}
+        />
+      ) : (
+        <p>Getting image...</p>
+      )}
 
       <div className={styles.detail_container}>
         <h1 className={styles.product_name}>{product.name}</h1>

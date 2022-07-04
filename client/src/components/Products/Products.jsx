@@ -35,64 +35,86 @@ const filterIcons = [
 
 const Products = () => {
   // debouncing + throttling
+  // above is not needed if you have a search button
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterQuery, setFilterQuery] = useState("");
-
+  const [search, setSearch] = useState(false);
+  const [category, setCategory] = useState("");
   const [products, setProducts] = useState([]);
 
-  const handleChange = (e) => {
-    setSearchQuery(...filterQuery, e.target.value);
+  // could possibly use the category type as an index when searching in database query to quicken search
+
+  const fetchData = async (searchQuery, category) => {
+    try {
+      const { data } = await api.fetchProducts(searchQuery, category);
+      setProducts(data);
+    } catch (error) {
+      // display error ui
+      console.log(error);
+    }
   };
 
   const handleFilterClick = (query) => {
-    setFilterQuery(query);
-  };
+    if (category.includes(query))
+      return setCategory((prevCategories) =>
+        prevCategories.filter((item) => item != query)
+      );
 
-  // could possibly use the category type as an index when searching in database query to quicken search
-  const fetchOtherData = async (searchQuery, filterQuery) => {
-    try {
-      const { data } = await api.fetchProducts(searchQuery, filterQuery);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchData = async (searchQuery, filterQuery) => {
-    try {
-      const { data } = await api.fetchProducts(searchQuery, filterQuery);
-      setProducts(data);
-    } catch (error) {
-      console.log(error);
-    }
+    setCategory((prevCategories) => [...prevCategories, query]);
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(searchQuery, category);
+  }, [category, search]);
+
+  const filterVariants = {
+    grow: {
+      width: "100%",
+      transition: {
+        duration: 0.3,
+      },
+    },
+    shrink: {
+      width: "0%",
+      transition: {
+        duration: 0.3,
+      },
+    },
+  };
 
   // need handlers for filter section to create new filter list from fetched products and displat that
 
   return (
     <div className={styles.container}>
       <div className={styles.sort_section}>
-        <input
-          className={styles.search_bar}
-          type="search"
-          placeholder="Search"
-          onChange={(e) => handleChange(e)}
-        />
+        <div>
+          <input
+            className={styles.search_bar}
+            type="search"
+            placeholder="Search"
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button onClick={() => setSearch(!search)}>Search</button>
+        </div>
+
         {filterIcons.map(({ name, query }) => (
           <motion.button
             whileHover={{ y: -5 }}
             className={styles.filter_button}
             key={name}
-            onClick={() => handleFilterClick(query)}
+            onClick={() => {
+              handleFilterClick(query);
+            }}
           >
             <img
               className={styles.filter_icons}
               src={require(`../../assets/images/${name}`)}
             />
+            <motion.div
+              className={styles.filter_underline}
+              initial={{ width: 0 }}
+              variants={filterVariants}
+              animate={category.includes(query) ? "grow" : "shrink"}
+            ></motion.div>
           </motion.button>
         ))}
 
@@ -103,9 +125,18 @@ const Products = () => {
       </div>
 
       <div className={styles.products_grid}>
-        {products.map((product, i) => (
-          <Product product={product} key={product.id} index={i} />
-        ))}
+        {products.length > 0 ? (
+          products.map((product, i) => (
+            <Product product={product} key={product.id} index={i} />
+          ))
+        ) : (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { duration: 1 } }}
+          >
+            No Products
+          </motion.p>
+        )}
       </div>
 
       <div className={styles.pagination}>pagination</div>

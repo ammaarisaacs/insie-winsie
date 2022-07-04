@@ -1,6 +1,22 @@
 .container {
   height: var(--footer-height);
-  margin-top: 30vh;
+  margin-top: 10vh;
   width: 100%;
   border: 1px solid blue;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.container div {
+  border: 1px solid blue;
+}
+
+.container span {
+  display: inline-block;
+  border: 1px solid red;
+}
+
+.container span:not(:last-child) {
+  margin-right: 10px;
 }

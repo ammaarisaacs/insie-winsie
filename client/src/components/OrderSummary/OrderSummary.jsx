@@ -4,6 +4,20 @@ import { motion } from "framer-motion";
 import styles from "./ordersummary.module.css";
 import ShippingForm from "../ShippingForm/ShippingForm";
 
+{
+  /* combine the order data with the shipping data */
+}
+
+{
+  /* work through payfast */
+}
+{
+  /* if payfast is all clear, send through to checkout api */
+}
+{
+  /* this will then be stored in a database as a payment data */
+}
+
 const OrderSummary = () => {
   const [responseMesssage, setResponseMesssage] = useState("");
   // const [tax, setTax] = useState(0);
@@ -69,12 +83,25 @@ const OrderSummary = () => {
             );
           })}
           <hr />
-          {/* can only pay if there are no shipping errors */}
-          {/* combine the order data with the shipping data */}
-          {/* work through payfast */}
-          {/* if payfast is all clear, send through to checkout api */}
-          {/* this will then be stored in a database as a payment data */}
-          <button className={styles.pay_now}>Pay Now</button>
+
+          {/* only make this clickable if area or city is supported */}
+
+          <form
+            action="https://sandbox.payfast.co.za​/eng/process"
+            method="post"
+          >
+            <input type="hidden" name="merchant_id" value="10000100" />
+            <input type="hidden" name="merchant_key" value="46f0cd694581a" />
+            <input
+              type="hidden"
+              name="amount"
+              value={(totalPrice + shippingRate).toFixed(2)}
+            />
+            <input type="hidden" name="item_name" value="#00001" />
+            <button className={styles.pay_now} type="submit">
+              Pay Now
+            </button>
+          </form>
         </div>
       </div>
     </div>
@@ -82,3 +109,8 @@ const OrderSummary = () => {
 };
 
 export default OrderSummary;
+
+// fill in info
+// send data to backend
+// area and city checked through db
+// need to send something back if not found

@@ -107,3 +107,5 @@ export default App;
 // sequelize config may be better to change to js file rather than json (.seqlizer file) so you can import dotenv to hide
 
 // when order is sent, do a validation for the prices that they must match up to prices is db incase someone changes it on frontend side
+
+// sequelize hooks for emailing and stuff like that

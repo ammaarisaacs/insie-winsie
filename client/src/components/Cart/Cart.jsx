@@ -41,7 +41,7 @@ const Cart = () => {
                   />
                   <div className={styles.cart_item_details}>
                     <p>{item.product.name}</p>
-                    <p>{`R ${item.product.price}`}</p>
+                    <p>{`R ${item.product.price.toFixed(2)}`}</p>
                   </div>
                 </div>
 

@@ -8,7 +8,7 @@ const apiErrorHandler = (err, req, res, next) => {
     return;
   }
 
-  res.status(500).json("Something wen't really wrong.");
+  res.status(500).json("Something wen't wrong.");
 };
 
 module.exports = apiErrorHandler;

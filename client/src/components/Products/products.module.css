@@ -43,10 +43,20 @@
   border: none;
   display: grid;
   place-items: center;
+  position: relative;
 }
 
 .filter_icons {
   width: 90%;
+}
+
+.filter_underline {
+  height: 2px;
+  margin-top: 5px;
+  background-color: black;
+  position: absolute;
+  top: 100%;
+  left: 0;
 }
 
 .filter_menu {

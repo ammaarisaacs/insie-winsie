@@ -27,6 +27,10 @@ class ApiError {
   static notAvailable() {
     return new ApiError(404, `The requested item is currently not available.`);
   }
+
+  static noOrder() {
+    return new ApiError(404, `The requested order could not be found.`);
+  }
 }
 
 module.exports = ApiError;

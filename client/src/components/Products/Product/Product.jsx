@@ -7,7 +7,7 @@ const Product = ({ product, index }) => {
   const { addToCart } = useStateContext();
 
   return (
-    <div className={styles.main_container}>
+    <motion.div layout className={styles.main_container}>
       <Link to={`${product.id}`} key={product.id}>
         <motion.div
           className={styles.product_container}
@@ -30,7 +30,9 @@ const Product = ({ product, index }) => {
           />
           <div className={styles.product_info_container}>
             <p className={styles.product_name}>{product.name}</p>
-            <span className={styles.product_price}>{`R ${product.price}`}</span>
+            <span className={styles.product_price}>{`R ${product.price.toFixed(
+              2
+            )}`}</span>
           </div>
         </motion.div>
       </Link>
@@ -42,7 +44,7 @@ const Product = ({ product, index }) => {
           <button>buy now</button>
         </Link>
       </motion.div>
-    </div>
+    </motion.div>
   );
 };
 

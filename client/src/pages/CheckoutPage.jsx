@@ -1,7 +1,11 @@
 import { OrderSummary } from "../components";
 
 const CheckoutPage = () => {
-  return <OrderSummary />;
+  return (
+    <>
+      <OrderSummary />;
+    </>
+  );
 };
 
 export default CheckoutPage;
