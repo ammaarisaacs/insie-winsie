@@ -41,7 +41,7 @@ export const deleteCarouselProducts = (id) =>
 // shipping
 
 export const sendShippingData = (shippingData) =>
-  API.post("/checkout", shippingData);
+  API.post("/order/shipping", shippingData);
 
 export const sendContactData = (contactData) =>
   API.post("./contact", contactData);

@@ -34,12 +34,11 @@ const filterIcons = [
 ];
 
 const Products = () => {
-  // debouncing + throttling
-  // above is not needed if you have a search button
   const [searchQuery, setSearchQuery] = useState("");
   const [search, setSearch] = useState(false);
   const [category, setCategory] = useState("");
   const [products, setProducts] = useState([]);
+  const [networkError, setNetworkError] = useState(false);
 
   // could possibly use the category type as an index when searching in database query to quicken search
 
@@ -48,8 +47,7 @@ const Products = () => {
       const { data } = await api.fetchProducts(searchQuery, category);
       setProducts(data);
     } catch (error) {
-      // display error ui
-      console.log(error);
+      setNetworkError(true);
     }
   };
 
@@ -58,7 +56,6 @@ const Products = () => {
       return setCategory((prevCategories) =>
         prevCategories.filter((item) => item != query)
       );
-
     setCategory((prevCategories) => [...prevCategories, query]);
   };
 
@@ -81,10 +78,15 @@ const Products = () => {
     },
   };
 
-  // need handlers for filter section to create new filter list from fetched products and displat that
+  if (networkError) return <div>Something wen't wrong</div>;
 
   return (
-    <div className={styles.container}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { duration: 0.8 } }}
+      exit={{ opacity: 0, transition: { duration: 0.8 } }}
+      className={styles.container}
+    >
       <div className={styles.sort_section}>
         <div>
           <input
@@ -93,7 +95,12 @@ const Products = () => {
             placeholder="Search"
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <button onClick={() => setSearch(!search)}>Search</button>
+          <button
+            className={styles.search_button}
+            onClick={() => setSearch(!search)}
+          >
+            Search
+          </button>
         </div>
 
         {filterIcons.map(({ name, query }) => (
@@ -124,7 +131,7 @@ const Products = () => {
         <button className={styles.filter_menu}>Filters</button>
       </div>
 
-      <div className={styles.products_grid}>
+      <motion.div layout className={styles.products_grid}>
         {products.length > 0 ? (
           products.map((product, i) => (
             <Product product={product} key={product.id} index={i} />
@@ -137,10 +144,10 @@ const Products = () => {
             No Products
           </motion.p>
         )}
-      </div>
+      </motion.div>
 
       <div className={styles.pagination}>pagination</div>
-    </div>
+    </motion.div>
   );
 };
 

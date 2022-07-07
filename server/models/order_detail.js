@@ -1,38 +1,7 @@
 "use strict";
-const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class order_detail extends Model {
-    static associate(models) {
-      order_detail.belongsToMany(models.product, {
-        through: models.order_item,
-      });
-      // order_detail.hasMany(models.order_item, {
-      //   foreignKey: "order_id",
-      // });
-
-      // order_detail.belongsToMany(models.product, {
-      //   through: models.order_item,
-      //   timestamps: false,
-      //   foreignKey: "order_id",
-      //   // as: "product",
-      // });
-
-      order_detail.belongsTo(models.address, {
-        foreignKey: "ship_address_id",
-        as: "shipAddressId",
-      });
-
-      order_detail.belongsTo(models.address, {
-        foreignKey: "bill_address_id",
-        as: "billAddressId",
-      });
-
-      order_detail.belongsTo(models.payment_detail, {
-        foreignKey: "payment_id",
-      });
-    }
-  }
-  order_detail.init(
+  const order_detail = sequelize.define(
+    "order_detail",
     {
       name: { type: DataTypes.STRING, allowNull: false },
       first_name: { type: DataTypes.STRING, allowNull: false },
@@ -46,11 +15,31 @@ module.exports = (sequelize, DataTypes) => {
       ship_method_id: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
-      sequelize,
-      modelName: "order_detail",
-      tableName: "order_detail",
       freezeTableName: true,
+      tableName: "order_detail",
+      modelName: "order_detail",
     }
   );
+
+  order_detail.associate = function (models) {
+    order_detail.belongsToMany(models.product, {
+      through: "order_item",
+      foreignKey: "order_id",
+      // as: "product",
+      // through: models.order_item,
+    });
+    order_detail.belongsTo(models.address, {
+      foreignKey: "ship_address_id",
+      as: "shipAddressId",
+    });
+    order_detail.belongsTo(models.address, {
+      foreignKey: "bill_address_id",
+      as: "billAddressId",
+    });
+    order_detail.belongsTo(models.payment_detail, {
+      foreignKey: "payment_id",
+    });
+  };
+
   return order_detail;
 };

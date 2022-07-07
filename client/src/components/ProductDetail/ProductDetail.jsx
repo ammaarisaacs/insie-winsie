@@ -21,6 +21,7 @@ const ProductDetail = () => {
   const fetchProduct = async (id) => {
     try {
       const { data } = await api.fetchProduct(id);
+      console.log(data);
       setProduct(data);
       setLoading(true);
     } catch (error) {

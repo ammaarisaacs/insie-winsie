@@ -1,45 +1,35 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
-// https://dribbble.com/shots/6890113-The-Curology-landing-product-page-interaction
-
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import {
   AboutPage,
   HomePage,
-  AdminPage,
   CheckoutPage,
   ContactPage,
   FaqPage,
 } from "./pages";
-import {
-  Layout,
-  Products,
-  Error,
-  ProductDetail,
-  Cart,
-  OrdersDashboard,
-  ProductsDashboard,
-  CreateProduct,
-  DeleteProduct,
-  UpdateProduct,
-  ViewProduct,
-} from "./components";
-
+import { Layout, Products, Error, ProductDetail, Cart } from "./components";
+import { AnimatePresence } from "framer-motion";
 import { StateContext } from "./context/StateContext";
 
-function App() {
-  return (
-    <Router>
-      <StateContext>
-        <Layout className="App">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:id" element={<ProductDetail />} />
+// https://dribbble.com/shots/6890113-The-Curology-landing-product-page-interaction
 
-            {/* protected route below */}
-            {/* might actually need a login for this then */}
-            {/* <Route path="/admin" element={<AdminPage />}>
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  return (
+    <AnimatePresence exitBeforeEnter>
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
+
+        {/* protected route below */}
+        {/* might actually need a login for this then */}
+        {/* <Route path="/admin" element={<AdminPage />}>
               <Route path="orders" element={<OrdersDashboard />} />
               <Route path="products" element={<ProductsDashboard />}>
                 <Route path="" element={<ViewProduct />} />
@@ -49,14 +39,24 @@ function App() {
               </Route>
             </Route> */}
 
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/faqs" element={<FaqPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/about" element={<AboutPage />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/faqs" element={<FaqPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/about" element={<AboutPage />} />
 
-            <Route path="*" element={<Error />} />
-          </Routes>
+        <Route path="*" element={<Error />} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <StateContext>
+        <Layout className="App">
+          <AnimatedRoutes />
         </Layout>
       </StateContext>
     </Router>
@@ -67,7 +67,7 @@ export default App;
 
 // Client
 
-// make catch in trycatch blocks proper
+// make catch in trycatch blocks proper => check js mastery post video to see how he deals with try and catch
 // infinite scrolling check products jsx
 
 // page transition animations
@@ -84,6 +84,8 @@ export default App;
 // sold out functionality
 // stay on paginate page when coming back from url
 // poppup to show you added to cart
+
+///////////////////////////////////////////////////////////////////////////////
 
 // Server
 
@@ -109,3 +111,12 @@ export default App;
 // when order is sent, do a validation for the prices that they must match up to prices is db incase someone changes it on frontend side
 
 // sequelize hooks for emailing and stuff like that
+// react toastify
+
+// error boundariies
+
+///////////////////////////////////////////////////////////////////////////////
+
+// bug tracker
+
+// carousel not having correct width when coming pressing back to home page

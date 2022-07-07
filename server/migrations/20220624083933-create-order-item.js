@@ -8,22 +8,22 @@ module.exports = {
       //   primaryKey: true,
       //   type: Sequelize.INTEGER,
       // },
-      // order_id: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false,
-      //   references: {
-      //     model: "order_detail",
-      //     key: "id",
-      //   },
-      // },
-      // product_id: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false,
-      //   references: {
-      //     model: "product",
-      //     key: "id",
-      //   },
-      // },
+      order_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "order_detail",
+          key: "id",
+        },
+      },
+      product_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "product",
+          key: "id",
+        },
+      },
       order_qty: {
         type: Sequelize.INTEGER,
         allowNull: false,

@@ -1,26 +1,25 @@
 "use strict";
-const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class category_detail extends Model {
-    static associate(models) {
-      category_detail.belongsToMany(models.product, {
-        through: "category_item",
-        timestamps: false,
-        foreignKey: "category_id",
-        as: "product",
-      });
-    }
-  }
-  category_detail.init(
+  const category_detail = sequelize.define(
+    "category_detail",
     {
       name: { type: DataTypes.STRING, allowNull: false, unique: true },
     },
     {
-      sequelize,
-      tableName: "category_detail",
       freezeTableName: true,
+      tableName: "category_detail",
       modelName: "category_detail",
     }
   );
+
+  category_detail.associate = function (models) {
+    category_detail.belongsToMany(models.product, {
+      through: "category_item",
+      timestamps: false,
+      foreignKey: "category_id",
+      // as: "product",
+    });
+  };
+
   return category_detail;
 };

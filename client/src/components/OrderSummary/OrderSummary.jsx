@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useStateContext } from "../../context/StateContext";
 import { motion } from "framer-motion";
 import styles from "./ordersummary.module.css";
@@ -19,7 +19,7 @@ import ShippingForm from "../ShippingForm/ShippingForm";
 }
 
 const OrderSummary = () => {
-  const [responseMesssage, setResponseMesssage] = useState("");
+  const [notClickable, setNotClickable] = useState(true);
   // const [tax, setTax] = useState(0);
 
   const {
@@ -37,12 +37,13 @@ const OrderSummary = () => {
         <ShippingForm
           setShippingData={setShippingData}
           shippingData={shippingData}
-          setResponseMesssage={setResponseMesssage}
           setShippingRate={setShippingRate}
+          setNotClickable={setNotClickable}
         />
 
         <div className={styles.order_items_container}>
           <h4>Order Summary</h4>
+          <hr />
           {cartItems.map((item, i) => {
             return (
               <motion.div
@@ -77,7 +78,7 @@ const OrderSummary = () => {
               <div className={styles.totals_container}>
                 <p className={styles.subtotal}>{indicator[0]}</p>
                 <p className={styles.total_price}>
-                  {indicator[1] ? `R ${indicator[1].toFixed(2)}` : "-"}
+                  {indicator[1] === null ? "-" : indicator[1].toFixed(2)}
                 </p>
               </div>
             );
@@ -95,12 +96,24 @@ const OrderSummary = () => {
             <input
               type="hidden"
               name="amount"
-              value={(totalPrice + shippingRate).toFixed(2)}
+              // value={(totalPrice + shippingRate).toFixed(2)}
             />
             <input type="hidden" name="item_name" value="#00001" />
-            <button className={styles.pay_now} type="submit">
+            <motion.button
+              initial={{ backgroundColor: "grey" }}
+              animate={{
+                backgroundColor: notClickable
+                  ? "hsl(0, 0%, 93%)"
+                  : "hsl(0, 100%, 50%)",
+                transition: { duration: 0.5 },
+              }}
+              whileHover={{ scale: 1.1 }}
+              className={styles.pay_now}
+              disabled={notClickable}
+              type="submit"
+            >
               Pay Now
-            </button>
+            </motion.button>
           </form>
         </div>
       </div>

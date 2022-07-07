@@ -1,12 +1,15 @@
 import styles from "./shippingform.module.css";
 import * as api from "../../api";
+import { useStateContext } from "../../context/StateContext";
 
 const ShippingForm = ({
   setShippingData,
   shippingData,
-  setResponseMessage,
   setShippingRate,
+  setNotClickable,
 }) => {
+  const { showToast } = useStateContext();
+
   const handleChange = (e) => {
     setShippingData({ ...shippingData, [e.target.name]: e.target.value });
   };
@@ -19,10 +22,18 @@ const ShippingForm = ({
     // setShippingData(Object.assign(shippingData, {}));
     try {
       const { data } = await api.sendShippingData(shippingData);
-      console.log(data);
-      setShippingRate(data);
+
+      setShippingRate(data.charge);
+
+      setNotClickable(false);
+
+      showToast("Success!");
     } catch (error) {
-      console.log(error);
+      setNotClickable(true);
+
+      setShippingRate(null);
+
+      showToast(error.response.data);
     }
   };
 

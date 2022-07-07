@@ -12,7 +12,7 @@
   width: clamp(100px, 10%, 300px);
   position: absolute;
   left: -1px;
-  top: 100%;
+  top: 80%;
 }
 
 .profile_container {

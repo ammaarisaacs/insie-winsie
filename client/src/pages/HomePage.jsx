@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { CarouselFM, Hero } from "../components";
 import * as api from "../api";
+import { motion } from "framer-motion";
 
 const HomePage = () => {
   const [carouselProducts, setCarouselProducts] = useState([]);
@@ -19,10 +20,10 @@ const HomePage = () => {
   }, []);
 
   return (
-    <main>
+    <motion.main exit={{ opacity: 0, transition: { duration: 0.8 } }}>
       <Hero />
       <CarouselFM carouselProducts={carouselProducts} />
-    </main>
+    </motion.main>
   );
 };
 

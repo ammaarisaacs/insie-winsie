@@ -1,29 +1,22 @@
 "use strict";
-const { Model } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
-  class order_item extends Model {
-    static associate(models) {
-      // order_item.belongsTo(models.product, {
-      //   foreignKey: "product_id",
-      // });
-      // order_item.belongsTo(models.order_detail, {
-      //   foreignKey: "order_id",
-      // });
-    }
-  }
-  order_item.init(
+  const order_item = sequelize.define(
+    "order_item",
     {
-      // order_id: DataTypes.INTEGER,
-      // product_id: DataTypes.INTEGER,
-      order_qty: DataTypes.INTEGER,
+      order_id: { type: DataTypes.INTEGER, allowNull: false },
+      product_id: { type: DataTypes.INTEGER, allowNull: false },
+      order_qty: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
-      sequelize,
-      timestamps: false,
+      freezeTableName: true,
       tableName: "order_item",
       modelName: "order_item",
-      freezeTableName: true,
+      timestamps: false,
     }
   );
+
+  // order_item.associate = function (models) {};
+
   return order_item;
 };

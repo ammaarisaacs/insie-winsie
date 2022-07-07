@@ -1,4 +1,3 @@
-import React from "react";
 import { Faqs } from "../components";
 
 const faqs = [

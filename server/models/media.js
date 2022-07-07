@@ -1,26 +1,22 @@
 "use strict";
-const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class media extends Model {
-    static associate(models) {
-      media.belongsTo(models.product, {
-        foreignKey: "product_id",
-        // as: "product",
-      });
-    }
-  }
-
-  media.init(
+  const media = sequelize.define(
+    "media",
     {
-      file_name: DataTypes.STRING,
-      alt_text: DataTypes.STRING,
-      product_id: DataTypes.INTEGER,
+      file_name: { type: DataTypes.STRING, allowNull: false },
+      alt_text: { type: DataTypes.STRING, allowNull: false },
+      product_id: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
-      sequelize,
       tableName: "media",
       modelName: "media",
     }
   );
+
+  media.associate = function (models) {
+    media.belongsTo(models.product, {
+      foreignKey: "product_id",
+    });
+  };
   return media;
 };

@@ -4,24 +4,23 @@ class ApiError {
     this.message = message;
   }
 
-  static badRequest(msg) {
-    return new ApiError(400, "Bad request.");
+  static badRequest(msg = "Bad Request.") {
+    return new ApiError(400, msg);
   }
 
-  static internal(msg) {
-    return new ApiError(500, "Something wen't wrong.");
+  static internal(msg = "Something wen't wrong.") {
+    return new ApiError(500, msg);
   }
 
   static invalidId() {
     return new ApiError(400, "Invalid ID.");
   }
 
-  static invalidCity(city) {
-    return new ApiError(400, `${city} unavailable for delivery.`);
-  }
-
-  static invalidArea(area) {
-    return new ApiError(400, `${area} unavailable for delivery.`);
+  static zoneNotSupported() {
+    return new ApiError(
+      400,
+      "Unsupported delivery location. Please refer to our deliveries section in FAQ"
+    );
   }
 
   static notAvailable() {

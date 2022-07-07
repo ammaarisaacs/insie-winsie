@@ -1,26 +1,23 @@
 "use strict";
-const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class ship_method extends Model {
-    static associate(models) {
-      ship_method.hasMany(models.order_detail, {
-        foreignKey: "ship_method_id",
-      });
-    }
-  }
-  ship_method.init(
+  const ship_method = sequelize.define(
+    "ship_method",
     {
-      name: DataTypes.STRING,
-      charge: DataTypes.DECIMAL(10, 2),
-      city: DataTypes.STRING,
-      area: DataTypes.STRING,
+      name: { type: DataTypes.STRING, allowNull: false },
+      charge: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
+      city: { type: DataTypes.STRING, allowNull: false },
+      area: { type: DataTypes.STRING, allowNull: false },
     },
     {
-      sequelize,
       tableName: "ship_method",
       freezeTableName: true,
       modelName: "ship_method",
     }
   );
+  ship_method.associate = function (models) {
+    ship_method.hasMany(models.order_detail, {
+      foreignKey: "ship_method_id",
+    });
+  };
   return ship_method;
 };

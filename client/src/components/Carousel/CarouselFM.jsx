@@ -6,13 +6,11 @@ import { Blob, DrawPath } from "../";
 import { useInView } from "react-intersection-observer";
 import { carouselDrawPath, carouselPaths } from "../../constants/paths";
 
-const name = "IMG_3942.jpg";
-
 const CarouselFM = ({ carouselProducts }) => {
   const [width, setWidth] = useState(0);
 
   const [carouselRef, inView, entry] = useInView({
-    threshold: 0.8,
+    threshold: 0.4,
     triggerOnce: true,
   });
 
@@ -82,6 +80,7 @@ const CarouselFM = ({ carouselProducts }) => {
               <img
                 src={`http://localhost:5000/static/${product.media[0].file_name}`}
               />
+
               <Link
                 to={`products/${product.id}`}
                 className={styles.carousel_info}

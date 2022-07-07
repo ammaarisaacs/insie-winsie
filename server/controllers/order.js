@@ -4,9 +4,7 @@ const {
   order_detail,
   address,
   payment_detail,
-  order_item,
 } = require("../models");
-const shippingZones = require("../mockdata/mockArea");
 const ApiError = require("../errors/errors");
 
 // when you purchase something, a code must be sent to the buyer email, this can be used to track the order and look at the order details
@@ -20,21 +18,21 @@ exports.fetchOrder = async function (req, res, next) {
   const { id } = req.params;
 
   try {
-    const order = await order_detail.findAll({
+    const order = await order_detail.findOne({
       where: { id },
-      attributes: [
-        "id",
-        "name",
-        "first_name",
-        "last_name",
-        "total",
-        "email",
-        "cellphone",
-        "created_at",
-        "updated_at",
-      ],
+      attributes: {
+        exclude: ["ship_address_id", "bill_address_id", "ship_method_id"],
+      },
       include: [
-        { model: order_item },
+        {
+          model: product,
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "in_carousel", "stock_qty"],
+          },
+          through: {
+            attributes: ["order_qty"],
+          },
+        },
         {
           model: address,
           attributes: ["street", "area", "city", "zipcode", "province"],
@@ -56,43 +54,31 @@ exports.fetchOrder = async function (req, res, next) {
 
     res.send(order);
   } catch (error) {
-    console.log(error);
     return next(ApiError.internal());
   }
-
-  // const { count, rows } = await Project.findAndCountAll({
-  //   where: {
-  //     title: {
-  //       [Op.like]: 'foo%'
-  //     }
-  //   },
-  //   offset: 10,
-  //   limit: 2
-  // });
-  // console.log(count);
-  // console.log(rows);
 };
 
-exports.getShippingRate = function (req, res, next) {
+exports.getShippingRate = async function (req, res, next) {
   const { area, city } = req.body;
 
-  // city can have many areas
-  // therefore store city_id in areas table
+  try {
+    const shippingMethod = await ship_method.findOne({
+      where: { area, city },
+      attributes: ["charge"],
+    });
 
-  const zone = shippingZones.find((zone) => zone.city === city.toLowerCase());
+    // charge could be 0 (pickup), so change to == null
+    if (shippingMethod == null) return next(ApiError.zoneNotSupported());
 
-  // sequelize findOne
+    res.send(shippingMethod);
+  } catch (error) {
+    return next(ApiError.internal());
+  }
   // need to trim at ordersummary inputs
   // better to use codes or integer codes for cryptic and shorter data transfers
   // if shipRate is 0 this will still happen, but that must be for pickup
-
-  if (!zone) return next(ApiError.invalidCity(city));
-
-  const shipRate = zone.areas?.[area];
-
-  if (!shipRate) return next(ApiError.invalidArea(area));
-
-  res.send(JSON.stringify(shipRate));
+  // const shipRate = zone.areas?.[area];
+  // res.send(JSON.stringify(shipRate));
 };
 
 exports.createOrder = function (req, res, next) {
@@ -114,5 +100,4 @@ exports.createOrder = function (req, res, next) {
 };
 
 exports.deleteOrder = function (req, res, next) {};
-
 exports.updateOrder = function (req, res, next) {};

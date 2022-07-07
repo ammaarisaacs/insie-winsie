@@ -21,17 +21,24 @@ export const StateContext = ({ children }) => {
     province: "",
     zipcode: "",
   });
-  const [shippingRate, setShippingRate] = useState(0);
+  const [shippingRate, setShippingRate] = useState(null);
+  const [toastMessage, setToastMessage] = useState(null);
+
+  const showToast = (message) => {
+    setToastMessage(message);
+
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 3000);
+  };
 
   let foundCartItem;
 
   const removeCartItem = (id) => {
     foundCartItem = cartItems.find((item) => item.product.id === id);
 
-    const {
-      product: { price },
-      orderQty,
-    } = foundCartItem;
+    const { product, orderQty } = foundCartItem;
+    const { price } = product;
 
     const filteredCartItems = cartItems.filter(
       (item) => item.product.id !== id
@@ -49,10 +56,8 @@ export const StateContext = ({ children }) => {
   const updateCartQty = (id, change) => {
     foundCartItem = cartItems.find((item) => item.product.id === id);
 
-    const {
-      orderQty,
-      product: { stock_qty, price },
-    } = foundCartItem;
+    const { orderQty, product } = foundCartItem;
+    const { stock_qty, price } = product;
 
     if (change === "inc" && orderQty < stock_qty) {
       setCartItems(
@@ -85,6 +90,8 @@ export const StateContext = ({ children }) => {
     const { id, price } = product;
 
     const productIsInCart = cartItems.find((item) => item.product.id === id);
+
+    // if (product.stock_qty < totalQty) return
 
     setTotalPrice((prevTotalPrice) => prevTotalPrice + price * orderQty);
 
@@ -140,6 +147,8 @@ export const StateContext = ({ children }) => {
         setShippingData,
         shippingRate,
         setShippingRate,
+        toastMessage,
+        showToast,
       }}
     >
       {children}

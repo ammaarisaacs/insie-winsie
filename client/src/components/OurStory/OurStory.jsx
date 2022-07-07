@@ -25,11 +25,17 @@ const Baby = () => {
       },
     },
   };
+
   return (
-    <div ref={ref} className={styles.our_story_container}>
+    <motion.div
+      layout
+      exit={{ opacity: 0, duration: 1 }}
+      ref={ref}
+      className={styles.our_story_container}
+    >
       <motion.h3
         initial={{ opacity: 0, y: 10 }}
-        animate={inView && { opacity: 1, y: 0, transition: { duration: 1 } }}
+        animate={inView && { opacity: 1, y: 0, transition: { duration: 0.5 } }}
         className={styles.our_story_heading}
       >
         Our Story
@@ -84,7 +90,7 @@ const Baby = () => {
         threshold={0.5}
         className={styles.svg_right}
       />
-    </div>
+    </motion.div>
   );
 };
 

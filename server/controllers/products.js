@@ -1,5 +1,6 @@
 const { product, media, category_detail, category_item } = require("../models");
 const ApiError = require("../errors/errors");
+const { response } = require("express");
 
 // const multer = require("multer");
 // const upload = multer({ dest: "./images" });
@@ -13,16 +14,24 @@ exports.createProduct = async function (req, res, next) {
     in_carousel: req.body.in_carousel,
   };
 
-  product
-    .create(newProduct)
-    .then((result) => {
-      res.status(200).json({
-        message: "Product added successfully",
-      });
-    })
-    .catch((err) => {
-      next(ApiError.internal());
-    });
+  try {
+    // need to add an SKU to identify unique product to check if it exists
+    const result = await product.create(newProduct);
+    console.log(result);
+  } catch (error) {
+    return next(ApiError.internal());
+  }
+
+  //   product
+  //     .create(newProduct)
+  //     .then((result) => {
+  //       res.status(200).json({
+  //         message: "Product added successfully",
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       next(ApiError.internal());
+  //     });
 };
 
 exports.fetchProducts = async function (req, res, next) {
@@ -47,29 +56,30 @@ exports.fetchProducts = async function (req, res, next) {
   if (typeof category === "string" || category instanceof String)
     queries.category = category.split(",");
 
-  if (search) queries.search = req.query.search;
+  if (search) queries.search = search;
 
-  // check if sql injection can happen here in search in queries
+  try {
+    // check if sql injection can happen here in search in queries
 
-  const products = await product.findAll({
-    attributes: ["id", "name", "description", "price", "stock_qty"],
-    where: req.query.search ? { name: queries.search } : "",
-    include: [
-      { model: media, attributes: ["file_name", "alt_text"] },
+    const products = await product.findAll({
+      attributes: ["id", "name", "description", "price", "stock_qty"],
 
-      {
-        model: category_detail,
-        // do not want the content
-        attributes: [],
-        as: "category",
-        where: req.query.category ? { name: queries.category } : "",
-      },
-    ],
-  });
+      where: req.query.search ? { name: queries.search } : {},
 
-  if (!products) next(ApiError.internal());
+      include: [
+        { model: media, attributes: ["file_name", "alt_text"] },
+        {
+          model: category_detail,
+          attributes: [],
+          where: req.query.category ? { name: queries.category } : {},
+        },
+      ],
+    });
 
-  res.send(products);
+    res.send(products);
+  } catch (error) {
+    return next(ApiError.internal());
+  }
 };
 
 exports.fetchProduct = async function (req, res, next) {
@@ -77,28 +87,47 @@ exports.fetchProduct = async function (req, res, next) {
 
   if (id.isNaN) return next(ApiError.invalidId());
 
-  const foundProduct = await product.findOne({
-    include: "media",
-    where: { id },
-  });
+  try {
+    const foundProduct = await product.findOne({
+      include: "media",
+      where: { id },
+    });
 
-  if (!foundProduct) next(ApiError.notAvailable());
-
-  res.send(foundProduct);
+    res.send(foundProduct);
+  } catch (error) {
+    return next(ApiError.internal());
+  }
 };
 
 exports.fetchCarouselProducts = async function (req, res, next) {
-  const products = await product.findAll({
-    include: "media",
-    where: { in_carousel: true },
-  });
+  try {
+    const products = await product.findAll({
+      include: "media",
+      where: { in_carousel: true },
+    });
 
-  if (!products) return next(ApiError.internal());
-
-  res.send(products);
+    res.send(products);
+  } catch (error) {
+    return next(ApiError.internal());
+  }
 };
 
-exports.deleteProduct = async function (req, res, next) {};
+exports.deleteProduct = async function (req, res, next) {
+  const { id } = req.body;
+
+  if (isNaN(id)) return next(ApiError.invalidId());
+
+  try {
+    const result = await product.destroy({ where: { id } });
+
+    if (!result) return res.send("Product wasn't found, could not delete.");
+
+    res.send("Product successfully deleted.");
+  } catch (error) {
+    console.log(error);
+    return next(ApiError.internal());
+  }
+};
 exports.updateProduct = async function (req, res, next) {};
 exports.createCarouselProduct = async function (req, res, next) {};
 exports.updateCarouselProducts = async function (req, res, next) {};

@@ -1,32 +1,29 @@
 "use strict";
-const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class address extends Model {
-    static associate(models) {
-      address.hasMany(models.order_detail, {
-        foreignKey: "ship_address_id",
-        as: "shipAddressId",
-      });
-      address.hasMany(models.order_detail, {
-        foreignKey: "bill_address_id",
-        as: "billAddressId",
-      });
-    }
-  }
-  address.init(
+  const address = sequelize.define(
+    "address",
     {
-      street: DataTypes.STRING,
-      area: DataTypes.STRING,
-      city: DataTypes.STRING,
-      zipcode: DataTypes.CHAR,
-      province: DataTypes.CHAR,
+      street: { type: DataTypes.STRING, allowNull: false },
+      area: { type: DataTypes.STRING, allowNull: false },
+      city: { type: DataTypes.STRING, allowNull: false },
+      zipcode: { type: DataTypes.CHAR, allowNull: false },
+      province: { type: DataTypes.CHAR, allowNull: false },
     },
     {
-      sequelize,
-      tableName: "address",
       freezeTableName: true,
-      modelName: "address",
+      tableName: "address",
     }
   );
+
+  address.associate = function (models) {
+    address.hasMany(models.order_detail, {
+      foreignKey: "ship_address_id",
+      as: "shipAddressId",
+    });
+    address.hasMany(models.order_detail, {
+      foreignKey: "bill_address_id",
+      as: "billAddressId",
+    });
+  };
   return address;
 };

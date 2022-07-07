@@ -1,14 +1,7 @@
 "use strict";
-const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class payment_detail extends Model {
-    static associate(models) {
-      payment_detail.hasOne(models.order_detail, {
-        foreignKey: "payment_id",
-      });
-    }
-  }
-  payment_detail.init(
+  const payment_detail = sequelize.define(
+    "payment_detail",
     {
       token: { type: DataTypes.STRING, allowNull: false },
       amount: { type: DataTypes.DECIMAL, allowNull: false },
@@ -16,11 +9,15 @@ module.exports = (sequelize, DataTypes) => {
       status: { type: DataTypes.STRING, allowNull: false },
     },
     {
-      sequelize,
       tableName: "payment_detail",
       freezeTableName: true,
       modelName: "payment_detail",
     }
   );
+  payment_detail.associate = function (models) {
+    payment_detail.hasOne(models.order_detail, {
+      foreignKey: "payment_id",
+    });
+  };
   return payment_detail;
 };

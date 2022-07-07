@@ -1,6 +1,7 @@
 :root {
   --baby-blue: #d0ebea;
   --touch-of-green: #d9ede1;
+  --another-green: #d7e9e4;
 
   --pastel-blue: #f4f0ff;
   --pastel-red: #fcf2f4;
@@ -26,7 +27,6 @@ html {
 
 body {
   font-family: "dank mono", sans-serif;
-  /* background-color: #d7e9e4; */
   background-color: #fcfefe;
   min-width: 400px;
   overflow-x: hidden;

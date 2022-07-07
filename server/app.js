@@ -28,8 +28,8 @@ app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
 
-// possibly the model needs have the belongsto for both product and category id's
-// possibly the references must also be placed in the item model
-// as attribute
-// foreignkey arribute
-//
+// search terms
+// how to pass errors between react, express and sequelize
+// error flow from sequelize to express
+// how to construct http responses for express
+// how to build a production ready express api

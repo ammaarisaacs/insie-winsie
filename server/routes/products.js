@@ -6,9 +6,10 @@ const {
   createProduct,
   fetchProducts,
   fetchCarouselProducts,
+  deleteProduct,
 } = require("../controllers/products");
 
-router.route("/").get(fetchProducts).post(createProduct);
+router.route("/").get(fetchProducts).post(createProduct).delete(deleteProduct);
 
 router.route("/carousel").get(fetchCarouselProducts).post().patch().delete();
 

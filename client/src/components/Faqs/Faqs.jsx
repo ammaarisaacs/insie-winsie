@@ -23,7 +23,6 @@ const Faqs = ({ faq, i }) => {
         initial={{
           opacity: 0,
           x: i % 2 ? "-50%" : "50%",
-          // x: i % 2 ? "100%" : "-100%",
           ...(i % 2
             ? { borderTopRightRadius: "0px" }
             : { borderTopLeftRadius: "0px" }),
@@ -38,6 +37,11 @@ const Faqs = ({ faq, i }) => {
             transition: { duration: 1, type: "tween", ease: "easeOut" },
           }
         }
+        exit={{
+          opacity: 0,
+          x: i % 2 ? "-50%" : "50%",
+          transition: { duration: 1, type: "tween", ease: "easeOut" },
+        }}
         onAnimationComplete={() => setStart(true)}
       >
         <motion.h3
