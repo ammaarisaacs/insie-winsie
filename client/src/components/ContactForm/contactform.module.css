@@ -23,7 +23,8 @@
   gap: 1rem;
 }
 
-.field {
+.field,
+textarea {
   border: 1px solid var(--color-lighter-gray);
   padding: 0.5rem;
   border-radius: 0.25rem;
@@ -39,7 +40,8 @@
   margin-bottom: 0.25rem;
 }
 
-.field__input {
+.field__input,
+textarea {
   border: 0;
   outline: 0;
   -webkit-appearance: none;

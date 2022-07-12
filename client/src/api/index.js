@@ -48,6 +48,8 @@ export const sendContactData = (contactData) =>
 
 // orders
 
+export const sendOrderData = (orderData) => API.post("/order", orderData);
+
 // export const sendOrder = (id) => API.get(`/orders/${id}`);
 
 // export const sendShippingDetails = (area) => API.get(`shipping/${area}`);

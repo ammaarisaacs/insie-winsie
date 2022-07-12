@@ -21,10 +21,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      status: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
+      // status: {
+      //   type: Sequelize.STRING,
+      //   allowNull: false,
+      // },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,

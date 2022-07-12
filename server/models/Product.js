@@ -15,20 +15,25 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  // need to add beforeCreate hook to lowercase everything
+
   product.associate = function (models) {
     product.belongsToMany(models.order_detail, {
       through: "order_item",
       foreignKey: "product_id",
-      // as: "order",
-      // timestamps: false,
+      onDelete: "cascade",
+      hooks: true,
     });
     product.belongsToMany(models.category_detail, {
       through: "category_item",
-      timestamps: false,
+      // timestamps: false,
       foreignKey: "product_id",
-      // as: "category",
+      onDelete: "cascade",
+      hooks: true,
     });
-    product.hasMany(models.media, { foreignKey: "product_id" });
+    product.hasMany(models.media, {
+      foreignKey: "product_id",
+    });
   };
 
   return product;

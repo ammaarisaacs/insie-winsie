@@ -1,10 +1,19 @@
 const express = require("express");
 const router = express.Router();
 
-const { getShippingRate, fetchOrder } = require("../controllers/order");
+const {
+  getShippingRate,
+  fetchOrder,
+  deleteOrder,
+  updateOrder,
+  createOrder,
+  fetchOrders,
+} = require("../controllers/order");
+
+router.route("/").get(fetchOrders).post(createOrder);
+
+router.route("/:id").get(fetchOrder).patch(updateOrder).delete(deleteOrder);
 
 router.route("/shipping").post(getShippingRate);
-
-router.route("/:id").get(fetchOrder);
 
 module.exports = router;

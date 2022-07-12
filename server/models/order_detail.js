@@ -9,10 +9,11 @@ module.exports = (sequelize, DataTypes) => {
       email: { type: DataTypes.STRING, allowNull: false },
       total: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
       cellphone: { type: DataTypes.STRING, allowNull: false },
-      payment_id: { type: DataTypes.INTEGER, allowNull: false },
       ship_address_id: { type: DataTypes.INTEGER, allowNull: false },
       bill_address_id: { type: DataTypes.INTEGER, allowNull: false },
       ship_method_id: { type: DataTypes.INTEGER, allowNull: false },
+      payment_id: { type: DataTypes.INTEGER, allowNull: false },
+      status: { type: DataTypes.STRING, allowNull: false },
     },
     {
       freezeTableName: true,
@@ -21,23 +22,39 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  // need to add beforeCreate hook to lowercase everything
+
   order_detail.associate = function (models) {
     order_detail.belongsToMany(models.product, {
       through: "order_item",
       foreignKey: "order_id",
-      // as: "product",
-      // through: models.order_item,
+      // over here going to have to decide whether you want to keep your order data for legal purposes or data analysis
+      // could you use set default
+      onDelete: "cascade",
+      hooks: true,
     });
     order_detail.belongsTo(models.address, {
       foreignKey: "ship_address_id",
       as: "shipAddressId",
+      // over here going to have to decide whether you want to keep your order data for legal purposes or data analysis
+      // could you use set default
+      onDelete: "cascade",
+      hooks: true,
     });
     order_detail.belongsTo(models.address, {
       foreignKey: "bill_address_id",
       as: "billAddressId",
+      // over here going to have to decide whether you want to keep your order data for legal purposes or data analysis
+      // could you use set default
+      onDelete: "cascade",
+      hooks: true,
     });
     order_detail.belongsTo(models.payment_detail, {
       foreignKey: "payment_id",
+      // over here going to have to decide whether you want to keep your order data for legal purposes or data analysis
+      // could you use set default
+      onDelete: "cascade",
+      hooks: true,
     });
   };
 

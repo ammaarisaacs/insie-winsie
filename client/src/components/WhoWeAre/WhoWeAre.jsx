@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const WhoWeAre = () => {
   const [ref, inView] = useInView({
-    threshold: 0.8,
+    threshold: 0.5,
     triggerOnce: true,
   });
 
@@ -35,7 +35,7 @@ const WhoWeAre = () => {
             inView && {
               opacity: 1,
               scale: 1,
-              transition: { duration: 2, type: "easeOut" },
+              transition: { duration: 1, type: "easeOut" },
             }
           }
         />

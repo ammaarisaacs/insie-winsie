@@ -21,12 +21,22 @@ export const StateContext = ({ children }) => {
     province: "",
     zipcode: "",
   });
+  const [billingData, setBillingData] = useState({
+    firstname: "",
+    lastname: "",
+    cellphone: "",
+    email: "",
+    street: "",
+    area: "",
+    city: "",
+    province: "",
+    zipcode: "",
+  });
   const [shippingRate, setShippingRate] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
 
   const showToast = (message) => {
     setToastMessage(message);
-
     setTimeout(() => {
       setToastMessage(null);
     }, 3000);
@@ -36,29 +46,21 @@ export const StateContext = ({ children }) => {
 
   const removeCartItem = (id) => {
     foundCartItem = cartItems.find((item) => item.product.id === id);
-
     const { product, orderQty } = foundCartItem;
     const { price } = product;
-
     const filteredCartItems = cartItems.filter(
       (item) => item.product.id !== id
     );
-
     // either use reduce to get all the quantities and prices
-
     setCartItems(filteredCartItems);
-
     setTotalPrice((prevTotalPrice) => prevTotalPrice - price * orderQty);
-
     setTotalQty((prevTotalQty) => prevTotalQty - orderQty);
   };
 
   const updateCartQty = (id, change) => {
     foundCartItem = cartItems.find((item) => item.product.id === id);
-
     const { orderQty, product } = foundCartItem;
     const { stock_qty, price } = product;
-
     if (change === "inc" && orderQty < stock_qty) {
       setCartItems(
         cartItems.map((item) =>
@@ -67,9 +69,7 @@ export const StateContext = ({ children }) => {
             : item
         )
       );
-
       setTotalQty((prevTotalQty) => prevTotalQty + 1);
-
       setTotalPrice((prevTotalPrice) => prevTotalPrice + price);
     } else if (change === "dec" && orderQty > 1) {
       setCartItems(
@@ -79,26 +79,18 @@ export const StateContext = ({ children }) => {
             : item
         )
       );
-
       setTotalQty((prevTotalQty) => prevTotalQty - 1);
-
       setTotalPrice((prevTotalPrice) => prevTotalPrice - price);
     }
   };
 
   const addToCart = (product) => {
     const { id, price } = product;
-
     const productIsInCart = cartItems.find((item) => item.product.id === id);
-
     // if (product.stock_qty < totalQty) return
-
     setTotalPrice((prevTotalPrice) => prevTotalPrice + price * orderQty);
-
     setTotalQty((prevTotalQty) => prevTotalQty + orderQty);
-
     setOrderQuantity(1);
-
     if (productIsInCart) {
       const updatedCartItems = cartItems.map((cartItem) => {
         if (cartItem.product.id === product.id) {
@@ -107,7 +99,6 @@ export const StateContext = ({ children }) => {
           return cartItem;
         }
       });
-
       setCartItems(updatedCartItems);
     } else {
       setCartItems((prevCartItems) => {
@@ -149,6 +140,8 @@ export const StateContext = ({ children }) => {
         setShippingRate,
         toastMessage,
         showToast,
+        billingData,
+        setBillingData,
       }}
     >
       {children}

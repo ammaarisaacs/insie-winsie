@@ -67,56 +67,51 @@ export default App;
 
 // Client
 
-// make catch in trycatch blocks proper => check js mastery post video to see how he deals with try and catch
-// infinite scrolling check products jsx
-
-// page transition animations
 // https://codesandbox.io/s/framer-motion-animate-react-router-transition-kczeg?file=/src/page.js
-
-// filtering and sorting of data
-// payfast integration
-// banners and specials
-// admin
-// static pages
+// sorting of data
 // react tracked
+// what happens when user opens new tab
 // smooth scroll effect
 // fallback behavior for react intersection observer
 // sold out functionality
 // stay on paginate page when coming back from url
 // poppup to show you added to cart
+// payfast integration
+// error boundariies
+// put limit on cache length
 
 ///////////////////////////////////////////////////////////////////////////////
 
 // Server
 
-// setup for producttion minimist https://github.com/dev-mastery/clean-architecture/blob/master/client/server/index.js
-
+// pagination
+//    https://sequelize.org/docs/v6/core-concepts/model-querying-basics/
+//    https://youtu.be/QoI_F_Fj8Lo
+// Search
+//    https://youtu.be/672cituGWac
+//    https://youtu.be/9asw2jSi4zE
+//    https://www.youtube.com/watch?v=mZvKPtH9Fzo&ab_channel=PedroTech
+// `  https://youtu.be/MY6ZZIn93V8
+//    https://youtu.be/x7niho285qs
+// ordering and sorting for sort functionality
+// setup for production minimist
+//    https://github.com/dev-mastery/clean-architecture/blob/master/client/server/index.js
 // central error handling
-// https://www.youtube.com/watch?v=s5YoXms0ECs&list=TLPQMjIwNjIwMjKhJoymYyYsag&index=6&ab_channel=Gravity
-// https://www.youtube.com/watch?v=UVAMha41dwo&list=TLPQMjIwNjIwMjKhJoymYyYsag&index=5&ab_channel=Gravity
-// https://youtu.be/xdsm3QMSX6c?list=TLPQMjIwNjIwMjKhJoymYyYsag
-// https://youtu.be/DyqVqaf1KnA
-
+//    https://www.youtube.com/watch?v=s5YoXms0ECs&list=TLPQMjIwNjIwMjKhJoymYyYsag&index=6&ab_channel=Gravity
+//    https://www.youtube.com/watch?v=UVAMha41dwo&list=TLPQMjIwNjIwMjKhJoymYyYsag&index=5&ab_channel=Gravity
+//    https://youtu.be/xdsm3QMSX6c?list=TLPQMjIwNjIwMjKhJoymYyYsag
+//    https://youtu.be/DyqVqaf1KnA
 // need some sort of parsing to check if an error is a database error because we do not want to send that back
-
 // delete all clg
 // delete mockdata and folders you aren't using
-
-// image upload
-// https://youtu.be/wIOpe8S2Mk8
 // consider reverse proxy for serving static files => check express static files
-
 // sequelize config may be better to change to js file rather than json (.seqlizer file) so you can import dotenv to hide
-
 // when order is sent, do a validation for the prices that they must match up to prices is db incase someone changes it on frontend side
-
 // sequelize hooks for emailing and stuff like that
-// react toastify
-
-// error boundariies
+// make model for cateogory_item, same as order_item
 
 ///////////////////////////////////////////////////////////////////////////////
 
-// bug tracker
+// Bugs
 
 // carousel not having correct width when coming pressing back to home page

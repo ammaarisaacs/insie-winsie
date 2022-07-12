@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 const CheckoutPage = () => {
   return (
     <motion.div
-      layoue
+      layout
       initial={{ opacity: 0, x: -100 }}
       animate={{
         opacity: 1,

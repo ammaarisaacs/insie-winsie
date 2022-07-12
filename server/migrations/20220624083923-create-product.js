@@ -4,8 +4,8 @@ module.exports = {
     await queryInterface.createTable("product", {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
+        autoIncrement: true,
         type: Sequelize.INTEGER,
       },
       name: {
@@ -39,7 +39,7 @@ module.exports = {
       },
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable("product");
   },
 };

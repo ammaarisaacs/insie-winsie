@@ -15,9 +15,10 @@ module.exports = (sequelize, DataTypes) => {
   category_detail.associate = function (models) {
     category_detail.belongsToMany(models.product, {
       through: "category_item",
-      timestamps: false,
+      // timestamps: false,
       foreignKey: "category_id",
-      // as: "product",
+      onDelete: "cascade",
+      hooks: true,
     });
   };
 

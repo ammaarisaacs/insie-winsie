@@ -1,4 +1,8 @@
-/* .heading_container, */
+.cart_container {
+  min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+  height: fit-content;
+}
+
 .cart_item_container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -91,6 +95,10 @@ div[class*="cart_item_container"]:first-of-type {
 .no_cart_container {
   text-align: center;
   margin-top: 5rem;
+}
+
+.no_cart_container p {
+  margin-bottom: 20px;
 }
 
 .no_cart_message {

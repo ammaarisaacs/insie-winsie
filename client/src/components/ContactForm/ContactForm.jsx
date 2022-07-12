@@ -135,6 +135,10 @@ export default function ContactForm() {
             required
           />
         </label>
+        <label className={contactFormStyles.field}>
+          <span className={contactFormStyles.field__label}>MESSAGE</span>
+          <textarea style={{ height: 100 }} required />
+        </label>
         <hr />
         <button type="submit" className={contactFormStyles.button}>
           send

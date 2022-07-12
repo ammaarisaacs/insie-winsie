@@ -6,6 +6,8 @@ const { response } = require("express");
 // const upload = multer({ dest: "./images" });
 
 exports.createProduct = async function (req, res, next) {
+  //  also need the media info
+
   const newProduct = {
     name: req.body.name,
     description: req.body.description,
@@ -16,35 +18,16 @@ exports.createProduct = async function (req, res, next) {
 
   try {
     // need to add an SKU to identify unique product to check if it exists
+
     const result = await product.create(newProduct);
-    console.log(result);
+
+    res.send(result);
   } catch (error) {
     return next(ApiError.internal());
   }
-
-  //   product
-  //     .create(newProduct)
-  //     .then((result) => {
-  //       res.status(200).json({
-  //         message: "Product added successfully",
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       next(ApiError.internal());
-  //     });
 };
 
 exports.fetchProducts = async function (req, res, next) {
-  // check these links out for further stuff on search
-  // https://youtu.be/672cituGWac
-  // https://youtu.be/9asw2jSi4zE
-  // https://www.youtube.com/watch?v=mZvKPtH9Fzo&ab_channel=PedroTech
-  // https://youtu.be/MY6ZZIn93V8
-  // https://youtu.be/x7niho285qs
-
-  // pagination
-  // https://youtu.be/QoI_F_Fj8Lo
-
   const { search, category } = req.query;
 
   let queries = {};
@@ -63,9 +46,7 @@ exports.fetchProducts = async function (req, res, next) {
 
     const products = await product.findAll({
       attributes: ["id", "name", "description", "price", "stock_qty"],
-
       where: req.query.search ? { name: queries.search } : {},
-
       include: [
         { model: media, attributes: ["file_name", "alt_text"] },
         {
@@ -75,6 +56,8 @@ exports.fetchProducts = async function (req, res, next) {
         },
       ],
     });
+
+    // possible check for length here, return no products found
 
     res.send(products);
   } catch (error) {
@@ -113,7 +96,9 @@ exports.fetchCarouselProducts = async function (req, res, next) {
 };
 
 exports.deleteProduct = async function (req, res, next) {
-  const { id } = req.body;
+  // validate admin user
+
+  const { id } = req.params;
 
   if (isNaN(id)) return next(ApiError.invalidId());
 
@@ -128,12 +113,5 @@ exports.deleteProduct = async function (req, res, next) {
     return next(ApiError.internal());
   }
 };
-exports.updateProduct = async function (req, res, next) {};
-exports.createCarouselProduct = async function (req, res, next) {};
-exports.updateCarouselProducts = async function (req, res, next) {};
-exports.deleteCarouselProduct = async function (req, res, next) {};
 
-// pagination
-// https://sequelize.org/docs/v6/core-concepts/model-querying-basics/
-// look at count and offset
-// ordering and sorting for sort functionality
+exports.updateProduct = async function (req, res, next) {};

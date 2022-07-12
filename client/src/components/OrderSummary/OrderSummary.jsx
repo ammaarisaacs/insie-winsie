@@ -1,16 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useStateContext } from "../../context/StateContext";
 import { motion } from "framer-motion";
 import styles from "./ordersummary.module.css";
 import ShippingForm from "../ShippingForm/ShippingForm";
+import * as api from "../../api";
 
-{
-  /* combine the order data with the shipping data */
-}
-
-{
-  /* work through payfast */
-}
 {
   /* if payfast is all clear, send through to checkout api */
 }
@@ -18,9 +12,22 @@ import ShippingForm from "../ShippingForm/ShippingForm";
   /* this will then be stored in a database as a payment data */
 }
 
+// const initialOrder = {
+//   firstName: "",
+//   lastName: "",
+//   email: "",
+//   cellphone: "",
+//   total: "",
+//   cart: {},
+//   // include delivery charge coming from getshippingrate
+//   deliveryAddress: {},
+//   billAddress: {},
+// };
+
 const OrderSummary = () => {
   const [notClickable, setNotClickable] = useState(true);
-  // const [tax, setTax] = useState(0);
+  const [orderData, setOrderData] = useState({});
+  const [isSame, setIsSame] = useState(true);
 
   const {
     cartItems,
@@ -29,7 +36,47 @@ const OrderSummary = () => {
     setShippingData,
     shippingRate,
     setShippingRate,
+    billingData,
+    setBillingData,
+    showToast,
   } = useStateContext();
+
+  const handleOrderSubmit = async (e) => {
+    e.preventDefault();
+
+    // validate order here
+
+    try {
+      const { data } = await api.sendOrderData(orderData);
+      // await orderID and give this to payfast
+      // this is effectively the "name" of the invoice
+      // also get 200 or any code
+      // could have an order summary page before paying
+      // could have a potentialOrder, only once it is paid, create it in the db
+
+      console.log(data);
+      // clear local storage of cart items
+      // clear any sensitive info
+    } catch (error) {
+      showToast(error.response.data);
+    }
+  };
+
+  useEffect(() => {
+    console.log(orderData);
+  }, [shippingData, billingData, cartItems, orderData]);
+
+  // useEffect(() => {
+  //   const getOrderID = async function (orderData) {
+  //     try {
+  //       const { data } = await api.createOrderID(orderData);
+  //       setOrder(data.id);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getOrderID(orderData);
+  // }, []);
 
   return (
     <div className={styles.order_summary_container}>
@@ -39,6 +86,15 @@ const OrderSummary = () => {
           shippingData={shippingData}
           setShippingRate={setShippingRate}
           setNotClickable={setNotClickable}
+          setIsSame={setIsSame}
+          isSame={isSame}
+          billingData={billingData}
+          setBillingData={setBillingData}
+          setOrderData={setOrderData}
+          orderData={orderData}
+          api={api}
+          cartItems={cartItems}
+          shippingRate={shippingRate}
         />
 
         <div className={styles.order_items_container}>
@@ -64,7 +120,7 @@ const OrderSummary = () => {
                   alt="product"
                 />
                 <p>{item.product.name}</p>
-                <p>{`R ${item.product.price}`}</p>
+                <p>{`R ${item.product.price.toFixed(2)}`}</p>
               </motion.div>
             );
           })}
@@ -75,7 +131,7 @@ const OrderSummary = () => {
             ["total", totalPrice + shippingRate],
           ].map((indicator) => {
             return (
-              <div className={styles.totals_container}>
+              <div className={styles.totals_container} key={indicator[0]}>
                 <p className={styles.subtotal}>{indicator[0]}</p>
                 <p className={styles.total_price}>
                   {indicator[1] === null ? "-" : indicator[1].toFixed(2)}
@@ -84,8 +140,6 @@ const OrderSummary = () => {
             );
           })}
           <hr />
-
-          {/* only make this clickable if area or city is supported */}
 
           <form
             action="https://sandbox.payfast.co.za​/eng/process"
@@ -110,6 +164,7 @@ const OrderSummary = () => {
               whileHover={{ scale: 1.1 }}
               className={styles.pay_now}
               disabled={notClickable}
+              onClick={(e) => handleOrderSubmit(e)}
               type="submit"
             >
               Pay Now

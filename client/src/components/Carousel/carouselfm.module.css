@@ -1,6 +1,5 @@
 .track {
   cursor: grab;
-  /* margin-top: 12rem; */
   margin-top: 50vh;
   margin-bottom: 50vh;
   position: relative;
@@ -15,8 +14,9 @@
 
 .slider img {
   min-width: 350px;
+  width: 350px;
   max-width: 400px;
-  border-radius: 5rem;
+  border-radius: 2rem;
   pointer-events: none;
 }
 

@@ -6,12 +6,12 @@ module.exports = (sequelize, DataTypes) => {
       token: { type: DataTypes.STRING, allowNull: false },
       amount: { type: DataTypes.DECIMAL, allowNull: false },
       provider: { type: DataTypes.STRING, allowNull: false },
-      status: { type: DataTypes.STRING, allowNull: false },
+      // status: { type: DataTypes.STRING, allowNull: false },
     },
     {
       tableName: "payment_detail",
-      freezeTableName: true,
       modelName: "payment_detail",
+      freezeTableName: true,
     }
   );
   payment_detail.associate = function (models) {

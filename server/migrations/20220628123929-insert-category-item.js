@@ -1,15 +1,14 @@
 "use strict";
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up(queryInterface) {
     let data = [];
-    let count = 25;
     let numberOfProducts = 25;
     let numberOfCategories = 10;
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < numberOfProducts; i++) {
       data.push({
-        product_id: Math.floor(Math.random() * numberOfProducts) + 1,
+        product_id: i + 1,
         category_id: Math.floor(Math.random() * numberOfCategories) + 1,
       });
     }
@@ -17,7 +16,7 @@ module.exports = {
     return await queryInterface.bulkInsert("category_item", data);
   },
 
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.bulkDelete("category_item", null, {});
   },
 };

@@ -16,6 +16,8 @@ module.exports = (sequelize, DataTypes) => {
   media.associate = function (models) {
     media.belongsTo(models.product, {
       foreignKey: "product_id",
+      onDelete: "cascade",
+      hooks: true,
     });
   };
   return media;
