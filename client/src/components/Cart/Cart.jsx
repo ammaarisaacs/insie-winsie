@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styles from "./cart.module.css";
 import { useStateContext } from "../../context/StateContext";
 import { Link } from "react-router-dom";
@@ -12,6 +13,10 @@ import { AnimatePresence, motion } from "framer-motion";
 const Cart = () => {
   const { cartItems, totalPrice, totalQty, updateCartQty, removeCartItem } =
     useStateContext();
+
+  useEffect(() => {
+    console.log(cartItems);
+  }, []);
 
   return (
     <motion.div

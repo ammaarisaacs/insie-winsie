@@ -1,12 +1,13 @@
-const { product, media, category_detail, category_item } = require("../models");
+const { product, media, category_detail } = require("../models");
 const ApiError = require("../errors/errors");
-const { response } = require("express");
 
 // const multer = require("multer");
 // const upload = multer({ dest: "./images" });
 
 exports.createProduct = async function (req, res, next) {
   //  also need the media info
+
+  // validate info
 
   const newProduct = {
     name: req.body.name,

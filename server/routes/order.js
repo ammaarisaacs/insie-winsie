@@ -8,12 +8,14 @@ const {
   updateOrder,
   createOrder,
   fetchOrders,
+  completeOrder,
 } = require("../controllers/order");
 
 router.route("/").get(fetchOrders).post(createOrder);
 
-router.route("/:id").get(fetchOrder).patch(updateOrder).delete(deleteOrder);
-
 router.route("/shipping").post(getShippingRate);
 
+router.route("/complete").post(completeOrder);
+
+router.route("/:id").get(fetchOrder).patch(updateOrder).delete(deleteOrder);
 module.exports = router;

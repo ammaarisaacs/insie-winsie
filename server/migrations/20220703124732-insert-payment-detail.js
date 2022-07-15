@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up(queryInterface) {
     queryInterface.bulkInsert("payment_detail", [
       {
         token: "token123",
@@ -10,6 +10,7 @@ module.exports = {
         // status: "pending",
         created_at: new Date(),
         updated_at: new Date(),
+        order_id: 1,
       },
       {
         token: "somethingelse",
@@ -18,11 +19,12 @@ module.exports = {
         // status: "pending",
         created_at: new Date(),
         updated_at: new Date(),
+        order_id: 2,
       },
     ]);
   },
 
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     queryInterface.bulkDelete("payment_detail", null, {});
   },
 };

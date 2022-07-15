@@ -79,6 +79,8 @@ export default App;
 // payfast integration
 // error boundariies
 // put limit on cache length
+// how to update prices in the client side if you are storing it in cache because prices might change while in cache
+// make buttons only clickable once, do not want to send multiple requests
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -103,15 +105,15 @@ export default App;
 //    https://youtu.be/DyqVqaf1KnA
 // need some sort of parsing to check if an error is a database error because we do not want to send that back
 // delete all clg
-// delete mockdata and folders you aren't using
 // consider reverse proxy for serving static files => check express static files
 // sequelize config may be better to change to js file rather than json (.seqlizer file) so you can import dotenv to hide
 // when order is sent, do a validation for the prices that they must match up to prices is db incase someone changes it on frontend side
 // sequelize hooks for emailing and stuff like that
-// make model for cateogory_item, same as order_item
+// better to use codes or integer codes for cryptic and shorter data transfers
 
 ///////////////////////////////////////////////////////////////////////////////
 
 // Bugs
 
 // carousel not having correct width when coming pressing back to home page
+// clicking multiple times on a button sends many requests

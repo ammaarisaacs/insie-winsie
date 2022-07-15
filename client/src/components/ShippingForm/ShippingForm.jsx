@@ -12,8 +12,8 @@ const ShippingForm = ({
   setBillingData,
   setOrderData,
   api,
-  shippingRate,
   cartItems,
+  totalPrice,
 }) => {
   const { showToast } = useStateContext();
 
@@ -23,17 +23,19 @@ const ShippingForm = ({
 
   const getShippingCharge = async (e) => {
     e.preventDefault();
+
     try {
       const { data } = await api.sendShippingData(shippingData);
+
       setOrderData({
-        shipping: { ...shippingData, charge: data },
+        shipping: { ...shippingData, method: data },
         ...(!isSame && { billing: billingData }),
-        cart: cartItems,
+        cart: { items: cartItems, total: parseFloat(totalPrice.toFixed(2)) },
         // billing: isSame ? shippingData : billingData,
       });
       setShippingRate(data.charge);
       setNotClickable(false);
-      showToast("Delivery available");
+      showToast("Success");
     } catch (error) {
       setNotClickable(true);
       setShippingRate(null);

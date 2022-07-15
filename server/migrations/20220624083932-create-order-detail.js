@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      name: {
+      order_number: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -33,14 +33,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      payment_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: "payment_detail",
-          key: "id",
-        },
-      },
+      // payment_id: {
+      //   type: Sequelize.INTEGER,
+      //   allowNull: false,
+      //   references: {
+      //     model: "payment_detail",
+      //     key: "id",
+      //   },
+      // },
       ship_address_id: {
         type: Sequelize.INTEGER,
         allowNull: false,

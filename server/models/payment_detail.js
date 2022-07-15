@@ -1,4 +1,5 @@
 "use strict";
+
 module.exports = (sequelize, DataTypes) => {
   const payment_detail = sequelize.define(
     "payment_detail",
@@ -7,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       amount: { type: DataTypes.DECIMAL, allowNull: false },
       provider: { type: DataTypes.STRING, allowNull: false },
       // status: { type: DataTypes.STRING, allowNull: false },
+      order_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {
       tableName: "payment_detail",
@@ -15,9 +20,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   payment_detail.associate = function (models) {
-    payment_detail.hasOne(models.order_detail, {
+    payment_detail.belongsTo(models.order_detail, {
       foreignKey: "payment_id",
+      onDelete: "cascade",
+      hooks: true,
     });
+    // payment_detail.hasOne(models.order_detail, {
+    //   foreignKey: "payment_id",
+    // });
   };
   return payment_detail;
 };

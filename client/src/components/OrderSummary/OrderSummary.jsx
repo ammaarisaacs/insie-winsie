@@ -49,22 +49,19 @@ const OrderSummary = () => {
     try {
       const { data } = await api.sendOrderData(orderData);
       // await orderID and give this to payfast
+      // you have id , unique and difficult to type in, therefore uuid, will be in url
+      // but how to reference , could use name
+      // you have name, this is what you show to the user
       // this is effectively the "name" of the invoice
       // also get 200 or any code
       // could have an order summary page before paying
       // could have a potentialOrder, only once it is paid, create it in the db
-
-      console.log(data);
       // clear local storage of cart items
       // clear any sensitive info
     } catch (error) {
       showToast(error.response.data);
     }
   };
-
-  useEffect(() => {
-    console.log(orderData);
-  }, [shippingData, billingData, cartItems, orderData]);
 
   // useEffect(() => {
   //   const getOrderID = async function (orderData) {
@@ -77,6 +74,10 @@ const OrderSummary = () => {
   //   };
   //   getOrderID(orderData);
   // }, []);
+
+  useEffect(() => {
+    console.log(orderData);
+  }, [shippingData, billingData, cartItems, orderData]);
 
   return (
     <div className={styles.order_summary_container}>
@@ -95,6 +96,7 @@ const OrderSummary = () => {
           api={api}
           cartItems={cartItems}
           shippingRate={shippingRate}
+          totalPrice={totalPrice}
         />
 
         <div className={styles.order_items_container}>

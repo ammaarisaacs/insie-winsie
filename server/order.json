@@ -1,6 +1,47 @@
 {
-  "order": {},
-  "cart": {},
-  "deliveryAddress": {},
-  "isSame": true
+  "cart": [
+    {
+      "id": 1,
+      "name": "Bow Tie",
+      "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit ratione molestiae iusto expedita perspiciatis. Id velit quibusdam mollitia qui quisquam magni minima exercitationem voluptates, ducimus officia rem, sit sapiente accusantium.",
+      "price": 3,
+      "orderQty": 1
+    },
+    {
+      "id": 2,
+      "name": "Jacket",
+      "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit ratione molestiae iusto expedita perspiciatis. Id velit quibusdam mollitia qui quisquam magni minima exercitationem voluptates, ducimus officia rem, sit sapiente accusantium.",
+      "price": 6.99,
+      "orderQty": 1
+    },
+    {
+      "id": 3,
+      "name": "Undertop",
+      "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit ratione molestiae iusto expedita perspiciatis. Id velit quibusdam mollitia qui quisquam magni minima exercitationem voluptates, ducimus officia rem, sit sapiente accusantium.",
+      "price": 5,
+      "orderQty": 1
+    }
+  ],
+  "shipping": {
+    "first_name": "ammaar",
+    "last_name": "isaacs",
+    "email": "isaacsammaar@gmail.com",
+    "cellphone": "0670213131",
+    "street": "14 fifth avenue",
+    "area": "rondebosch east",
+    "city": "cape town",
+    "zipcode": "7780",
+    "province": "WC",
+    "method": {
+      "id": 1,
+      "charge": 50.99
+    }
+  },
+  "billing": {
+    "street": "424 andrew zondo road",
+    "area": "amanzimtoti",
+    "city": "durban",
+    "zipcode": "4124",
+    "province": "NC"
+  }
 }
