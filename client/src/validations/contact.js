@@ -4,12 +4,14 @@ const validateEmail = (email) => {
   return re.test(email);
 };
 
+const touched = true;
+
 export default (fields, submit = false) => {
   let errors = {};
 
   for (let field in fields) {
     const {
-      touched,
+      //   touched,
       required,
       value,
       requiredMessage,
@@ -17,6 +19,7 @@ export default (fields, submit = false) => {
       matchWith,
       minLength,
       email,
+      emailMessage,
       matchWithMessage,
       minLengthMessage,
       maxLength,
@@ -25,7 +28,7 @@ export default (fields, submit = false) => {
       allowedTypesMessage,
       maxFileSize,
       maxFileSizeMessage,
-    } = field;
+    } = fields[field];
 
     if (submit) {
       touched = true;
@@ -82,30 +85,31 @@ export default (fields, submit = false) => {
         : `This field must have less than ${fields[field].maxLength} characters`;
     }
 
-    if (
-      !errors[field] &&
-      file &&
-      touched &&
-      allowedTypes &&
-      !allowedTypes.includes(value[0].type.split("/")[1])
-    ) {
-      errors[field] = allowedTypesMessage
-        ? allowedTypesMessage
-        : "Invalid file type!";
-    }
-    if (
-      !errors[field] &&
-      file &&
-      touched &&
-      maxFileSize &&
-      maxFileSize * 1024 < Math.round(value[0].size)
-    ) {
-      errors[field] = maxFileSizeMessage
-        ? maxFileSizeMessage
-        : `File is too large(${Math.round(
-            value[0].size / 1024
-          )}KB), it cannot be larger than ${maxFileSize}KB`;
-    }
+    // if (
+    //   !errors[field] &&
+    //   file &&
+    //   touched &&
+    //   allowedTypes &&
+    //   !allowedTypes.includes(value[0].type.split("/")[1])
+    // ) {
+    //   errors[field] = allowedTypesMessage
+    //     ? allowedTypesMessage
+    //     : "Invalid file type!";
+    // }
+
+    // if (
+    //   !errors[field] &&
+    //   file &&
+    //   touched &&
+    //   maxFileSize &&
+    //   maxFileSize * 1024 < Math.round(value[0].size)
+    // ) {
+    //   errors[field] = maxFileSizeMessage
+    //     ? maxFileSizeMessage
+    //     : `File is too large(${Math.round(
+    //         value[0].size / 1024
+    //       )}KB), it cannot be larger than ${maxFileSize}KB`;
+    // }
   }
   return errors;
 };

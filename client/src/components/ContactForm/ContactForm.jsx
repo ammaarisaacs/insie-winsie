@@ -3,9 +3,14 @@ import useForm from "../../hooks/useForm";
 import contactFormStyles from "./contactform.module.css";
 import * as api from "../../services/api";
 import { motion } from "framer-motion";
+import validate from "../../validations/contact";
 
 const initialState = {
-  name: {
+  firstName: {
+    value: "",
+    required: true,
+  },
+  lastName: {
     value: "",
     required: true,
   },
@@ -16,60 +21,35 @@ const initialState = {
     email: true,
     emailMessage: "Email address is not valid!",
   },
-  password: {
+  cellphone: {
     value: "",
     required: true,
-    minLength: 6,
-    minLengthMessage: "Password must be at least 6 characters long!",
-    maxLength: 16,
+  },
+  message: {
+    value: "",
+    required: true,
+    minLength: 1,
+    minLengthMessage: "Must have a message!",
+    maxLength: 300,
     maxLengthMessage: "Too many characters!",
   },
-  confirmPassword: {
-    value: "",
-    required: true,
-    matchWith: "password",
-    matchWithMessage: "Passwords must be equal!",
-  },
-  gender: {
-    value: "",
-    required: true,
-  },
-  difficulty: {
-    value: "",
-    required: true,
-  },
-  image: {
-    value: {},
-    required: true,
-    file: true,
-    allowedTypes: ["jpg", "jpeg", "png", "gif"],
-    maxFileSize: 1024,
-  },
-  description: {
-    value: "",
-  },
-  terms: {
-    value: false,
-    required: true,
-    requiredMessage: "You need to accept our Terms and Conditions",
-  },
 };
 
-const initialContactData = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  cellphone: "",
-  message: "",
-};
+// const initialContactData = {
+//   firstName: "",
+//   lastName: "",
+//   email: "",
+//   cellphone: "",
+//   message: "",
+// };
 
 export default function ContactForm() {
-  const { formData, errors, handleChange, handleSubmit } =
-    useForm(initialContactData);
+  const { formData, errors, handleChange, handleSubmit } = useForm(
+    initialState,
+    validate
+  );
 
-  const submitFn = () => {
-    console.log("submitted");
-  };
+  const submitFn = () => {};
 
   // const [contactData, setContactData] = useState(initialContactData);
 
@@ -100,6 +80,7 @@ export default function ContactForm() {
     <div className={contactFormStyles.contact_form_container}>
       <hr />
       <form
+        noValidate
         action="submit"
         onSubmit={handleSubmit(submitFn)}
         className={contactFormStyles.form}
@@ -118,10 +99,11 @@ export default function ContactForm() {
               id="firstName"
               name="firstName"
               onChange={(e) => handleChange(e)}
-              value={formData.firstname}
+              value={formData.firstName.value}
               required
             />
           </label>
+          {errors.firstName && <p>{errors.firstName}</p>}
           <label className={contactFormStyles.field}>
             <span className={contactFormStyles.field__label} htmlFor="lastName">
               Last name
@@ -132,7 +114,7 @@ export default function ContactForm() {
               id="lastName"
               name="lastName"
               onChange={(e) => handleChange(e)}
-              value={formData.lastname}
+              value={formData.lastName.value}
               required
             />
           </label>
@@ -150,7 +132,7 @@ export default function ContactForm() {
               type="text"
               id="cellphone"
               name="cellphone"
-              value={formData.cellphone}
+              value={formData.cellphone.value}
               onChange={(e) => handleChange(e)}
               required
             />
@@ -164,40 +146,12 @@ export default function ContactForm() {
               type="text"
               id="email"
               name="email"
-              value={formData.email}
+              value={formData.email.value}
               onChange={(e) => handleChange(e)}
               required
             />
           </label>
         </div>
-        <label className={contactFormStyles.field}>
-          <span className={contactFormStyles.field__label} htmlFor="street">
-            Street Address
-          </span>
-          <input
-            required
-            className={contactFormStyles.field__input}
-            type="text"
-            id="street"
-            name="street"
-            onChange={(e) => handleChange(e)}
-            value={formData.street}
-          />
-        </label>
-        <label className={contactFormStyles.field}>
-          <span className={contactFormStyles.field__label} htmlFor="area">
-            Area/Suburb
-          </span>
-          <input
-            className={contactFormStyles.field__input}
-            type="text"
-            id="area"
-            name="area"
-            value={formData.area}
-            onChange={(e) => handleChange(e)}
-            required
-          />
-        </label>
         <label className={contactFormStyles.field}>
           <span className={contactFormStyles.field__label}>MESSAGE</span>
           <textarea
@@ -206,7 +160,7 @@ export default function ContactForm() {
             id="message"
             name="message"
             onChange={(e) => handleChange(e)}
-            value={formData.message}
+            value={formData.message.value}
           />
         </label>
         <hr />

@@ -2,6 +2,7 @@
 // with component https://youtu.be/0bIKucQPbTY
 
 import { useState, useCallback } from "react";
+import contact from "../validations/contact";
 
 const useForm = (initialState, validate) => {
   const [formData, setFormData] = useState(initialState);
@@ -15,6 +16,7 @@ const useForm = (initialState, validate) => {
       setShowError(false);
       setFormData(data);
       let errors = validate(data);
+      console.log(errors);
       setErrors(errors);
     },
     [validate]
@@ -28,34 +30,27 @@ const useForm = (initialState, validate) => {
 
       // might have to use default values here
 
-      const {
-        name = null,
-        value = null,
-        checked,
-        files,
-        tagName,
-        type,
-      } = e.target ?? {};
-      // { ...contactData, [e.target.name]: e.target.value }
+      const { name, value, checked, files, tagName, type } = e.target ?? {};
+
+      // if (tagName === "INPUT" || tagName === "TEXTAREA") {
+      //   updatedData = {
+      //     ...formData,
+      //     [name]:
+      //       type === "checkbox" ? checked : type === "file" ? files : value,
+      //   };
+      // }
 
       if (tagName === "INPUT" || tagName === "TEXTAREA") {
         updatedData = {
           ...formData,
-          [name]:
-            type === "checkbox" ? checked : type === "file" ? files : value,
+          [name]: {
+            ...formData[name],
+            value:
+              type === "checkbox" ? checked : type === "file" ? files : value,
+            // touched: true,
+          },
         };
       }
-
-      // if (tagName === "INPUT") {
-      //   updatedData = {
-      //     ...formData,
-      //     [name]: {
-      //       ...formData[name],
-      //       // type === "checkbox" ? checked : type === "file" ? files : value,
-      //       touched: true,
-      //     },
-      //   };
-      // }
 
       setDataAndErrors(updatedData, name);
     },
@@ -67,14 +62,13 @@ const useForm = (initialState, validate) => {
   const handleSubmit = (cb) => {
     return (e) => {
       e.preventDefault();
-      setShowError(true);
+
       // validate here
       // instead
       // you are already setting error in handleChange
       // so just check if  errors is empty or not
-      // if (Object.keys(errors).length !== 0){
-      // return
-      // }
+      if (Object.keys(errors).length !== 0) return;
+
       cb();
     };
   };

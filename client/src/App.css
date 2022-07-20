@@ -8,7 +8,7 @@
   --pastel-red: #fcf2f4;
   --dark-purple: #342a81;
 
-  /* sizes */
+  /* layout */
 
   --navbar-height: 10vh;
   --footer-height: 30vh;
@@ -19,6 +19,10 @@
   /* padding and margins */
 
   --section-margin: 5rem;
+
+  /* font sizes */
+  --paragraph-size: 10px;
+  --header-size: 20px;
 }
 
 * {
