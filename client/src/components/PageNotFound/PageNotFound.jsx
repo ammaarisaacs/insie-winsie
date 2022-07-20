@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Blob } from "../";
-import { ourStoryPaths } from "../../constants/paths";
+import { ourStoryPaths } from "../../data/paths";
 
 const PageNotFound = () => {
   const draw = {

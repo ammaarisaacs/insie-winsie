@@ -3,7 +3,7 @@ import styles from "./productdetail.module.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../context/StateContext";
 import { motion, transform } from "framer-motion";
-import * as api from "../../api";
+import * as api from "../../services/api";
 
 // state for a seperate quantity that adds to the orderQty and defaults back to one everytime this component is rendered
 // derived state might be a problem

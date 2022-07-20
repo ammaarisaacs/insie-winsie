@@ -4,7 +4,7 @@ import styles from "./carouselfm.module.css";
 import { Link } from "react-router-dom";
 import { Blob, DrawPath } from "../";
 import { useInView } from "react-intersection-observer";
-import { carouselDrawPath, carouselPaths } from "../../constants/paths";
+import { carouselDrawPath, carouselPaths } from "../../data/paths";
 
 const CarouselFM = ({ carouselProducts }) => {
   const [width, setWidth] = useState(0);

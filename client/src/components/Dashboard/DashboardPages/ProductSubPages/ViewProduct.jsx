@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import * as api from "../../../../api";
+import * as api from "../../../../services/api";
 import styles from "../../dashboard.module.css";
 import { motion } from "framer-motion";
 import ProductDescription from "./ProductDescription";

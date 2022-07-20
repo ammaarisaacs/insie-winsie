@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./updateproduct.module.css";
-import * as api from "../../../../api";
+import * as api from "../../../../services/api";
 
 const UpdateProduct = () => {
   const [updatedProduct, setupdatedProduct] = useState();

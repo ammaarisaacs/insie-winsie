@@ -119,3 +119,4 @@ export default App;
 // carousel not having correct width when coming pressing back to home page
 // clicking multiple times on a button sends many requests
 // experienced an odd error earlier https://stackoverflow.com/questions/9768444/possible-eventemitter-memory-leak-detected
+// no svg draw when selecting cart or checkout or anything else other than the center menu

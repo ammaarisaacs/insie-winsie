@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import Product from "./Product/Product";
 import styles from "./products.module.css";
 import { motion } from "framer-motion";
-import { filterIcons } from "../../constants/filterIcons";
-import * as api from "../../api";
+import { filterIcons } from "../../data/icons";
+import * as api from "../../services/api";
 
 // https://dribbble.com/shots/17246781-GLASS-LIZZARD-Products
 

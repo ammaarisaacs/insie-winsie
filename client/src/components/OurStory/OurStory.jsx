@@ -2,7 +2,7 @@ import styles from "./ourstory.module.css";
 import { motion } from "framer-motion";
 import { Blob, ObservableDrawPath } from "..";
 import { useInView } from "react-intersection-observer";
-import { babyPath, ourStoryPaths } from "../../constants/paths";
+import { babyPath, ourStoryPaths } from "../../data/paths";
 
 const Baby = () => {
   const [ref, inView] = useInView({

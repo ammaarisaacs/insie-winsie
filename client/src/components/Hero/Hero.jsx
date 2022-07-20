@@ -2,7 +2,7 @@ import styles from "./hero.module.css";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Blob, DrawPath } from "../";
-import { heroBlob } from "../../constants/paths";
+import { heroBlob } from "../../data/paths";
 
 const animationTime = 1.5;
 

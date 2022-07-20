@@ -3,7 +3,8 @@ import { useStateContext } from "../../context/StateContext";
 import { motion } from "framer-motion";
 import styles from "./ordersummary.module.css";
 import ShippingForm from "../ShippingForm/ShippingForm";
-import * as api from "../../api";
+import * as api from "../../services/api";
+import { randify } from "../../utils/costing";
 
 const initialPayData = {
   firstName: "",
@@ -60,12 +61,8 @@ const OrderSummary = () => {
   useEffect(() => {
     const clientAmount = (totalPrice + shippingRate).toFixed(2);
 
-    console.log(amount === clientAmount);
-
     if (ref.current && amount === clientAmount && signature) {
       ref.current.submit();
-    } else {
-      console.log("error");
     }
   }, [amount, orderNumber, signature]);
 
@@ -119,7 +116,7 @@ const OrderSummary = () => {
               <div className={styles.totals_container} key={indicator[0]}>
                 <p className={styles.subtotal}>{indicator[0]}</p>
                 <p className={styles.total_price}>
-                  {indicator[1] === null ? "-" : indicator[1].toFixed(2)}
+                  {indicator[1] === null ? "-" : randify(indicator[1])}
                 </p>
               </div>
             );

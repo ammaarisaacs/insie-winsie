@@ -16,9 +16,9 @@
   --paragraph-size: calc(0.8rem + 0.25vw);
   --color-lighter-gray: #e3e5ed;
 
-  /* layouts */
-
   /* padding and margins */
+
+  --section-margin: 5rem;
 }
 
 * {

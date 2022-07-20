@@ -1,6 +1,6 @@
 import Reac, { useState } from "react";
 import styles from "./deleteproduct.module.css";
-import * as api from "../../../../api";
+import * as api from "../../../../services/api";
 
 const DeleteProduct = () => {
   const [deletedProduct, setDeletedProduct] = useState();

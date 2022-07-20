@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useStateContext } from "../context/StateContext";
 import { useParams } from "react-router-dom";
-import * as api from "../api";
+import * as api from "../services/api";
 
 const SuccessPage = () => {
   const [orderSummary, setOrderSummary] = useState({});

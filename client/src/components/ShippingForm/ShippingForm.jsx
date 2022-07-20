@@ -2,6 +2,13 @@ import { useState } from "react";
 import styles from "./shippingform.module.css";
 import { useStateContext } from "../../context/StateContext";
 
+// can have initial data array (call it formConfig or something)
+// each input is an object in the array
+// can do this
+// formConfig.map(item=>{
+//   return <Input {...item}></Input>
+// })
+
 const ShippingForm = ({
   setNotClickable,
   setOrderData,
@@ -17,6 +24,7 @@ const ShippingForm = ({
     setBillingData,
     setShippingRate,
   } = useStateContext();
+
   const [isSame, setIsSame] = useState(true);
 
   const handleChange = (e, formData, setFormData) => {
@@ -105,7 +113,7 @@ const ShippingForm = ({
             </span>
             <input
               className={styles.field__input}
-              type="text"
+              type="email"
               id="email"
               name="email"
               value={shippingData.email}

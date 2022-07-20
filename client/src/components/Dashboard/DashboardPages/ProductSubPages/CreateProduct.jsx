@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./createproduct.module.css";
-import * as api from "../../../../api";
+import * as api from "../../../../services/api";
 import { motion } from "framer-motion";
 import { Blob } from "../../../";
 

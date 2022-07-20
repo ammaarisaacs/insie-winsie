@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { CarouselFM, Hero } from "../components";
-import * as api from "../api";
+import * as api from "../services/api";
 import { motion } from "framer-motion";
 
 const HomePage = () => {
