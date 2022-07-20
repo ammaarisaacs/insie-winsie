@@ -4,7 +4,7 @@ module.exports = {
   async up(queryInterface) {
     queryInterface.bulkInsert("order_detail", [
       {
-        order_number: "00000001",
+        order_number: 1,
         first_name: "ammaar",
         last_name: "isaacs",
         total: 200,
@@ -19,7 +19,7 @@ module.exports = {
         updated_at: new Date(),
       },
       {
-        order_number: "00000002",
+        order_number: 2,
         first_name: "ereshia",
         last_name: "benjamin",
         total: 400,

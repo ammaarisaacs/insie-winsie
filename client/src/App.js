@@ -11,8 +11,15 @@ import {
   CheckoutPage,
   ContactPage,
   FaqPage,
+  SuccessPage,
 } from "./pages";
-import { Layout, Products, Error, ProductDetail, Cart } from "./components";
+import {
+  Layout,
+  Products,
+  PageNotFound,
+  ProductDetail,
+  Cart,
+} from "./components";
 import { AnimatePresence } from "framer-motion";
 import { StateContext } from "./context/StateContext";
 
@@ -20,32 +27,20 @@ import { StateContext } from "./context/StateContext";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
+
   return (
     <AnimatePresence exitBeforeEnter>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetail />} />
-
-        {/* protected route below */}
-        {/* might actually need a login for this then */}
-        {/* <Route path="/admin" element={<AdminPage />}>
-              <Route path="orders" element={<OrdersDashboard />} />
-              <Route path="products" element={<ProductsDashboard />}>
-                <Route path="" element={<ViewProduct />} />
-                <Route path="create" element={<CreateProduct />} />
-                <Route path="update" element={<UpdateProduct />} />
-                <Route path="delete" element={<DeleteProduct />} />
-              </Route>
-            </Route> */}
-
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/checkout/success" element={<SuccessPage />} />
         <Route path="/faqs" element={<FaqPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about" element={<AboutPage />} />
-
-        <Route path="*" element={<Error />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </AnimatePresence>
   );
@@ -81,6 +76,7 @@ export default App;
 // put limit on cache length
 // how to update prices in the client side if you are storing it in cache because prices might change while in cache
 // make buttons only clickable once, do not want to send multiple requests
+// convert all static images to webp
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -110,6 +106,11 @@ export default App;
 // when order is sent, do a validation for the prices that they must match up to prices is db incase someone changes it on frontend side
 // sequelize hooks for emailing and stuff like that
 // better to use codes or integer codes for cryptic and shorter data transfers
+// what if request sent from node code or postman, need to validate this
+// how to make sure province isn't empty
+// install snyk and check vulnabilities
+// use uuid where you can
+// convert all static images to webp
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -117,3 +118,4 @@ export default App;
 
 // carousel not having correct width when coming pressing back to home page
 // clicking multiple times on a button sends many requests
+// experienced an odd error earlier https://stackoverflow.com/questions/9768444/possible-eventemitter-memory-leak-detected

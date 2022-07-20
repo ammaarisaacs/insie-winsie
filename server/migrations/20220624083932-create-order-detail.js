@@ -10,8 +10,9 @@ module.exports = {
         allowNull: false,
       },
       order_number: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
+        unique: true,
       },
       first_name: {
         type: Sequelize.STRING,

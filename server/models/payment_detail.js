@@ -4,8 +4,8 @@ module.exports = (sequelize, DataTypes) => {
   const payment_detail = sequelize.define(
     "payment_detail",
     {
-      token: { type: DataTypes.STRING, allowNull: false },
-      amount: { type: DataTypes.DECIMAL, allowNull: false },
+      name: { type: DataTypes.STRING, allowNull: false },
+      amount: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
       provider: { type: DataTypes.STRING, allowNull: false },
       // status: { type: DataTypes.STRING, allowNull: false },
       order_id: {
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   payment_detail.associate = function (models) {
     payment_detail.belongsTo(models.order_detail, {
-      foreignKey: "payment_id",
+      foreignKey: "order_id",
       onDelete: "cascade",
       hooks: true,
     });

@@ -20,7 +20,7 @@ module.exports = {
       },
       {
         order_id: 2,
-        product_id: 2,
+        product_id: 5,
         order_qty: 2,
       },
       {

@@ -45,17 +45,10 @@
   pointer-events: none;
 }
 
-/* .button_container button {
-  pointer-events: auto;
-  border: none;
-  padding: 5px;
-} */
-
 .main_container:hover .button_container {
   clip-path: ellipse(200% 200% at 150px -350px);
 }
 
-/* CSS */
 .button_container button {
   pointer-events: auto;
   align-items: center;

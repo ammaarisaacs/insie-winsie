@@ -1,11 +1,8 @@
-import { useEffect } from "react";
 import styles from "./cart.module.css";
 import { useStateContext } from "../../context/StateContext";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
-// animation ideas
-// shopping cart header must come in one letter at a time
 // line between heading and table must be drawn accross slowly
 // all other words must fade in slowly
 // svg splashes that morph when either hovered or pressed on for quantity selector and remove
@@ -13,10 +10,6 @@ import { AnimatePresence, motion } from "framer-motion";
 const Cart = () => {
   const { cartItems, totalPrice, totalQty, updateCartQty, removeCartItem } =
     useStateContext();
-
-  useEffect(() => {
-    console.log(cartItems);
-  }, []);
 
   return (
     <motion.div
@@ -53,14 +46,14 @@ const Cart = () => {
                   }}
                   exit={{
                     opacity: 0,
-                    y: -100,
-                    transition: { duration: 0.5 },
+                    height: 0,
+                    transition: { duration: 2.5 },
                   }}
                   className={styles.cart_item_container}
                   key={item.product.id}
                 >
                   <div className={styles.cart_item}>
-                    <img
+                    <motion.img
                       src={`http://localhost:5000/static/${item.product.media[0].file_name}`}
                       alt="product"
                     />

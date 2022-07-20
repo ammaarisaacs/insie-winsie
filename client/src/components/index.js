@@ -13,8 +13,6 @@ export { default as Faqs } from "./Faqs/Faqs";
 export { default as Hero } from "./Hero/Hero";
 export { default as CarouselFM } from "./Carousel/CarouselFM";
 
-export { default as Error } from "./Error/Error";
-
 export { default as Sidebar } from "./Sidebar/Sidebar";
 export { default as Dashboard } from "./Dashboard/Dashboard";
 export { default as OrdersDashboard } from "./Dashboard/DashboardPages/OrdersDashboard";
@@ -40,3 +38,5 @@ export { default as OrderSummary } from "./OrderSummary/OrderSummary";
 export { default as ShippingForm } from "./ShippingForm/ShippingForm";
 
 export { default as ContactForm } from "./ContactForm/ContactForm";
+
+export { default as PageNotFound } from "./PageNotFound/PageNotFound";

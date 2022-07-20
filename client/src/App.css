@@ -1,18 +1,24 @@
 :root {
+  /* colors */
+
   --baby-blue: #d0ebea;
   --touch-of-green: #d9ede1;
   --another-green: #d7e9e4;
-
   --pastel-blue: #f4f0ff;
   --pastel-red: #fcf2f4;
-
   --dark-purple: #342a81;
+
+  /* sizes */
 
   --navbar-height: 10vh;
   --footer-height: 30vh;
   --header-size: calc(2rem + 1vw);
   --paragraph-size: calc(0.8rem + 0.25vw);
   --color-lighter-gray: #e3e5ed;
+
+  /* layouts */
+
+  /* padding and margins */
 }
 
 * {
@@ -32,6 +38,11 @@ body {
   overflow-x: hidden;
   cursor: url(assets/svgs/spider.svg), auto;
 }
+
+/* main {
+  min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+  height: fit-content;
+} */
 
 a {
   text-decoration: none;

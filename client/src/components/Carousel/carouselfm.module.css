@@ -1,8 +1,10 @@
 .track {
   cursor: grab;
-  margin-top: 50vh;
-  margin-bottom: 50vh;
+  margin-top: 20vh;
+  margin-bottom: 20vh;
   position: relative;
+  min-height: 500px;
+  border: 1px solid red;
 }
 
 .slider {

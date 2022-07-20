@@ -8,16 +8,28 @@
   padding: 2rem 4rem;
 }
 
+.product_image_container {
+  height: fit-content;
+  min-width: 350px;
+  width: 30%;
+  max-width: 400px;
+  overflow: hidden;
+}
+
+.image_inner_container {
+  display: flex;
+}
+
+.product_image {
+  display: inline-block;
+}
+
 .product_name,
 .product_description,
 .product_price,
 .product_stock,
 .quantity_container {
   margin-top: 20px;
-}
-
-.product_detail_container img {
-  width: clamp(300px, 30%, 800px);
 }
 
 .detail_container {

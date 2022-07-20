@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      token: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false,
       },

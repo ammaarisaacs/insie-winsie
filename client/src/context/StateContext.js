@@ -1,6 +1,18 @@
 import React, { createContext, useContext, useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
+const initialShippingData = {
+  firstName: "",
+  lastName: "",
+  cellphone: "",
+  email: "",
+  street: "",
+  area: "",
+  city: "",
+  province: "",
+  zipcode: "",
+};
+
 const Context = createContext();
 
 export const useStateContext = () => useContext(Context);
@@ -10,28 +22,8 @@ export const StateContext = ({ children }) => {
   const [totalPrice, setTotalPrice] = useLocalStorage("total price", 0);
   const [totalQty, setTotalQty] = useLocalStorage("total quantity", 0);
   const [cartItems, setCartItems] = useLocalStorage("shopping cart", []);
-  const [shippingData, setShippingData] = useState({
-    firstname: "",
-    lastname: "",
-    cellphone: "",
-    email: "",
-    street: "",
-    area: "",
-    city: "",
-    province: "",
-    zipcode: "",
-  });
-  const [billingData, setBillingData] = useState({
-    firstname: "",
-    lastname: "",
-    cellphone: "",
-    email: "",
-    street: "",
-    area: "",
-    city: "",
-    province: "",
-    zipcode: "",
-  });
+  const [shippingData, setShippingData] = useState(initialShippingData);
+  const [billingData, setBillingData] = useState(initialShippingData);
   const [shippingRate, setShippingRate] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
 
@@ -121,6 +113,13 @@ export const StateContext = ({ children }) => {
     });
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+    setTotalPrice(0);
+    setTotalQty(0);
+    setTotalQty(0);
+  };
+
   return (
     <Context.Provider
       value={{
@@ -142,6 +141,7 @@ export const StateContext = ({ children }) => {
         showToast,
         billingData,
         setBillingData,
+        clearCart,
       }}
     >
       {children}

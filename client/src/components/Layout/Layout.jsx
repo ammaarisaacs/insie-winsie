@@ -2,12 +2,13 @@ import { Navbar, Footer, Toast } from "../";
 
 const Layout = ({ children }) => {
   return (
-    <div>
-      <Toast />
+    <>
       <Navbar />
       {children}
+      {/* toast should only go into components that need it  */}
+      <Toast />
       <Footer />
-    </div>
+    </>
   );
 };
 

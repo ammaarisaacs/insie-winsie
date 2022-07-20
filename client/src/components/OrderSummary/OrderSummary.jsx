@@ -1,96 +1,79 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useStateContext } from "../../context/StateContext";
 import { motion } from "framer-motion";
 import styles from "./ordersummary.module.css";
 import ShippingForm from "../ShippingForm/ShippingForm";
 import * as api from "../../api";
 
-{
-  /* if payfast is all clear, send through to checkout api */
-}
-{
-  /* this will then be stored in a database as a payment data */
-}
-
-// const initialOrder = {
-//   firstName: "",
-//   lastName: "",
-//   email: "",
-//   cellphone: "",
-//   total: "",
-//   cart: {},
-//   // include delivery charge coming from getshippingrate
-//   deliveryAddress: {},
-//   billAddress: {},
-// };
+const initialPayData = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  orderNumber: "",
+  amount: 0,
+  returnUrl: "",
+  cancelUrl: "",
+  notifyUrl: "",
+  signature: "",
+};
 
 const OrderSummary = () => {
   const [notClickable, setNotClickable] = useState(true);
   const [orderData, setOrderData] = useState({});
-  const [isSame, setIsSame] = useState(true);
+  const [payData, setPayData] = useState(initialPayData);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [orderNumber, setOrderNumber] = useState("");
+  const [amount, setAmount] = useState(0);
+  const [returnUrl, setReturnUrl] = useState("");
+  const [cancelUrl, setCancelUrl] = useState("");
+  const [notifyUrl, setNotifyUrl] = useState("");
+  const [signature, setSignature] = useState("");
 
-  const {
-    cartItems,
-    totalPrice,
-    shippingData,
-    setShippingData,
-    shippingRate,
-    setShippingRate,
-    billingData,
-    setBillingData,
-    showToast,
-  } = useStateContext();
+  const ref = useRef();
 
-  const handleOrderSubmit = async (e) => {
+  const { cartItems, totalPrice, shippingRate, showToast } = useStateContext();
+
+  const validateOrder = async (e) => {
     e.preventDefault();
 
-    // validate order here
+    // if (Object.values(orderData === ""))
+    //   return showToast("You are missing information");
 
     try {
       const { data } = await api.sendOrderData(orderData);
-      // await orderID and give this to payfast
-      // you have id , unique and difficult to type in, therefore uuid, will be in url
-      // but how to reference , could use name
-      // you have name, this is what you show to the user
-      // this is effectively the "name" of the invoice
-      // also get 200 or any code
-      // could have an order summary page before paying
-      // could have a potentialOrder, only once it is paid, create it in the db
-      // clear local storage of cart items
-      // clear any sensitive info
+      setFirstName(data.name_first);
+      setLastName(data.name_last);
+      setEmail(data.email_address);
+      setOrderNumber(data.item_name);
+      setAmount(data.amount);
+      setSignature(data.signature);
+      setReturnUrl(data.return_url);
+      setCancelUrl(data.cancel_url);
+      setNotifyUrl(data.notify_url);
     } catch (error) {
       showToast(error.response.data);
     }
   };
 
-  // useEffect(() => {
-  //   const getOrderID = async function (orderData) {
-  //     try {
-  //       const { data } = await api.createOrderID(orderData);
-  //       setOrder(data.id);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getOrderID(orderData);
-  // }, []);
-
   useEffect(() => {
-    console.log(orderData);
-  }, [shippingData, billingData, cartItems, orderData]);
+    const clientAmount = (totalPrice + shippingRate).toFixed(2);
+
+    console.log(amount === clientAmount);
+
+    if (ref.current && amount === clientAmount && signature) {
+      ref.current.submit();
+    } else {
+      console.log("error");
+    }
+  }, [amount, orderNumber, signature]);
 
   return (
     <div className={styles.order_summary_container}>
       <div className={styles.layout_container}>
         <ShippingForm
-          setShippingData={setShippingData}
-          shippingData={shippingData}
-          setShippingRate={setShippingRate}
           setNotClickable={setNotClickable}
-          setIsSame={setIsSame}
-          isSame={isSame}
-          billingData={billingData}
-          setBillingData={setBillingData}
           setOrderData={setOrderData}
           orderData={orderData}
           api={api}
@@ -144,17 +127,22 @@ const OrderSummary = () => {
           <hr />
 
           <form
-            action="https://sandbox.payfast.co.za​/eng/process"
+            ref={ref}
+            action="https://sandbox.payfast.co.za/eng/process"
             method="post"
           >
-            <input type="hidden" name="merchant_id" value="10000100" />
-            <input type="hidden" name="merchant_key" value="46f0cd694581a" />
-            <input
-              type="hidden"
-              name="amount"
-              // value={(totalPrice + shippingRate).toFixed(2)}
-            />
-            <input type="hidden" name="item_name" value="#00001" />
+            <input type="hidden" name="merchant_id" value="10026685" />
+            <input type="hidden" name="merchant_key" value="hu59n36aijojn" />
+            <input type="hidden" name="return_url" value={returnUrl} />
+            <input type="hidden" name="cancel_url" value={cancelUrl} />
+            <input type="hidden" name="notify_url" value={notifyUrl} />
+            <input type="hidden" name="name_first" value={firstName} />
+            <input type="hidden" name="name_last" value={lastName} />
+            <input type="hidden" name="email_address" value={email} />
+            <input type="hidden" name="m_payment_id" value="01AB" />
+            <input type="hidden" name="amount" value={amount} />
+            <input type="hidden" name="item_name" value={orderNumber} />
+            <input type="hidden" name="signature" value={signature} />
             <motion.button
               initial={{ backgroundColor: "grey" }}
               animate={{
@@ -166,7 +154,7 @@ const OrderSummary = () => {
               whileHover={{ scale: 1.1 }}
               className={styles.pay_now}
               disabled={notClickable}
-              onClick={(e) => handleOrderSubmit(e)}
+              onClick={(e) => validateOrder(e)}
               type="submit"
             >
               Pay Now
@@ -179,8 +167,3 @@ const OrderSummary = () => {
 };
 
 export default OrderSummary;
-
-// fill in info
-// send data to backend
-// area and city checked through db
-// need to send something back if not found

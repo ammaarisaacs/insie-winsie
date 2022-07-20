@@ -2,12 +2,14 @@ const {
   product,
   ship_method,
   order_detail,
+  order_item,
   address,
   payment_detail,
   sequelize,
 } = require("../models");
 
 const ApiError = require("../errors/errors");
+const createPayData = require("../utils/generateSignature");
 
 const attributeConfig = {};
 
@@ -22,24 +24,11 @@ const attributeConfig = {};
 // populate db with payment
 // tie it to order
 
-let orderNumberCount;
+// possibly improvements below
+//  make db models that are not connected to eachother, use promise.all
 
 exports.createOrder = async function (req, res, next) {
-  let order_number, ship_address_id, bill_address_id;
-
-  // const billStreet = req.body.billing?.street,
-  //   billArea = req.body.billing?.area,
-  //   billCity = req.body.billing?.city,
-  //   billZipCode = req.body.billing?.zipcode,
-  //   billProvince = req.body.billing?.province;
-
-  const {
-    street: billStreet,
-    area: billArea,
-    city: billCity,
-    zipcode: billZipCode,
-    province: billProvince,
-  } = req.body.billing;
+  let ship_address_id, bill_address_id;
 
   const {
     firstName: first_name,
@@ -54,29 +43,41 @@ exports.createOrder = async function (req, res, next) {
     method: { id: ship_method_id, charge },
   } = req.body.shipping;
 
-  // validate inputs
-  //    if anything is empty send back bad request
+  const {
+    street: billStreet = street,
+    area: billArea = area,
+    city: billCity = city,
+    zipcode: billZipCode = zipcode,
+    province: billProvince = province,
+  } = req.body.billing ?? {};
 
+  // Validate
+  // if anything is empty send back bad request
+  // valid email
+
+  // Normalize
   // need to trim at ordersummary inputs
   // need to lower case them
 
-  // valid email
-
   // check what it means to give something a default value, what default values are best for money and arrays
+
   const { items = [], total = null } = req.body.cart;
 
   const ids = items.map(({ product: cartProduct }) => cartProduct.id);
 
   if (items.length < 1 || total == null) return next(ApiError.badRequest());
 
-  const transaction = await sequelize.transaction();
+  const t = await sequelize.transaction();
 
   try {
-    const products = await product.findAll({
-      where: { id: ids },
-      attributes: ["id", "name", "description", "price", "stock_qty"],
-      raw: true,
-    });
+    const products = await product.findAll(
+      {
+        where: { id: ids },
+        attributes: ["id", "name", "description", "price", "stock_qty"],
+        raw: true,
+      },
+      { transaction: t }
+    );
 
     if (products.length < 1) return next(ApiError.notAvailable());
 
@@ -103,124 +104,152 @@ exports.createOrder = async function (req, res, next) {
       return total + product.price * cartItem.orderQty;
     }, 0);
 
-    const shipMethod = await ship_method.findOne({
-      where: { id: ship_method_id },
-      raw: true,
-    });
+    const shipMethod = await ship_method.findOne(
+      {
+        where: { id: ship_method_id },
+        raw: true,
+      },
+      { transaction: t }
+    );
 
-    const serverCharge = shipMethod?.charge;
+    const serverCharge = shipMethod.charge;
 
     if (serverCharge !== charge) return next(ApiError.deliveryError());
 
-    const serverGrandTotal = serverTotal + serverCharge;
+    const serverGrandTotal = parseFloat(
+      (serverTotal + serverCharge).toFixed(2)
+    );
 
-    const clientGrandTotal = total + charge;
+    const clientGrandTotal = parseFloat((total + charge).toFixed(2));
 
     if (clientGrandTotal != serverGrandTotal) return next(ApiError.cartError());
 
-    console.log(street);
-    console.log(area);
-    console.log(city);
-    console.log(zipcode);
-    console.log(province);
-
-    const existingShipAddress = await address.findOne({
-      where: { street, area, city, zipcode, province },
-      raw: true,
-    });
+    const existingShipAddress = await address.findOne(
+      {
+        where: { street, area, city, zipcode, province },
+        raw: true,
+      },
+      { transaction: t }
+    );
 
     if (existingShipAddress) {
-      ship_address_id = existingShipAddress?.id;
+      ship_address_id = existingShipAddress.id;
     } else {
-      const newAddress = await address.create({
-        street,
-        area,
-        city,
-        zipcode,
-        province,
-        created_at: new Date(),
-        updated_at: new Date(),
-      });
+      const newAddress = await address.create(
+        {
+          street,
+          area,
+          city,
+          zipcode,
+          province,
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        { transaction: t }
+      );
 
-      ship_address_id = newAddress?.id;
+      ship_address_id = newAddress.id;
     }
 
-    const existingbillAddress = await address.findOne({
-      where: {
-        street: billStreet,
-        area: billArea,
-        city: billCity,
-        zipcode: billZipCode,
-        province: billProvince,
+    const existingbillAddress = await address.findOne(
+      {
+        where: {
+          street: billStreet,
+          area: billArea,
+          city: billCity,
+          zipcode: billZipCode,
+          province: billProvince,
+        },
       },
-    });
-
-    console.log(existingbillAddress);
-
-    return;
+      { transaction: t }
+    );
 
     if (existingbillAddress) {
       bill_address_id = existingbillAddress.id;
     } else {
-      const newAddress = await address.create({
-        street: billStreet,
-        area: billArea,
-        city: billCity,
-        zipcode: billZipCode,
-        province: billProvince,
-        created_at: new Date(),
-        updated_at: new Date(),
-      });
+      const newAddress = await address.create(
+        {
+          street: billStreet,
+          area: billArea,
+          city: billCity,
+          zipcode: billZipCode,
+          province: billProvince,
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        { transaction: t }
+      );
 
       bill_address_id = newAddress.id;
     }
 
-    // have a reset to 1 per day
+    // promise.all here for address checking and product checking
+    // validate
+    // promise.all here for address creation
 
-    orderNumberCount++;
+    const maxOrderNumber = await order_detail.findOne(
+      {
+        attributes: [sequelize.fn("max", sequelize.col("order_number"))],
+        raw: true,
+      },
+      { transaction: t }
+    );
 
-    order_number = `${new Date()
-      .toISOString()
-      .slice(0, 10)
-      .replaceAll("-", "")}000${orderNumberCount}`;
+    const formattedOrderNumber = Object.values(maxOrderNumber)[0];
 
-    console.log(order_number);
+    const order_number = formattedOrderNumber + 1;
 
-    // const order = await order_detail.create({
-    //   order_number,
-    //   first_name,
-    //   last_name,
-    //   email,
-    //   total,
-    //   cellphone,
-    //   ship_address_id,
-    //   bill_address_id,
-    //   ship_method_id,
-    //   status: "pending",
-    // });
+    const existingOrder = await order_detail.findOne(
+      {
+        where: { order_number },
+        raw: true,
+      },
+      { transaction: t }
+    );
 
-    // create new order_item
+    if (existingOrder) return next(ApiError.orderError());
 
-    // items.forEach(item=>)
+    const order = await order_detail.create(
+      {
+        order_number,
+        first_name,
+        last_name,
+        email,
+        total: serverGrandTotal,
+        cellphone,
+        ship_address_id,
+        bill_address_id,
+        ship_method_id,
+        status: "pending",
+      },
+      { transaction: t }
+    );
 
-    // const order_item = await order_item.create({
-    //   order_id: 1,
-    //   product_id: 1,
-    //   order_qty: 1
-    // })
+    const orderId = order.id;
 
-    await transaction.commit();
+    const updates = items.map(({ product: cartProduct, orderQty }) => {
+      const { id } = products.find((product) => product.id === cartProduct.id);
+      return order_item.create(
+        {
+          order_id: orderId,
+          product_id: id,
+          order_qty: orderQty,
+        },
+        { transaction: t }
+      );
+    });
 
-    // send order number and order id
-    // payfast needs:
-    // order number
-    // amount
+    const results = await Promise.all(updates);
 
-    // res.send(order.order_number);
+    if (results.some((result) => result < 1)) return next(ApiError.internal());
 
-    // res.send(order);
+    const myData = createPayData(order);
+
+    res.send({ ...myData });
+
+    await t.commit();
   } catch (error) {
-    await transaction.rollback();
+    await t.rollback();
 
     console.log(error);
 
@@ -229,38 +258,78 @@ exports.createOrder = async function (req, res, next) {
 };
 
 exports.completeOrder = async function (req, res, next) {
-  // get transaction info
-  // get order id / name
+  const {
+    m_payment_id,
+    pf_payment_id,
+    payment_status,
+    item_name,
+    item_description,
+    amount_gross,
+    amount_fee,
+    amount_net,
+    name_first,
+    name_last,
+    email_address,
+    merchant_id,
+    signature,
+    order,
+  } = req.body;
 
-  // validate check payfast docs
+  // any validation
+
+  if (!payment_status === "COMPLETE") return next(ApiError.paymentError());
+
+  const { id: order_id, products } = order;
+
+  const t = await sequelize.transaction();
+
+  let updates = [];
 
   try {
-    // get order from order id above
+    const productUpdates = products.map((cartProduct) => {
+      const { id, stock_qty: stockQty } = cartProduct;
+      const orderQty = cartProduct.order_item.order_qty;
+      return product.update(
+        { stock_qty: stockQty - orderQty },
+        { where: { id } },
+        { transaction: t }
+      );
+    });
 
-    // update the products in that order and lower the stock qty
-    // const updates = items.map(({ product: cartProduct, orderQty }) => {
-    //   const { stock_qty } = products.find(
-    //     (product) => product.id === cartProduct.id
-    //   );
-    //   return product.update(
-    //     { stock_qty: stock_qty - orderQty },
-    //     { where: { id: cartProduct.id } }
-    //   );
-    // });
-    // const results = await Promise.all(updates);
-    // if (results.some((result) => result < 1)) return next(ApiError.internal());
+    updates.push(productUpdates);
 
-    // console.log(results);
+    updates.push(
+      order_detail.update(
+        { status: "paid" },
+        { where: { id: order.id } },
+        { transaction: t }
+      )
+    );
 
-    // create payment
-    // insert into db
-    // connect to order id
+    const results = await Promise.all(updates);
+
+    if (results.some((result) => result < 1)) return next(ApiError.internal());
+
+    const payment = await payment_detail.create(
+      {
+        name: pf_payment_id,
+        amount: amount_gross,
+        provider: "fnb",
+        order_id,
+      },
+      { transaction: t }
+    );
+
     // email user
     // get order to populate thank you page
-    await transaction.commit();
-    res.send(order);
+    // how to cancel payments and all that
+
+    await t.commit();
+
+    // where are you ressing to though
+    // res.send(payment_status);
   } catch (error) {
-    await transaction.rollback();
+    await t.rollback();
     console.log(error);
     return next(ApiError.internal());
   }
@@ -328,7 +397,7 @@ exports.fetchOrder = async function (req, res, next) {
       ],
     });
 
-    if (!order) return next(ApiError.noOrder());
+    if (order == null) return next(ApiError.noOrder());
 
     res.send(order);
   } catch (error) {

@@ -50,6 +50,8 @@ export const sendContactData = (contactData) =>
 
 export const sendOrderData = (orderData) => API.post("/order", orderData);
 
+export const fetchOrderData = (id) => API.get(`/order/${id}`);
+
 // export const sendOrder = (id) => API.get(`/orders/${id}`);
 
 // export const sendShippingDetails = (area) => API.get(`shipping/${area}`);

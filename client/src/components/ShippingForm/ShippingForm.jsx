@@ -1,21 +1,23 @@
+import { useState } from "react";
 import styles from "./shippingform.module.css";
 import { useStateContext } from "../../context/StateContext";
 
 const ShippingForm = ({
-  setShippingData,
-  shippingData,
-  setShippingRate,
   setNotClickable,
-  setIsSame,
-  isSame,
-  billingData,
-  setBillingData,
   setOrderData,
   api,
   cartItems,
   totalPrice,
 }) => {
-  const { showToast } = useStateContext();
+  const {
+    setShippingData,
+    shippingData,
+    showToast,
+    billingData,
+    setBillingData,
+    setShippingRate,
+  } = useStateContext();
+  const [isSame, setIsSame] = useState(true);
 
   const handleChange = (e, formData, setFormData) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,17 +25,17 @@ const ShippingForm = ({
 
   const getShippingCharge = async (e) => {
     e.preventDefault();
+    // check if anything is empty
 
     try {
       const { data } = await api.sendShippingData(shippingData);
-
       setOrderData({
         shipping: { ...shippingData, method: data },
         ...(!isSame && { billing: billingData }),
         cart: { items: cartItems, total: parseFloat(totalPrice.toFixed(2)) },
-        // billing: isSame ? shippingData : billingData,
       });
       setShippingRate(data.charge);
+      // more validation here
       setNotClickable(false);
       showToast("Success");
     } catch (error) {
@@ -60,10 +62,10 @@ const ShippingForm = ({
             <input
               className={styles.field__input}
               type="text"
-              id="firstname"
-              name="firstname"
+              id="firstName"
+              name="firstName"
               onChange={(e) => handleChange(e, shippingData, setShippingData)}
-              value={shippingData.firstname}
+              value={shippingData.firstName}
               required
             />
           </label>
@@ -74,10 +76,10 @@ const ShippingForm = ({
             <input
               className={styles.field__input}
               type="text"
-              id="lastname"
-              name="lastname"
+              id="lastName"
+              name="lastName"
               onChange={(e) => handleChange(e, shippingData, setShippingData)}
-              value={shippingData.lastname}
+              value={shippingData.lastName}
               required
             />
           </label>
@@ -204,9 +206,9 @@ const ShippingForm = ({
             type="checkbox"
             id="billAddress"
             name="billAddress"
-            // value={billingData.billAddress}
             defaultChecked={isSame}
             onChange={() => setIsSame(!isSame)}
+            // value={billingData.billAddress}
             // required
           />
         </label>
@@ -220,10 +222,10 @@ const ShippingForm = ({
                 <input
                   className={styles.field__input}
                   type="text"
-                  id="firstname"
-                  name="firstname"
+                  id="firstName"
+                  name="firstName"
                   onChange={(e) => handleChange(e, billingData, setBillingData)}
-                  value={billingData.firstname}
+                  value={billingData.firstName}
                   required
                 />
               </label>
@@ -234,10 +236,10 @@ const ShippingForm = ({
                 <input
                   className={styles.field__input}
                   type="text"
-                  id="lastname"
-                  name="lastname"
+                  id="lastName"
+                  name="lastName"
                   onChange={(e) => handleChange(e, billingData, setBillingData)}
-                  value={billingData.lastname}
+                  value={billingData.lastName}
                   required
                 />
               </label>

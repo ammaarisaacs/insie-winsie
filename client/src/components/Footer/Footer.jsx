@@ -5,18 +5,18 @@ const Footer = () => {
   return (
     <footer className={footerStyles.container}>
       <div>Icon</div>
-      <div>
+      <address>
         <p>Street</p>
         <p>Area</p>
         <p>Contact</p>
         <p>Email</p>
-      </div>
-      <div>
-        <span>fb</span>
-        <span>tw</span>
-        <span>insta</span>
-      </div>
-      <div>Copyright Info</div>
+      </address>
+      <ul>
+        <li>fb</li>
+        <li>tw</li>
+        <li>insta</li>
+      </ul>
+      <small>Copyright Info</small>
     </footer>
   );
 };

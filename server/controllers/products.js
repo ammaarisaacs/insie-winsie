@@ -72,6 +72,12 @@ exports.fetchProduct = async function (req, res, next) {
   if (id.isNaN) return next(ApiError.invalidId());
 
   try {
+    const products = await product.findAll();
+
+    const numberOfProducts = products.length;
+
+    if (id > numberOfProducts) return next(ApiError.invalidId());
+
     const foundProduct = await product.findOne({
       include: "media",
       where: { id },

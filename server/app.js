@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const path = require("path");
+const db = require("./models");
 
 require("dotenv").config();
 
@@ -24,8 +25,11 @@ app.use("/contact", contactsRoute);
 
 app.use(apiErrorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port: ${PORT}`);
+db.sequelize.sync().then(() => {
+  console.log("Database synced.");
+  app.listen(PORT, () => {
+    console.log(`Server listening on port: ${PORT}`);
+  });
 });
 
 // search terms

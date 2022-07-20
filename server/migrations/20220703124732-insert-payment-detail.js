@@ -4,7 +4,7 @@ module.exports = {
   async up(queryInterface) {
     queryInterface.bulkInsert("payment_detail", [
       {
-        token: "token123",
+        name: "token123",
         amount: 200,
         provider: "fnb",
         // status: "pending",
@@ -13,7 +13,7 @@ module.exports = {
         order_id: 1,
       },
       {
-        token: "somethingelse",
+        name: "somethingelse",
         amount: 200,
         provider: "standardBank",
         // status: "pending",

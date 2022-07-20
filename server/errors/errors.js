@@ -38,6 +38,20 @@ class ApiError {
   static cartError() {
     return new ApiError(404, "Cart has invalid product.");
   }
+
+  static orderError() {
+    return new ApiError(
+      404,
+      "There was an error placing an order. Please try again later."
+    );
+  }
+
+  static paymentError() {
+    return new ApiError(
+      404,
+      "There was an error making the payment. Please try again later."
+    );
+  }
 }
 
 module.exports = ApiError;

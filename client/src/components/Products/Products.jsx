@@ -1,37 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Product from "./Product/Product";
 import styles from "./products.module.css";
-import * as api from "../../api";
 import { motion } from "framer-motion";
+import { filterIcons } from "../../constants/filterIcons";
+import * as api from "../../api";
 
-// possible styling for hover over product
 // https://dribbble.com/shots/17246781-GLASS-LIZZARD-Products
 
 // infinite scrolling
 // https://youtu.be/NZKUirTtxcg
-
-const filterIcons = [
-  {
-    name: "onesie.png",
-    query: "rompers",
-  },
-  {
-    name: "baby-body.png",
-    query: "aprons",
-  },
-  {
-    name: "baby-socks.png",
-    query: "bibs",
-  },
-  {
-    name: "sneakers.png",
-    query: "mittens",
-  },
-  {
-    name: "baby-hat.png",
-    query: "berets",
-  },
-];
 
 const Products = () => {
   const [searchQuery, setSearchQuery] = useState("");

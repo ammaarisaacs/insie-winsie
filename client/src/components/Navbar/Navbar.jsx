@@ -1,7 +1,7 @@
 import { useState } from "react";
 import navStyles from "./navbar.module.css";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useStateContext } from "../../context/StateContext";
 
 const navLinks = [
@@ -10,23 +10,49 @@ const navLinks = [
   { text: "contact", link: "/contact" },
   { text: "faqs", link: "/faqs" },
 ];
+
 const path =
   "M289 357C367.459 359.648 446.597 361.569 524.778 353.111C579.86 347.152 670.426 337.699 699.667 280.556C708.752 262.801 709.619 240.611 710.556 221.222C712.282 185.476 709.2 152.947 685.111 124.444C657.225 91.4481 617.134 67.4187 578.556 49.2222C518.083 20.6988 451.251 6.43694 384.778 2.11111C276.933 -4.907 153.979 12.296 69.7777 85.8889C31.6442 119.218 -19.0311 185.241 9.22218 239.444C23.8063 267.424 53.3422 285.733 79.8888 300.333C132.883 329.48 189.528 336.917 249 342.444C307.369 347.869 366.132 351.201 424.778 350.556C476.603 349.985 524.314 339.917 575 331";
 
 const Navbar = () => {
   const [show, setShow] = useState(false);
   const { totalQty } = useStateContext();
+  const [selected, setSelected] = useState(null);
+
+  const draw = {
+    selected: { pathLength: 1 },
+    unselected: { pathLength: 0 },
+  };
+
+  const menu = {
+    display: {
+      clipPath: "ellipse(200% 200% at 0px 0px)",
+      transition: { duration: 1 },
+    },
+    hide: {
+      clipPath: "ellipse(200% 0 at 0px 0px)",
+      transition: { duration: 1 },
+    },
+  };
 
   return (
     <header className={navStyles.nav_container}>
-      <Link to="/" className={navStyles.logo}>
-        insie-winsie
+      <Link to="/">
+        <img
+          className={navStyles.logo}
+          src={require("../../assets/images/logo.png")}
+          alt=""
+        />
       </Link>
-      <ul className={navStyles.navbar_links}>
-        {navLinks.map((navLink) => {
+      <nav className={navStyles.navbar_links}>
+        {navLinks.map((navLink, i) => {
           return (
             <div className={navStyles.navbar_link_container} key={navLink.text}>
-              <Link to={navLink.link} className={navStyles.navbar_link}>
+              <Link
+                to={navLink.link}
+                className={navStyles.navbar_link}
+                onClick={() => setSelected(i)}
+              >
                 {navLink.text}
               </Link>
               <svg
@@ -34,19 +60,20 @@ const Navbar = () => {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <path
-                  d="M289 357C367.459 359.648 446.597 361.569 524.778 353.111C579.86 347.152 670.426 337.699 699.667 280.556C708.752 262.801 709.619 240.611 710.556 221.222C712.282 185.476 709.2 152.947 685.111 124.444C657.225 91.4481 617.134 67.4187 578.556 49.2222C518.083 20.6988 451.251 6.43694 384.778 2.11111C276.933 -4.907 153.979 12.296 69.7777 85.8889C31.6442 119.218 -19.0311 185.241 9.22218 239.444C23.8063 267.424 53.3422 285.733 79.8888 300.333C132.883 329.48 189.528 336.917 249 342.444C307.369 347.869 366.132 351.201 424.778 350.556C476.603 349.985 524.314 339.917 575 331"
+                <motion.path
+                  variants={draw}
+                  initial={{ pathLength: 0 }}
+                  transition={{ duration: 1 }}
+                  animate={selected == i ? "selected" : "unselected"}
+                  d={path}
                   stroke="black"
                 />
               </svg>
             </div>
           );
         })}
-      </ul>
-      <div className={navStyles.nav_end_links}>
-        {/* <Link to="/admin">
-          <div className={navStyles.admin_link}>Admin</div>
-        </Link> */}
+      </nav>
+      <nav className={navStyles.nav_end_links}>
         <Link to="/cart" className={navStyles.cart_link}>
           <motion.svg
             whileHover={{ y: -5 }}
@@ -102,12 +129,51 @@ const Navbar = () => {
           height="23"
           viewBox="0 0 50 23"
           xmlns="http://www.w3.org/2000/svg"
+          onClick={() => setShow(!show)}
         >
           <line x1="50" y1="0.5" y2="0.5" stroke="black" />
           <line x1="50" y1="11.5" y2="11.5" stroke="black" />
           <line x1="50" y1="22.5" y2="22.5" stroke="black" />
         </svg>
-      </div>
+        <AnimatePresence>
+          {show && (
+            <motion.menu
+              variants={menu}
+              initial={{ clipPath: "ellipse(200% 0 at 0 0)" }}
+              animate={{
+                clipPath: "ellipse(200% 200% at 0 0)",
+                transition: { duration: 1.2 },
+              }}
+              exit={{
+                clipPath: "ellipse(200% 0% at 0 0)",
+                transition: { duration: 0.7 },
+              }}
+              className={navStyles.drop_down_menu}
+            >
+              {navLinks.map((navLink, i) => {
+                return (
+                  <Link
+                    to={navLink.link}
+                    key={navLink.link.text + i.toString()}
+                  >
+                    <motion.p
+                      key={navLink.link.text}
+                      initial={{ y: -10, opacity: 0 }}
+                      animate={{
+                        y: 0,
+                        opacity: 1,
+                        transition: { duration: 0.8, delay: 0.2 * i },
+                      }}
+                    >
+                      {navLink.text}
+                    </motion.p>
+                  </Link>
+                );
+              })}
+            </motion.menu>
+          )}
+        </AnimatePresence>
+      </nav>
     </header>
   );
 };

@@ -9,16 +9,12 @@
   place-items: center;
   padding: 1rem 3rem;
   border-bottom: 1px solid darkgray;
-  margin: 0 auto;
+  margin: auto;
 }
 
 div[class*="cart_item_container"]:first-of-type {
   border-top: 1px solid darkgray;
 }
-
-/* .heading_container {
-  border-top: 1px solid darkgray;
-} */
 
 .cart_container p {
   margin-top: 1rem;

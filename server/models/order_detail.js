@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const order_detail = sequelize.define(
     "order_detail",
     {
-      order_number: { type: DataTypes.STRING, allowNull: false },
+      order_number: { type: DataTypes.INTEGER, allowNull: false, unique: true },
       first_name: { type: DataTypes.STRING, allowNull: false },
       last_name: { type: DataTypes.STRING, allowNull: false },
       email: { type: DataTypes.STRING, allowNull: false },
@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
       hooks: true,
     });
     order_detail.hasOne(models.payment_detail, {
-      foreignKey: "payment_id",
+      foreignKey: "order_id",
       // over here going to have to decide whether you want to keep your order data for legal purposes or data analysis
       // could you use set default
     });
