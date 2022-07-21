@@ -111,6 +111,7 @@ export default App;
 // install snyk and check vulnabilities
 // use uuid where you can
 // convert all static images to webp
+// rate limiting - for future?
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -120,3 +121,12 @@ export default App;
 // clicking multiple times on a button sends many requests
 // experienced an odd error earlier https://stackoverflow.com/questions/9768444/possible-eventemitter-memory-leak-detected
 // no svg draw when selecting cart or checkout or anything else other than the center menu
+
+///////////////////////////////////////////////////////////////////////////////
+
+// to do
+
+// create useFetch or use useQuery
+// create services for each resource client side
+// useform for the shipping form
+// payfast component

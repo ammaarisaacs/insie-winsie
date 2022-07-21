@@ -114,7 +114,7 @@ exports.createOrder = async function (req, res, next) {
 
     const serverCharge = shipMethod.charge;
 
-    if (serverCharge !== charge) return next(ApiError.deliveryError());
+    if (serverCharge !== charge) return next(ApiError.orderError());
 
     const serverGrandTotal = parseFloat(
       (serverTotal + serverCharge).toFixed(2)

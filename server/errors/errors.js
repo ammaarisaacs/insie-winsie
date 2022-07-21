@@ -1,3 +1,7 @@
+// 404 resource not available
+// 400 bad request from user
+// 500 internal
+
 class ApiError {
   constructor(code, message) {
     this.code = code;
@@ -24,7 +28,7 @@ class ApiError {
   }
 
   static deliveryError() {
-    return new ApiError(400, "Delivery error.");
+    return new ApiError(400, "Do not support delivery to this location.");
   }
 
   static notAvailable() {
@@ -36,7 +40,7 @@ class ApiError {
   }
 
   static cartError() {
-    return new ApiError(404, "Cart has invalid product.");
+    return new ApiError(400, "Cart has invalid product.");
   }
 
   static orderError() {

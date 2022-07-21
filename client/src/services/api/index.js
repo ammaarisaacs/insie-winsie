@@ -38,10 +38,7 @@ export const updateCarouselProducts = (id, update) =>
 export const deleteCarouselProducts = (id) =>
   API.delete(`/products/carousel/${id}`);
 
-// shipping
-
-export const sendShippingData = (shippingData) =>
-  API.post("/order/shipping", shippingData);
+// contacts
 
 export const sendContactData = (contactData) =>
   API.post("./contact", contactData);
@@ -51,6 +48,11 @@ export const sendContactData = (contactData) =>
 export const sendOrderData = (orderData) => API.post("/order", orderData);
 
 export const fetchOrderData = (id) => API.get(`/order/${id}`);
+
+// shipping
+
+export const sendShippingData = (shippingData) =>
+  API.post("/order/shipping", shippingData);
 
 // export const sendOrder = (id) => API.get(`/orders/${id}`);
 

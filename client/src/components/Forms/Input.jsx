@@ -1,20 +1,22 @@
-import React from "react";
+import styles from "./input.module.css";
 
 const Input = (props) => {
   return (
     <label className={styles.field}>
-      <span className={styles.field__label} htmlFor={props.for}>
+      <span className={styles.field__label} htmlFor={props.id}>
         {props.text}
       </span>
       <input
-        required
         className={styles.field__input}
-        type={props.type}
         id={props.id}
         name={props.name}
+        type={props.type || "text"}
         onChange={props.onChange}
         value={props.value}
       />
+      {props.error && props.showError && (
+        <p className={styles.field__error}>{props.error}</p>
+      )}
     </label>
   );
 };

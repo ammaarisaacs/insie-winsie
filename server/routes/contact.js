@@ -1,7 +1,7 @@
 const express = require("express");
-const ApiError = require("../errors/errors");
 const router = express.Router();
+const { createContact } = require("../controllers/contact");
 
-router.route("/").post((req, res, next) => {});
+router.route("/").post(createContact);
 
 module.exports = router;

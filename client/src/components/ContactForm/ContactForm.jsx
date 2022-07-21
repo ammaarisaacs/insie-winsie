@@ -1,9 +1,9 @@
-import { useEffect } from "react";
 import useForm from "../../hooks/useForm";
 import contactFormStyles from "./contactform.module.css";
 import * as api from "../../services/api";
 import { motion } from "framer-motion";
 import validate from "../../validations/contact";
+import Input from "../Forms/Input";
 
 const initialState = {
   firstName: {
@@ -35,46 +35,20 @@ const initialState = {
   },
 };
 
-// const initialContactData = {
-//   firstName: "",
-//   lastName: "",
-//   email: "",
-//   cellphone: "",
-//   message: "",
-// };
-
 export default function ContactForm() {
-  const { formData, errors, handleChange, handleSubmit } = useForm(
+  const { formData, errors, handleChange, handleSubmit, showError } = useForm(
     initialState,
     validate
   );
 
-  const submitFn = () => {};
-
-  // const [contactData, setContactData] = useState(initialContactData);
-
-  // const handleChange = (e) => {
-  //   setContactData({ ...contactData, [e.target.name]: e.target.value });
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   // if (Object.values(contactData) === "") {
-  //   //   console.log("Missing something");
-  //   // }
-  //   setContactData(Object.assign(contactData, {}));
-  //   console.log(contactData);
-  //   try {
-  //     const { data } = await api.sendContactData(contactData);
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+  const submitFn = async (formData) => {
+    try {
+      const { data } = await api.sendContactData(formData);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className={contactFormStyles.contact_form_container}>
@@ -86,6 +60,7 @@ export default function ContactForm() {
         className={contactFormStyles.form}
       >
         <div className={contactFormStyles.fields2}>
+          {/* <Input {...propConfig} /> */}
           <label className={contactFormStyles.field}>
             <span
               className={contactFormStyles.field__label}
@@ -150,6 +125,9 @@ export default function ContactForm() {
               onChange={(e) => handleChange(e)}
               required
             />
+            {errors.email && showError && (
+              <p style={{ fontSize: "10px", color: "red" }}>{errors.email}</p>
+            )}
           </label>
         </div>
         <label className={contactFormStyles.field}>

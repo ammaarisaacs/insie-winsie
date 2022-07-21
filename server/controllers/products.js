@@ -5,23 +5,21 @@ const ApiError = require("../errors/errors");
 // const upload = multer({ dest: "./images" });
 
 exports.createProduct = async function (req, res, next) {
+  const { name, description, price, stock_qty, in_carousel } = req.body;
   //  also need the media info
-
   // validate info
-
-  const newProduct = {
-    name: req.body.name,
-    description: req.body.description,
-    price: req.body.price,
-    stock_qty: req.body.stock_qty,
-    in_carousel: req.body.in_carousel,
-  };
 
   try {
     // need to add an SKU to identify unique product to check if it exists
+    // maybe create some sort of lookup first and let admin know you have it or not
 
-    const result = await product.create(newProduct);
-
+    const result = await product.create(
+      name,
+      description,
+      price,
+      stock_qty,
+      in_carousel
+    );
     res.send(result);
   } catch (error) {
     return next(ApiError.internal());
