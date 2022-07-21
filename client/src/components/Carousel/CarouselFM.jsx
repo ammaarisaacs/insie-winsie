@@ -24,24 +24,25 @@ const CarouselFM = () => {
   }, [inView]);
 
   if (isPending) return <p style={styling}>Loading...</p>;
+
   if (error) return <p style={styling}>{error}</p>;
 
   return (
     <motion.div ref={carouselRef} className={styles.track}>
       <Blob
         paths={carouselPaths}
-        viewBox={[0, 0, 1806, 847]}
-        top="50%"
-        left="50%"
-        translateX="-50%"
-        translateY="-50%"
-        width="100%"
         minWidth={800}
         threshold={0.8}
         growTime={1}
         morphAt={0.3}
         morphTime={1}
         animateWhen={inView}
+        viewBox={[0, 0, 1806, 847]}
+        top="50%"
+        left="50%"
+        translateX="-50%"
+        translateY="-50%"
+        width="100%"
         color="#F4F0FF"
       />
       <DrawPath

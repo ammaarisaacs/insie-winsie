@@ -12,7 +12,7 @@ class ApiError {
     return new ApiError(400, msg);
   }
 
-  static internal(msg = "Something wen't wrong.") {
+  static internal(msg = "Something went wrong.") {
     return new ApiError(500, msg);
   }
 

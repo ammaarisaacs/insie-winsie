@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { filterIcons } from "../../data/icons";
 import * as api from "../../services/api";
 import useFetch from "../../hooks/useFetch";
+import useFilterSearch from "../../hooks/useFilterSearch";
+import { fetchProducts } from "../../services/api";
 
 // https://dribbble.com/shots/17246781-GLASS-LIZZARD-Products
 
@@ -12,35 +14,47 @@ import useFetch from "../../hooks/useFetch";
 // https://youtu.be/NZKUirTtxcg
 
 const Products = () => {
-  const { data, isPending, error } = useFetch(fetchData);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [search, setSearch] = useState(false);
-  const [category, setCategory] = useState("");
-  const [products, setProducts] = useState([]);
-  const [networkError, setNetworkError] = useState(false);
+  // const { data, isPending, error } = useFetch(fetchData);
+  const {
+    data: products,
+    isPending,
+    error,
+    handleFilter,
+    searchQuery,
+    category,
+    setSearch,
+    search,
+    setSearchQuery,
+  } = useFilterSearch(fetchProducts);
 
-  // could possibly use the category type as an index when searching in database query to quicken search
+  // const [searchQuery, setSearchQuery] = useState("");
+  // const [search, setSearch] = useState(false);
+  // const [category, setCategory] = useState("");
+  // const [products, setProducts] = useState([]);
+  // const [networkError, setNetworkError] = useState(false);
 
-  const fetchData = async (searchQuery, category) => {
-    try {
-      const { data } = await api.fetchProducts(searchQuery, category);
-      setProducts(data);
-    } catch (error) {
-      setNetworkError(true);
-    }
-  };
+  // // could possibly use the category type as an index when searching in database query to quicken search
 
-  const handleFilterClick = (query) => {
-    if (category.includes(query))
-      return setCategory((prevCategories) =>
-        prevCategories.filter((item) => item != query)
-      );
-    setCategory((prevCategories) => [...prevCategories, query]);
-  };
+  // const fetchData = async (searchQuery, category) => {
+  //   try {
+  //     const { data } = await api.fetchProducts(searchQuery, category);
+  //     setProducts(data);
+  //   } catch (error) {
+  //     setNetworkError(true);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchData(searchQuery, category);
-  }, [category, search]);
+  // const handleFilter = (query) => {
+  //   if (category.includes(query))
+  //     return setCategory((prevCategories) =>
+  //       prevCategories.filter((item) => item != query)
+  //     );
+  //   setCategory((prevCategories) => [...prevCategories, query]);
+  // };
+
+  // useEffect(() => {
+  //   fetchData(searchQuery, category);
+  // }, [category, search]);
 
   const filterVariants = {
     grow: {
@@ -57,7 +71,7 @@ const Products = () => {
     },
   };
 
-  if (networkError) return <div>Something wen't wrong</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <motion.div
@@ -88,7 +102,7 @@ const Products = () => {
             className={styles.filter_button}
             key={name}
             onClick={() => {
-              handleFilterClick(query);
+              handleFilter(query);
             }}
           >
             <img
