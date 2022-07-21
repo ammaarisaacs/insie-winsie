@@ -4,6 +4,7 @@ import styles from "./products.module.css";
 import { motion } from "framer-motion";
 import { filterIcons } from "../../data/icons";
 import * as api from "../../services/api";
+import useFetch from "../../hooks/useFetch";
 
 // https://dribbble.com/shots/17246781-GLASS-LIZZARD-Products
 
@@ -11,6 +12,7 @@ import * as api from "../../services/api";
 // https://youtu.be/NZKUirTtxcg
 
 const Products = () => {
+  const { data, isPending, error } = useFetch(fetchData);
   const [searchQuery, setSearchQuery] = useState("");
   const [search, setSearch] = useState(false);
   const [category, setCategory] = useState("");

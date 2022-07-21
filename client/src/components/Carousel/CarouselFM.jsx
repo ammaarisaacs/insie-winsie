@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
+import { Blob, DrawPath } from "../";
 import { motion } from "framer-motion";
 import styles from "./carouselfm.module.css";
 import { Link } from "react-router-dom";
-import { Blob, DrawPath } from "../";
 import { useInView } from "react-intersection-observer";
 import { carouselDrawPath, carouselPaths } from "../../data/paths";
+import useFetch from "../../hooks/useFetch";
+import { fetchCarousel } from "../../services/ProductService";
 
-const CarouselFM = ({ carouselProducts }) => {
+const CarouselFM = () => {
   const [width, setWidth] = useState(0);
+  const { data, isPending, error, styling } = useFetch(fetchCarousel);
 
   const [carouselRef, inView, entry] = useInView({
     threshold: 0.4,
@@ -19,6 +22,9 @@ const CarouselFM = ({ carouselProducts }) => {
       setWidth(entry.target.scrollWidth - entry.target.offsetWidth);
     }
   }, [inView]);
+
+  if (isPending) return <p style={styling}>Loading...</p>;
+  if (error) return <p style={styling}>{error}</p>;
 
   return (
     <motion.div ref={carouselRef} className={styles.track}>
@@ -57,7 +63,7 @@ const CarouselFM = ({ carouselProducts }) => {
         dragConstraints={{ right: 0, left: -width }}
         className={styles.slider}
       >
-        {carouselProducts.map((product, i) => {
+        {data?.map((product, i) => {
           return (
             <motion.div
               key={product.id}

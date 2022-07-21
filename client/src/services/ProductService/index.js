@@ -1,10 +1,9 @@
-import { fetchProducts } from "../api";
+import * as api from "../api";
 
 export const fetchProducts = async (searchQuery, category) => {
-  try {
-    const { data } = await api.fetchProducts(searchQuery, category);
-    setProducts(data);
-  } catch (error) {
-    setNetworkError(true);
-  }
+  return api.fetchProducts(searchQuery, category);
+};
+
+export const fetchCarousel = () => {
+  return api.fetchCarouselProducts();
 };
