@@ -32,14 +32,14 @@ const AnimatedRoutes = () => {
     <AnimatePresence exitBeforeEnter>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/faqs" element={<FaqPage />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/checkout/success" element={<SuccessPage />} />
-        <Route path="/faqs" element={<FaqPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/about" element={<AboutPage />} />
+        <Route path="/checkout/success/:id" element={<SuccessPage />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </AnimatePresence>
@@ -126,7 +126,6 @@ export default App;
 
 // to do
 
-// create useFetch or use useQuery
-// create services for each resource client side
-// useform for the shipping form
 // payfast component
+// research security for server
+// how to prevent many request when pressing button -> could you ui change to sort this

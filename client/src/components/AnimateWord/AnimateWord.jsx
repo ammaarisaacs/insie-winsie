@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const AnimateWord = ({ word, fontSize, className }) => {
   return word.map((letter, i) => {
-    return letter === "space" ? (
+    return letter === " " ? (
       <span className={className} style={{ marginLeft: "1.25em" }}>
         &nbsp;
       </span>

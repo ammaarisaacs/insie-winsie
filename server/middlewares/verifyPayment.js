@@ -11,6 +11,8 @@ const pfHost = testingMode ? "sandbox.payfast.co.za" : "www.payfast.co.za";
 module.exports = async function verifyPayment(req, res, next) {
   const pfData = JSON.parse(JSON.stringify(req.body));
 
+  console.log(pfData);
+
   let pfParamString = "";
   for (let key in pfData) {
     if (pfData.hasOwnProperty(key) && key !== "signature") {
@@ -29,10 +31,12 @@ module.exports = async function verifyPayment(req, res, next) {
       include: [{ model: product, through: { attributes: ["order_qty"] } }],
     });
 
+    // validate ITN with other credentials here
+
     plainOrder = order.get({ plain: true });
+
     cartTotal = plainOrder.total;
   } catch (error) {
-    console.log(error);
     return next(ApiError.internal());
   }
 
@@ -51,7 +55,7 @@ module.exports = async function verifyPayment(req, res, next) {
   } else {
     // Some checks have failed, check payment manually and log for investigation
     // cancel the payment
-    next(ApiError.internal());
+    next(ApiError.internal("Invalid payment. Please contact us for support."));
   }
 };
 

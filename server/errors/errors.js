@@ -53,7 +53,7 @@ class ApiError {
   static paymentError() {
     return new ApiError(
       404,
-      "There was an error making the payment. Please try again later."
+      "There was an error making the payment. Please contact us for support."
     );
   }
 }

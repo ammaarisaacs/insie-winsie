@@ -79,7 +79,9 @@ export const StateContext = ({ children }) => {
   const addToCart = (product) => {
     const { id, price } = product;
     const productIsInCart = cartItems.find((item) => item.product.id === id);
+    // do a db call here to verify below condition
     // if (product.stock_qty < totalQty) return
+    // show toast but with out of quantity
     setTotalPrice((prevTotalPrice) => prevTotalPrice + price * orderQty);
     setTotalQty((prevTotalQty) => prevTotalQty + orderQty);
     setOrderQuantity(1);
@@ -97,6 +99,7 @@ export const StateContext = ({ children }) => {
         return [...prevCartItems, { product, orderQty }];
       });
     }
+    showToast("Added to cart successfully!");
   };
 
   const incQty = (maxStock) => {

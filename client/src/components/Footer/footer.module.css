@@ -1,6 +1,6 @@
 .container {
   height: var(--footer-height);
-  margin-top: 10vh;
+  margin-top: var(--footer-top-margin);
   width: 100%;
   border: 1px solid blue;
   display: flex;

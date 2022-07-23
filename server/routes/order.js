@@ -11,6 +11,7 @@ const {
   createOrder,
   fetchOrders,
   completeOrder,
+  confirmPayment,
 } = require("../controllers/order");
 
 router.route("/").get(fetchOrders).post(createOrder);
@@ -18,6 +19,8 @@ router.route("/").get(fetchOrders).post(createOrder);
 router.route("/shipping").post(getShippingRate);
 
 router.route("/success").post(verifyPayment, completeOrder);
+
+router.route("/success/:id").get(confirmPayment);
 
 router.route("/:id").get(fetchOrder).patch(updateOrder).delete(deleteOrder);
 

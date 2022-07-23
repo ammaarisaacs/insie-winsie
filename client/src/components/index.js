@@ -3,6 +3,9 @@ export { default as Footer } from "./Footer/Footer";
 export { default as Layout } from "./Layout/Layout";
 export { default as Toast } from "./Toast/Toast";
 
+export { default as Menu } from "./Menu/Menu";
+export { default as Button } from "./Button/Button";
+
 export { default as Products } from "./Products/Products";
 export { default as Product } from "./Products/Product/Product";
 export { default as ProductDetail } from "./ProductDetail/ProductDetail";

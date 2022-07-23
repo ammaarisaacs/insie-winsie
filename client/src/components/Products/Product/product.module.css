@@ -1,4 +1,4 @@
-.main_container {
+.card_container {
   position: relative;
   border-top-right-radius: 100px;
   border-bottom-left-radius: 50px;
@@ -6,7 +6,7 @@
   overflow: hidden;
 }
 
-.product_container {
+.info_container {
   width: var(--product-width);
   height: calc(var(--product-width) * 5 / 4);
   padding: 20px;
@@ -17,14 +17,14 @@
   position: relative;
 }
 
-.product_info_container {
-  width: 85%;
-  margin-top: auto;
-}
-
-.product_image {
+.info_container img {
   width: 75%;
   border-radius: 20px;
+}
+
+.info_container div {
+  width: 85%;
+  margin-top: auto;
 }
 
 .button_container {
@@ -45,7 +45,7 @@
   pointer-events: none;
 }
 
-.main_container:hover .button_container {
+.card_container:hover .button_container {
   clip-path: ellipse(200% 200% at 150px -350px);
 }
 

@@ -1,60 +1,52 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Product from "./Product/Product";
 import styles from "./products.module.css";
 import { motion } from "framer-motion";
-import { filterIcons } from "../../data/icons";
-import * as api from "../../services/api";
-import useFetch from "../../hooks/useFetch";
 import useFilterSearch from "../../hooks/useFilterSearch";
 import { fetchProducts } from "../../services/api";
+import { filterIcons } from "../../data/icons";
+import { Menu, Button } from "../";
 
 // https://dribbble.com/shots/17246781-GLASS-LIZZARD-Products
-
 // infinite scrolling
 // https://youtu.be/NZKUirTtxcg
 
 const Products = () => {
-  // const { data, isPending, error } = useFetch(fetchData);
   const {
-    data: products,
+    data,
     isPending,
     error,
     handleFilter,
-    searchQuery,
     category,
-    setSearch,
     search,
+    setSearch,
     setSearchQuery,
+    styling,
   } = useFilterSearch(fetchProducts);
 
-  // const [searchQuery, setSearchQuery] = useState("");
-  // const [search, setSearch] = useState(false);
-  // const [category, setCategory] = useState("");
-  // const [products, setProducts] = useState([]);
-  // const [networkError, setNetworkError] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
-  // // could possibly use the category type as an index when searching in database query to quicken search
+  const menuProps = {
+    show: showMenu,
+    filters: filterIcons,
+    handleFilter: handleFilter,
+    category: category,
+  };
 
-  // const fetchData = async (searchQuery, category) => {
-  //   try {
-  //     const { data } = await api.fetchProducts(searchQuery, category);
-  //     setProducts(data);
-  //   } catch (error) {
-  //     setNetworkError(true);
-  //   }
-  // };
+  const searchProps = {
+    text: "search",
+    onClick: () => setSearch(!search),
+  };
 
-  // const handleFilter = (query) => {
-  //   if (category.includes(query))
-  //     return setCategory((prevCategories) =>
-  //       prevCategories.filter((item) => item != query)
-  //     );
-  //   setCategory((prevCategories) => [...prevCategories, query]);
-  // };
+  const sortProps = {
+    text: "sort",
+    // onClick: () => handleSort(sortQuery),
+  };
 
-  // useEffect(() => {
-  //   fetchData(searchQuery, category);
-  // }, [category, search]);
+  const filterProps = {
+    text: "filter",
+    onClick: () => setShowMenu(!showMenu),
+  };
 
   const filterVariants = {
     grow: {
@@ -71,29 +63,28 @@ const Products = () => {
     },
   };
 
-  if (error) return <div>{error}</div>;
-
   return (
-    <motion.div
+    <motion.main
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { duration: 0.8 } }}
       exit={{ opacity: 0, transition: { duration: 0.8 } }}
       className={styles.container}
     >
       <div className={styles.sort_section}>
-        <div>
+        <div
+          style={{
+            display: "flex",
+            border: "1px solid red",
+            alignItems: "center",
+          }}
+        >
           <input
             className={styles.search_bar}
             type="search"
             placeholder="Search"
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <button
-            className={styles.search_button}
-            onClick={() => setSearch(!search)}
-          >
-            Search
-          </button>
+          <Button {...searchProps} />
         </div>
 
         {filterIcons.map(({ name, query }) => (
@@ -114,21 +105,26 @@ const Products = () => {
               initial={{ width: 0 }}
               variants={filterVariants}
               animate={category.includes(query) ? "grow" : "shrink"}
-            ></motion.div>
+            />
           </motion.button>
         ))}
 
-        <button className={styles.sort_button} type="check">
-          Sort
-        </button>
-        <button className={styles.filter_menu}>Filters</button>
+        {/* make call to backend to sort the data then send back  */}
+        <Button {...sortProps} />
+
+        <Button {...filterProps} />
+        <Menu {...menuProps} />
       </div>
 
       <motion.div layout className={styles.products_grid}>
-        {products.length > 0 ? (
-          products.map((product, i) => (
+        {data.length > 0 ? (
+          data.map((product, i) => (
             <Product product={product} key={product.id} index={i} />
           ))
+        ) : isPending ? (
+          <p style={styling}>Loading ...</p>
+        ) : error ? (
+          <p style={styling}>{error}</p>
         ) : (
           <motion.p
             initial={{ opacity: 0 }}
@@ -140,7 +136,7 @@ const Products = () => {
       </motion.div>
 
       <div className={styles.pagination}>pagination</div>
-    </motion.div>
+    </motion.main>
   );
 };
 

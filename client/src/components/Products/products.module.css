@@ -1,9 +1,3 @@
-:root {
-  --product-width: 350px;
-  --light-gray: #fbfbfb;
-  --teal: #85c9c5;
-}
-
 .container {
   width: 100vw;
   max-width: 100%;
@@ -17,6 +11,7 @@
   border-top: 1px solid darkgray;
   border-bottom: 1px solid darkgray;
   padding-right: 1rem;
+  position: relative;
 }
 
 .sort_section .search_bar {

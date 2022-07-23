@@ -243,7 +243,7 @@ exports.createOrder = async function (req, res, next) {
 
     if (results.some((result) => result < 1)) return next(ApiError.internal());
 
-    const myData = createPayData(order);
+    const myData = createPayData(order, orderId);
 
     res.send({ ...myData });
 
@@ -276,6 +276,7 @@ exports.completeOrder = async function (req, res, next) {
   } = req.body;
 
   // any validation
+  console.log(payment_status);
 
   if (!payment_status === "COMPLETE") return next(ApiError.paymentError());
 
@@ -320,17 +321,80 @@ exports.completeOrder = async function (req, res, next) {
       { transaction: t }
     );
 
+    console.log(payment);
+
     // email user
     // get order to populate thank you page
     // how to cancel payments and all that
 
     await t.commit();
 
+    res.status(200);
+
     // where are you ressing to though
     // res.send(payment_status);
+    // use this as well to check
   } catch (error) {
     await t.rollback();
     console.log(error);
+    return next(ApiError.internal());
+  }
+};
+
+exports.confirmPayment = async function (req, res, next) {
+  const id = Number.parseInt(req.params.id);
+
+  // validate
+
+  if (id.isNaN) return next(ApiError.invalidId());
+
+  console.log(id);
+
+  try {
+    const order = await order_detail.findOne({
+      where: { id },
+      attributes: {
+        exclude: ["ship_address_id", "bill_address_id", "ship_method_id"],
+      },
+      include: [
+        {
+          model: product,
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "in_carousel", "stock_qty"],
+          },
+          through: {
+            attributes: ["order_qty"],
+          },
+        },
+        {
+          model: address,
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+          as: "shipAddressId",
+        },
+        {
+          model: address,
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+          as: "billAddressId",
+        },
+        {
+          model: payment_detail,
+          attributes: { exclude: ["id"] },
+        },
+      ],
+    });
+
+    if (order == null) return next(ApiError.noOrder());
+
+    console.log(order);
+
+    const payment = await payment_detail.findOne({ where: { order_id: id } });
+
+    console.log(payment);
+
+    if (payment == null) return next(ApiError.paymentError());
+
+    res.send(order);
+  } catch (error) {
     return next(ApiError.internal());
   }
 };

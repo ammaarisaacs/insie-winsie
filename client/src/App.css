@@ -1,28 +1,31 @@
 :root {
   /* colors */
 
+  --teal: #85c9c5;
   --baby-blue: #d0ebea;
   --touch-of-green: #d9ede1;
   --another-green: #d7e9e4;
   --pastel-blue: #f4f0ff;
   --pastel-red: #fcf2f4;
   --dark-purple: #342a81;
+  --light-gray: #fbfbfb;
+  --color-lighter-gray: #e3e5ed;
 
   /* layout */
 
   --navbar-height: 10vh;
   --footer-height: 30vh;
-  --header-size: calc(2rem + 1vw);
-  --paragraph-size: calc(0.8rem + 0.25vw);
-  --color-lighter-gray: #e3e5ed;
+  --product-width: 350px;
 
   /* padding and margins */
 
+  --footer-top-margin: 5rem;
   --section-margin: 5rem;
 
   /* font sizes */
-  --paragraph-size: 10px;
-  --header-size: 20px;
+
+  --paragraph-size: calc(0.8rem + 0.25vw);
+  --header-size: calc(2rem + 1vw);
 }
 
 * {
@@ -43,10 +46,10 @@ body {
   cursor: url(assets/svgs/spider.svg), auto;
 }
 
-/* main {
+main {
   min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
   height: fit-content;
-} */
+}
 
 a {
   text-decoration: none;

@@ -6,8 +6,11 @@ const useFetch = (cb) => {
   const [error, setError] = useState(null);
 
   const fetchData = async (cb) => {
+    // validation logic here
     try {
+      console.log(await cb);
       const { data } = await cb();
+      console.log(data);
       setData(data);
     } catch (error) {
       setError(error.response.data ?? "Network Error.");

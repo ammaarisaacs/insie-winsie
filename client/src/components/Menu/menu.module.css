@@ -1,0 +1,37 @@
+.nav_menu_container,
+.filter_menu_container {
+  background-color: rgb(145, 177, 205);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  flex: column;
+  top: 100%;
+  width: 100%;
+  right: 0;
+  padding: 1rem;
+  z-index: 1;
+}
+
+.nav_menu_container {
+  right: 30px;
+}
+
+.nav_item {
+  min-height: 2rem;
+}
+
+.filter_item {
+  display: grid;
+  place-items: center;
+  border: none;
+  margin: 5px auto;
+  min-height: 2rem;
+}
+
+.underline {
+  height: 2px;
+  width: 100;
+  margin-top: 5px;
+  background-color: black;
+  top: 100%;
+}
