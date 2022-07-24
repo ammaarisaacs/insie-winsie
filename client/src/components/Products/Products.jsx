@@ -74,7 +74,6 @@ const Products = () => {
         <div
           style={{
             display: "flex",
-            border: "1px solid red",
             alignItems: "center",
           }}
         >
@@ -119,10 +118,10 @@ const Products = () => {
       <motion.div layout className={styles.products_grid}>
         {data.length > 0 ? (
           data.map((product, i) => (
-            <Product product={product} key={product.id} index={i} />
+            <Product product={product} key={product.id} />
           ))
         ) : isPending ? (
-          <p style={styling}>Loading ...</p>
+          <p style={styling}>Loading...</p>
         ) : error ? (
           <p style={styling}>{error}</p>
         ) : (

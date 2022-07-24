@@ -7,7 +7,7 @@ const apiErrorHandler = (err, req, res, next) => {
     return;
   }
 
-  res.status(500).json("Something wen't wrong.");
+  res.status(500).json("Internal server error.");
 };
 
 module.exports = apiErrorHandler;

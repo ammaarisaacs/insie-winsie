@@ -3,6 +3,8 @@ const router = express.Router();
 
 const verifyPayment = require("../middlewares/verifyPayment");
 
+const { validateShippingRateRequest } = require("../validations");
+
 const {
   getShippingRate,
   fetchOrder,
@@ -16,7 +18,7 @@ const {
 
 router.route("/").get(fetchOrders).post(createOrder);
 
-router.route("/shipping").post(getShippingRate);
+router.route("/shipping").post(validateShippingRateRequest, getShippingRate);
 
 router.route("/success").post(verifyPayment, completeOrder);
 

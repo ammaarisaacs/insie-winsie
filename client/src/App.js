@@ -129,3 +129,21 @@ export default App;
 // payfast component
 // research security for server
 // how to prevent many request when pressing button -> could you ui change to sort this
+
+// security implementations
+// server
+
+// limit payload size
+// limit requests
+// validate content type header
+// input validation -> query, params, forms, json
+// output escaping
+// logging
+// parameter pollution
+// only return what is necessary
+// disable unused routes
+// hide what framework you are using in headers
+
+// client
+// hide what framework you are using in headers
+// customize toast to show array of messages

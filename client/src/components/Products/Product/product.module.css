@@ -2,7 +2,7 @@
   position: relative;
   border-top-right-radius: 100px;
   border-bottom-left-radius: 50px;
-  border: 2px dashed #90d4e2;
+  border: 1px solid #90d4e2;
   overflow: hidden;
 }
 
