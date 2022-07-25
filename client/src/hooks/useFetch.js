@@ -8,9 +8,7 @@ const useFetch = (cb) => {
   const fetchData = async (cb) => {
     // validation logic here
     try {
-      console.log(await cb);
       const { data } = await cb();
-      console.log(data);
       setData(data);
     } catch (error) {
       setError(error.response.data ?? "Network Error.");

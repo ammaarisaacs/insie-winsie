@@ -13,6 +13,7 @@ const Input = (props) => {
         type={props.type || "text"}
         onChange={props.onChange}
         value={props.value}
+        required={props.required || false}
       />
       {props.error && props.showError && (
         <p className={styles.field__error}>{props.error}</p>

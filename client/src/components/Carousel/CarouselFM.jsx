@@ -18,9 +18,7 @@ const CarouselFM = () => {
   });
 
   useEffect(() => {
-    if (inView) {
-      setWidth(entry.target.scrollWidth - entry.target.offsetWidth);
-    }
+    if (inView) setWidth(entry.target.scrollWidth - entry.target.offsetWidth);
   }, [inView]);
 
   if (isPending) return <p style={styling}>Loading...</p>;
@@ -65,9 +63,10 @@ const CarouselFM = () => {
         className={styles.slider}
       >
         {data?.map((product, i) => {
+          const { id, name, price, description, media } = product;
           return (
             <motion.div
-              key={product.id}
+              key={id}
               initial={{
                 opacity: 0,
                 x: "200px",
@@ -84,17 +83,12 @@ const CarouselFM = () => {
                 }
               }
             >
-              <img
-                src={`http://localhost:5000/static/${product.media[0].file_name}`}
-              />
+              <img src={`http://localhost:5000/static/${media[0].file_name}`} />
 
-              <Link
-                to={`products/${product.id}`}
-                className={styles.carousel_info}
-              >
-                <h1>{product.name}</h1>
-                <h2>{product.price}</h2>
-                <p>{product.description}</p>
+              <Link to={`products/${id}`} className={styles.carousel_info}>
+                <h1>{name}</h1>
+                <h2>{price}</h2>
+                <p>{description}</p>
               </Link>
             </motion.div>
           );

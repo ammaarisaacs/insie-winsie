@@ -1,14 +1,10 @@
 const { body, param, query } = require("express-validator");
 
-exports.fetchProductsChecks = () => {
-  const checks = [param("category")];
-  return checks;
-};
-
-exports.fetchProductChecks = () => {};
-exports.createProductChecks = () => {};
-exports.deleteProductChecks = () => {};
-exports.updateProductChecks = () => {};
+exports.fetchProductsChecks = [query("category"), query("search")];
+exports.fetchProductChecks = {};
+exports.createProductChecks = {};
+exports.deleteProductChecks = {};
+exports.updateProductChecks = {};
 
 // const { makeValidateProduct } = require("./validate");
 // const { body, param, query, validationResult } = require("express-validator");

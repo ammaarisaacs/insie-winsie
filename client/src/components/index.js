@@ -5,6 +5,7 @@ export { default as Toast } from "./Toast/Toast";
 
 export { default as Menu } from "./Menu/Menu";
 export { default as Button } from "./Button/Button";
+export { default as ResponseBlock } from "./ResponseBlock/ResponseBlock";
 
 export { default as Products } from "./Products/Products";
 export { default as Product } from "./Products/Product/Product";

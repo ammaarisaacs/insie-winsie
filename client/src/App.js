@@ -129,6 +129,9 @@ export default App;
 // payfast component
 // research security for server
 // how to prevent many request when pressing button -> could you ui change to sort this
+// cleanup usefetch and useForm
+// implement validations in routes -> check using postman
+//
 
 // security implementations
 // server

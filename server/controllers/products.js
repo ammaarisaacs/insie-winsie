@@ -28,8 +28,6 @@ exports.createProduct = async function (req, res, next) {
 };
 
 exports.fetchProducts = async function (req, res, next) {
-  // hpp validation
-
   const { search, category } = req.query;
 
   // search

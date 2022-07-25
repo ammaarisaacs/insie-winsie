@@ -51,19 +51,11 @@ exports.createOrder = async function (req, res, next) {
     province: billProvince = province,
   } = req.body.billing ?? {};
 
-  // Validate
-  // if anything is empty send back bad request
-  // valid email
-
-  // Normalize
-  // need to trim at ordersummary inputs
-  // need to lower case them
-
   // check what it means to give something a default value, what default values are best for money and arrays
 
   const { items = [], total = null } = req.body.cart;
 
-  const ids = items.map(({ product: cartProduct }) => cartProduct.id);
+  const ids = items.map(({ product: cartItem }) => cartItem.id);
 
   if (items.length < 1 || total == null) return next(ApiError.badRequest());
 

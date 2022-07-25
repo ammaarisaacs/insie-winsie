@@ -56,6 +56,13 @@ class ApiError {
       "There was an error making the payment. Please contact us for support."
     );
   }
+
+  static contactError() {
+    return new ApiError(
+      404,
+      "There was an error sending your contact info to us. Please try again later."
+    );
+  }
 }
 
 module.exports = ApiError;

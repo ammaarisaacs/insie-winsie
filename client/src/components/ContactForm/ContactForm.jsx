@@ -1,9 +1,11 @@
+import { useEffect } from "react";
 import useForm from "../../hooks/useForm";
 import contactFormStyles from "./contactform.module.css";
 import * as api from "../../services/api";
 import { motion } from "framer-motion";
 import validate from "../../validations/contact";
 import Input from "../Forms/Input";
+import { ResponseBlock } from "../";
 
 const initialState = {
   firstName: {
@@ -36,19 +38,28 @@ const initialState = {
 };
 
 export default function ContactForm() {
-  const { formData, errors, handleChange, handleSubmit, showError } = useForm(
-    initialState,
-    validate
-  );
+  const {
+    formData,
+    errors,
+    handleChange,
+    handleSubmit,
+    confirmation,
+    setConfirmation,
+    cannotSubmit,
+  } = useForm(initialState, validate);
 
   const submitFn = async (formData) => {
     try {
       const { data } = await api.sendContactData(formData);
-      console.log(data);
+      setConfirmation(data);
     } catch (error) {
-      console.log(error);
+      setConfirmation(error);
     }
   };
+
+  useEffect(() => {
+    console.log(errors);
+  }, []);
 
   return (
     <div className={contactFormStyles.contact_form_container}>
@@ -60,7 +71,13 @@ export default function ContactForm() {
         className={contactFormStyles.form}
       >
         <div className={contactFormStyles.fields2}>
-          {/* <Input {...propConfig} /> */}
+          <Input
+            value={formData.firstName.value}
+            id={"firstName"}
+            name={"firstName"}
+            text={"First Name"}
+            onChange={(e) => handleChange(e)}
+          />
           <label className={contactFormStyles.field}>
             <span
               className={contactFormStyles.field__label}
@@ -77,8 +94,12 @@ export default function ContactForm() {
               value={formData.firstName.value}
               required
             />
+            {errors.firstName && (
+              <p style={{ fontSize: "10px", color: "red" }}>
+                {errors.firstName}
+              </p>
+            )}
           </label>
-          {errors.firstName && <p>{errors.firstName}</p>}
           <label className={contactFormStyles.field}>
             <span className={contactFormStyles.field__label} htmlFor="lastName">
               Last name
@@ -92,6 +113,11 @@ export default function ContactForm() {
               value={formData.lastName.value}
               required
             />
+            {errors.lastName && (
+              <p style={{ fontSize: "10px", color: "red" }}>
+                {errors.lastName}
+              </p>
+            )}
           </label>
         </div>
         <div className={contactFormStyles.fields2}>
@@ -111,6 +137,11 @@ export default function ContactForm() {
               onChange={(e) => handleChange(e)}
               required
             />
+            {errors.cellphone && (
+              <p style={{ fontSize: "10px", color: "red" }}>
+                {errors.cellphone}
+              </p>
+            )}
           </label>
           <label className={contactFormStyles.field}>
             <span className={contactFormStyles.field__label} htmlFor="email">
@@ -125,7 +156,7 @@ export default function ContactForm() {
               onChange={(e) => handleChange(e)}
               required
             />
-            {errors.email && showError && (
+            {errors.email && (
               <p style={{ fontSize: "10px", color: "red" }}>{errors.email}</p>
             )}
           </label>
@@ -140,12 +171,30 @@ export default function ContactForm() {
             onChange={(e) => handleChange(e)}
             value={formData.message.value}
           />
+          {errors.message && (
+            <p style={{ fontSize: "10px", color: "red" }}>{errors.message}</p>
+          )}
         </label>
         <hr />
-        <button type="submit" className={contactFormStyles.button}>
+        <button
+          disabled={cannotSubmit}
+          style={{
+            backgroundColor: cannotSubmit ? "lightgrey" : "black",
+          }}
+          type="submit"
+          className={contactFormStyles.button}
+        >
           send
         </button>
       </form>
+      {confirmation && <ResponseBlock res={confirmation} />}
     </div>
   );
 }
+
+// const errors = [1,3,4]
+// const cannotSubmit = false
+// const proceed = errors.length === 0 || cannotSubmit === false
+// const disabled = !proceed
+// proceed
+// disabled

@@ -3,6 +3,14 @@ const { body, param, query } = require("express-validator");
 exports.FetchOrdersChecks = () => {};
 exports.FetchOrderChecks = () => {};
 
+// Validate
+// if anything is empty send back bad request
+// valid email
+
+// Normalize
+// need to trim at ordersummary inputs
+// need to lower case them
+
 exports.CreateOrdersChecks = [
   body("cart").notEmpty(),
   body("cart.*.items").notEmpty(),

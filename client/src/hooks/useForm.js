@@ -2,19 +2,20 @@
 // with component https://youtu.be/0bIKucQPbTY
 
 import { useState, useCallback } from "react";
-import { formatFormData } from "../helpers/merge";
+import { mapStateToPost } from "../helpers/merge";
 
 const useForm = (initialState, validate) => {
   const [formData, setFormData] = useState(initialState);
   const [errors, setErrors] = useState({});
+  const [cannotSubmit, setCannotSubmit] = useState(true);
   const [showError, setShowError] = useState(false);
+  const [confirmation, setConfirmation] = useState(null);
 
   const setDataAndErrors = useCallback(
     (data) => {
-      setShowError(false);
+      setCannotSubmit(false);
       setFormData(data);
       let errors = validate(data);
-      console.log(errors);
       setErrors(errors);
     },
     [validate]
@@ -43,9 +44,9 @@ const useForm = (initialState, validate) => {
   const handleSubmit = (cb) => {
     return (e) => {
       e.preventDefault();
-      setShowError(true);
-      const postData = formatFormData(formData);
+      const postData = mapStateToPost(formData);
       if (Object.keys(errors).length !== 0) return;
+      setCannotSubmit(true);
       // this cb will come from services
       cb(postData);
     };
@@ -56,8 +57,10 @@ const useForm = (initialState, validate) => {
     errors,
     handleChange,
     setErrors,
-    showError,
     handleSubmit,
+    confirmation,
+    setConfirmation,
+    cannotSubmit,
   };
 };
 export default useForm;
