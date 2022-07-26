@@ -1,10 +1,12 @@
 import "./App.css";
+
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   useLocation,
 } from "react-router-dom";
+
 import {
   AboutPage,
   HomePage,
@@ -13,6 +15,7 @@ import {
   FaqPage,
   SuccessPage,
 } from "./pages";
+
 import {
   Layout,
   Products,
@@ -20,6 +23,7 @@ import {
   ProductDetail,
   Cart,
 } from "./components";
+
 import { AnimatePresence } from "framer-motion";
 import { StateContext } from "./context/StateContext";
 
@@ -77,6 +81,7 @@ export default App;
 // how to update prices in the client side if you are storing it in cache because prices might change while in cache
 // make buttons only clickable once, do not want to send multiple requests
 // convert all static images to webp
+// make sure altext is all there
 
 ///////////////////////////////////////////////////////////////////////////////
 

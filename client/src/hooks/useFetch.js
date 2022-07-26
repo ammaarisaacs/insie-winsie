@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const useFetch = (cb) => {
+const useFetch = (cb, loc) => {
   const [data, setData] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   const fetchData = async (cb) => {
     // validation logic here
@@ -12,6 +15,7 @@ const useFetch = (cb) => {
       setData(data);
     } catch (error) {
       setError(error.response.data ?? "Network Error.");
+      if (loc) navigate(loc);
     } finally {
       setIsPending(false);
     }

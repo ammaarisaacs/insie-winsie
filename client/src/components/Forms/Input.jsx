@@ -15,9 +15,7 @@ const Input = (props) => {
         value={props.value}
         required={props.required || false}
       />
-      {props.error && props.showError && (
-        <p className={styles.field__error}>{props.error}</p>
-      )}
+      {props.error && <p className={styles.field__error}>{props.error}</p>}
     </label>
   );
 };

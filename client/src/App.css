@@ -1,20 +1,27 @@
 :root {
   /* colors */
 
-  --teal: #85c9c5;
-  --baby-blue: #d0ebea;
+  --pastel-red: #fcf2f4;
+
   --touch-of-green: #d9ede1;
   --another-green: #d7e9e4;
+
+  --baby-blue: #d0ebea;
+  --teal: #85c9c5;
   --pastel-blue: #f4f0ff;
-  --pastel-red: #fcf2f4;
   --dark-purple: #342a81;
+
+  --color-gray: #737888;
   --light-gray: #fbfbfb;
+  --color-light-gray: #f7f7fa;
   --color-lighter-gray: #e3e5ed;
 
   /* layout */
 
+  --min-app-width: 300px;
   --navbar-height: 10vh;
   --footer-height: 30vh;
+
   --product-width: 350px;
 
   /* padding and margins */
@@ -42,6 +49,7 @@ body {
   font-family: "dank mono", sans-serif;
   background-color: #fcfefe;
   min-width: 400px;
+  /* min-width: var(--min-app-width); */
   overflow-x: hidden;
   cursor: url(assets/svgs/spider.svg), auto;
 }

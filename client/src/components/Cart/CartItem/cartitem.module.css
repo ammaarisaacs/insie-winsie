@@ -64,30 +64,3 @@ article[class*="cart_item_container"]:first-of-type {
 .remove_button svg:hover {
   stroke: red;
 }
-
-.totals_container {
-  display: flex;
-  justify-content: right;
-  padding: 1rem 3rem;
-}
-
-@media (max-width: 768px) {
-  .heading_container {
-    display: none;
-  }
-
-  .cart_item_container {
-    display: grid;
-    grid-auto-flow: row;
-    padding: 1rem;
-    gap: 1rem;
-    border: 1px solid darkgray;
-    margin-top: 1rem;
-    width: clamp(300px, 70%, 400px);
-  }
-
-  .cart_item {
-    width: 200px;
-    align-items: center;
-  }
-}

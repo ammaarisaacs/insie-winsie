@@ -4,27 +4,30 @@ import { useStateContext } from "../../context/StateContext";
 function Toast() {
   const { toastMessage } = useStateContext();
   return (
-    <AnimatePresence>
+    // <AnimatePresence>
+    <>
       {toastMessage && (
         <motion.div
-          initial={{ top: "100vh" }}
-          animate={{ top: "80vh" }}
-          exit={{ top: "100vh" }}
+          initial={{ y: 0 }}
+          animate={{ y: "-150%" }}
+          exit={{ y: 0 }}
           style={{
-            width: 400,
-            height: 100,
+            top: "100vh",
+            minWidth: "200px",
+            height: "fit-content",
             position: "fixed",
-            backgroundColor: "#9fe4e4",
-            right: 50,
+            right: 40,
+            zIndex: 999,
             padding: 10,
             borderRadius: 10,
-            zIndex: 999,
+            backgroundColor: "#9fe4e4",
           }}
         >
           {toastMessage}
         </motion.div>
       )}
-    </AnimatePresence>
+    </>
+    // </AnimatePresence>
   );
 }
 

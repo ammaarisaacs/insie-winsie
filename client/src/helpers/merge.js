@@ -8,15 +8,18 @@ export const mapStateToPost = (formData) => {
   return postData;
 };
 
-const mapStateToInputProps = (state, keys, handler) => {
-  let props = {};
+const mapStateToInputProps = (state, keys, handler, error) => {
+  let props = [];
   for (let field in state) {
+    let prop = {};
     keys.map((key) => {
-      props[key] = state[field][key];
+      prop[key] = state[field][key];
     });
-    props.onChange = handler;
+    prop.onChange = handler;
+    prop.error = error[field];
+
+    props.push(prop);
   }
-  return props;
 };
 
 export const formatOrderData = (...args) => {

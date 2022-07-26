@@ -1,9 +1,3 @@
-:root {
-  --color-gray: #737888;
-  --color-lighter-gray: #e3e5ed;
-  --color-light-gray: #f7f7fa;
-}
-
 .contact_form_container {
   width: clamp(300px, 40%, 600px);
   height: fit-content;

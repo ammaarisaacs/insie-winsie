@@ -1,9 +1,9 @@
 import styles from "./button.module.css";
 
-const Button = ({ link, text, onClick, hiddenForMedia }) => {
-  const completeClass = `button${hiddenForMedia ? " hidden" : ""}`;
+const Button = ({ link, text, onClick, media }) => {
+  const className = media ? "button__media" : "button";
   return (
-    <button className={styles[completeClass]} onClick={onClick}>
+    <button className={styles[className]} onClick={onClick}>
       {text}
     </button>
   );

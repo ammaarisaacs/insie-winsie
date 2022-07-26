@@ -13,6 +13,10 @@ export const fetchProducts = async (searchQuery, category) => {
   return api.fetchProducts(searchQuery, category);
 };
 
-export const fetchCarousel = () => {
+export const fetchCarousel = async () => {
   return api.fetchCarouselProducts();
+};
+
+export const fetchProduct = async (id) => {
+  return api.fetchProduct(id);
 };

@@ -45,6 +45,7 @@ const Products = () => {
 
   const filterProps = {
     text: "filter",
+    media: true,
     onClick: () => setShowMenu(!showMenu),
   };
 
@@ -71,12 +72,7 @@ const Products = () => {
       className={styles.container}
     >
       <div className={styles.sort_section}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
+        <div className={styles.search__container}>
           <input
             className={styles.search_bar}
             type="search"
@@ -110,7 +106,6 @@ const Products = () => {
 
         {/* make call to backend to sort the data then send back  */}
         <Button {...sortProps} />
-
         <Button {...filterProps} />
         <Menu {...menuProps} />
       </div>

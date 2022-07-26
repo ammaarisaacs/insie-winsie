@@ -1,3 +1,8 @@
+.nav_container {
+  width: 100%;
+  min-width: var(--min-app-width);
+}
+
 .nav_container,
 .navbar_links,
 .nav_end_links {

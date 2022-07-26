@@ -5,7 +5,6 @@ const Layout = ({ children }) => {
     <>
       <Navbar />
       {children}
-      {/* toast should only go into components that need it  */}
       <Toast />
       <Footer />
     </>

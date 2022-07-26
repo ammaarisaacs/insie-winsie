@@ -8,11 +8,11 @@ const useForm = (initialState, validate) => {
   const [formData, setFormData] = useState(initialState);
   const [errors, setErrors] = useState({});
   const [cannotSubmit, setCannotSubmit] = useState(true);
-  const [showError, setShowError] = useState(false);
   const [confirmation, setConfirmation] = useState(null);
 
   const setDataAndErrors = useCallback(
     (data) => {
+      setConfirmation(null);
       setCannotSubmit(false);
       setFormData(data);
       let errors = validate(data);
