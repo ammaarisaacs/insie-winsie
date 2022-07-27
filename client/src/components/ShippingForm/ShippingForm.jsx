@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./shippingform.module.css";
 import { useStateContext } from "../../context/StateContext";
+import { getShippingCharge } from "../../services/OrderService";
 
 // can have initial data array (call it formConfig or something)
 // each input is an object in the array
@@ -12,7 +13,6 @@ import { useStateContext } from "../../context/StateContext";
 const ShippingForm = ({
   setNotClickable,
   setOrderData,
-  api,
   cartItems,
   totalPrice,
 }) => {
@@ -36,7 +36,7 @@ const ShippingForm = ({
     // check if anything is empty
 
     try {
-      const { data } = await api.sendShippingData(shippingData);
+      const { data } = await getShippingCharge(shippingData);
       setOrderData({
         shipping: { ...shippingData, method: data },
         ...(!isSame && { billing: billingData }),

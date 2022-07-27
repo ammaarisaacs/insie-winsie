@@ -3,25 +3,25 @@ import { useStateContext } from "../../context/StateContext";
 import { motion } from "framer-motion";
 import styles from "./ordersummary.module.css";
 import ShippingForm from "../ShippingForm/ShippingForm";
-import * as api from "../../services/api";
 import { randify } from "../../utils/costing";
+import { sendOrderData } from "../../services/OrderService";
 
-const initialPayData = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  orderNumber: "",
-  amount: 0,
-  returnUrl: "",
-  cancelUrl: "",
-  notifyUrl: "",
-  signature: "",
-};
+// const initialPayData = {
+//   firstName: "",
+//   lastName: "",
+//   email: "",
+//   orderNumber: "",
+//   amount: 0,
+//   returnUrl: "",
+//   cancelUrl: "",
+//   notifyUrl: "",
+//   signature: "",
+// };
+// const [payData, setPayData] = useState(initialPayData);
 
 const OrderSummary = () => {
   const [notClickable, setNotClickable] = useState(true);
   const [orderData, setOrderData] = useState({});
-  const [payData, setPayData] = useState(initialPayData);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -39,11 +39,8 @@ const OrderSummary = () => {
   const validateOrder = async (e) => {
     e.preventDefault();
 
-    // if (Object.values(orderData === ""))
-    //   return showToast("You are missing information");
-
     try {
-      const { data } = await api.sendOrderData(orderData);
+      const { data } = await sendOrderData(orderData);
       setFirstName(data.name_first);
       setLastName(data.name_last);
       setEmail(data.email_address);
@@ -61,19 +58,19 @@ const OrderSummary = () => {
   useEffect(() => {
     const clientAmount = (totalPrice + shippingRate).toFixed(2);
 
+    // expand on this validation
     if (ref.current && amount === clientAmount && signature) {
       ref.current.submit();
     }
   }, [amount, orderNumber, signature]);
 
   return (
-    <div className={styles.order_summary_container}>
+    <main className={styles.order_summary_container}>
       <div className={styles.layout_container}>
         <ShippingForm
           setNotClickable={setNotClickable}
           setOrderData={setOrderData}
           orderData={orderData}
-          api={api}
           cartItems={cartItems}
           shippingRate={shippingRate}
           totalPrice={totalPrice}
@@ -159,7 +156,7 @@ const OrderSummary = () => {
           </form>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

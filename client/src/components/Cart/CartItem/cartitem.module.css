@@ -6,16 +6,11 @@
   padding: 1rem 3rem;
   border-bottom: 1px solid darkgray;
   margin: auto;
+  min-height: 200px;
 }
 
 article[class*="cart_item_container"]:first-of-type {
   border-top: 1px solid darkgray;
-}
-
-.cart_container p {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-left: 1rem;
 }
 
 .cart_item,
@@ -63,4 +58,25 @@ article[class*="cart_item_container"]:first-of-type {
 
 .remove_button svg:hover {
   stroke: red;
+}
+
+@media (max-width: 768px) {
+  .heading_container {
+    display: none;
+  }
+
+  .cart_item_container {
+    display: grid;
+    grid-auto-flow: row;
+    padding: 1rem;
+    gap: 1rem;
+    border: 1px solid darkgray;
+    margin-top: 1rem;
+    width: clamp(300px, 70%, 400px);
+  }
+
+  .cart_item {
+    width: 200px;
+    align-items: center;
+  }
 }

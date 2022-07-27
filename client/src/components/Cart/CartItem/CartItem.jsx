@@ -2,14 +2,17 @@ import React from "react";
 import styles from "./cartitem.module.css";
 import { randify } from "../../../utils/costing";
 import { motion } from "framer-motion";
+import { useStateContext } from "../../../context/StateContext";
 
 const staticUrl = "http://localhost:5000/static/";
 
-const CartItem = ({ item, i, updateCartQty, removeCartItem }) => {
+const CartItem = ({ item, i }) => {
+  const { updateCartQty, removeCartItem } = useStateContext();
   const { product, orderQty } = item;
   const { id, name, price, media } = product;
   const fileName = media[0].file_name;
   const alt_text = media[0].alt_text;
+
   return (
     <motion.article
       layout
@@ -28,13 +31,13 @@ const CartItem = ({ item, i, updateCartQty, removeCartItem }) => {
       }}
       className={styles.cart_item_container}
     >
-      <div className={styles.cart_item}>
-        <motion.img src={`${staticUrl}${fileName}`} alt={alt_text} />
-        <div className={styles.cart_item_details}>
-          <p>{name}</p>
-          <p>{randify(price)}</p>
-        </div>
-      </div>
+      <article className={styles.cart_item}>
+        <img src={`${staticUrl}${fileName}`} alt={alt_text} />
+        <ul className={styles.cart_item_details}>
+          <li>{name}</li>
+          <li>{randify(price)}</li>
+        </ul>
+      </article>
 
       <div className={styles.quantity_container}>
         <button

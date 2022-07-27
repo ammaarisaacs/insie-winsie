@@ -1,8 +1,8 @@
 import useForm from "../../hooks/useForm";
 import contactFormStyles from "./contactform.module.css";
 import * as api from "../../services/api";
-import { motion, AnimatePresence } from "framer-motion";
-import validate from "../../validations/contact";
+import { AnimatePresence } from "framer-motion";
+import validate from "../../validations";
 import Input from "../Forms/Input";
 import { ResponseBlock } from "../";
 

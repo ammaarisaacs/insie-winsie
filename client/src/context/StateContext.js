@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import useForm from "../hooks/useForm";
+import validate from "../validations/";
 
 const initialShippingData = {
   firstName: "",
@@ -26,6 +28,11 @@ export const StateContext = ({ children }) => {
   const [billingData, setBillingData] = useState(initialShippingData);
   const [shippingRate, setShippingRate] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
+
+  const { formData, errors, cannotSubmit, confirmation } = useForm(
+    initialShippingData,
+    validate
+  );
 
   const showToast = (message) => {
     setToastMessage(message);
