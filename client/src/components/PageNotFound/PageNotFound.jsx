@@ -17,7 +17,7 @@ const PageNotFound = () => {
     },
   };
   return (
-    <div
+    <main
       style={{
         width: "100%",
         display: "flex",
@@ -57,7 +57,7 @@ const PageNotFound = () => {
         animateWhen={true}
         color="#e8fde9"
       />
-    </div>
+    </main>
   );
 };
 

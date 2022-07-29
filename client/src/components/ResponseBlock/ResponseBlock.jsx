@@ -4,13 +4,9 @@ import { motion } from "framer-motion";
 const ResponseBlock = ({ res }) => {
   let ui;
 
-  console.log(res);
-
   const isError = res instanceof Error;
   const isArray = Array.isArray(res);
   const serverError = res?.response?.data;
-
-  console.log(isError);
 
   if (isError) {
     if (serverError && isArray) {
@@ -38,7 +34,14 @@ const ResponseBlock = ({ res }) => {
       transition={{ duration: 0.5 }}
       style={{
         backgroundColor: isError ? "lightcoral" : "lightgreen",
+        width: "100%",
+        padding: "1rem",
+        borderRadius: 20,
+        minHeight: 100,
         marginTop: "2rem",
+        marginInline: "auto",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       {ui}

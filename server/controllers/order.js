@@ -179,6 +179,8 @@ exports.createOrder = async function (req, res, next) {
     // validate
     // promise.all here for address creation
 
+    console.log("createOrder: getting max order number");
+
     const maxOrderNumber = await order_detail.findOne(
       {
         attributes: [sequelize.fn("max", sequelize.col("order_number"))],
@@ -235,6 +237,8 @@ exports.createOrder = async function (req, res, next) {
 
     if (results.some((result) => result < 1)) return next(ApiError.internal());
 
+    console.log("createOrder: creating pay data ");
+
     const myData = createPayData(order, orderId);
 
     res.send({ ...myData });
@@ -242,8 +246,6 @@ exports.createOrder = async function (req, res, next) {
     await t.commit();
   } catch (error) {
     await t.rollback();
-
-    console.log(error);
 
     next(ApiError.internal());
   }
@@ -268,7 +270,10 @@ exports.completeOrder = async function (req, res, next) {
   } = req.body;
 
   // any validation
-  console.log(payment_status);
+  console.log(
+    "completeOrder: notify url: received payment status as ",
+    payment_status
+  );
 
   if (!payment_status === "COMPLETE") return next(ApiError.paymentError());
 
@@ -279,6 +284,8 @@ exports.completeOrder = async function (req, res, next) {
   let updates = [];
 
   try {
+    console.log("completeOrder: updating stock quantities of products bought");
+
     const productUpdates = products.map((cartProduct) => {
       const { id, stock_qty: stockQty } = cartProduct;
       const orderQty = cartProduct.order_item.order_qty;
@@ -303,6 +310,8 @@ exports.completeOrder = async function (req, res, next) {
 
     if (results.some((result) => result < 1)) return next(ApiError.internal());
 
+    console.log("completeOrder: creating payment in db");
+
     const payment = await payment_detail.create(
       {
         name: pf_payment_id,
@@ -312,8 +321,6 @@ exports.completeOrder = async function (req, res, next) {
       },
       { transaction: t }
     );
-
-    console.log(payment);
 
     // email user
     // get order to populate thank you page
@@ -334,15 +341,17 @@ exports.completeOrder = async function (req, res, next) {
 };
 
 exports.confirmPayment = async function (req, res, next) {
+  console.log("confirming payment: for success page");
+
   const id = Number.parseInt(req.params.id);
 
   // validate
 
   if (id.isNaN) return next(ApiError.invalidId());
 
-  console.log(id);
-
   try {
+    console.log("confirm payment: getting order for success page");
+
     const order = await order_detail.findOne({
       where: { id },
       attributes: {
@@ -377,11 +386,9 @@ exports.confirmPayment = async function (req, res, next) {
 
     if (order == null) return next(ApiError.noOrder());
 
-    console.log(order);
+    console.log("confirm payment: checking if payment was stored");
 
     const payment = await payment_detail.findOne({ where: { order_id: id } });
-
-    console.log(payment);
 
     if (payment == null) return next(ApiError.paymentError());
 
@@ -463,15 +470,12 @@ exports.fetchOrder = async function (req, res, next) {
 
 exports.getShippingRate = async function (req, res, next) {
   const { area, city } = req.body;
-
   try {
     const charge = await ship_method.findOne({
       where: { area, city },
       attributes: ["id", "charge"],
     });
-
     if (charge == null) return next(ApiError.zoneNotSupported());
-
     res.send(charge);
   } catch (error) {
     return next(ApiError.internal());

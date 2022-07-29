@@ -1,12 +1,19 @@
 import "./App.css";
-
+import { AnimatePresence } from "framer-motion";
+import { StateContext } from "./context/StateContext";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   useLocation,
 } from "react-router-dom";
-
+import {
+  Layout,
+  Products,
+  PageNotFound,
+  ProductDetail,
+  Cart,
+} from "./components";
 import {
   AboutPage,
   HomePage,
@@ -15,17 +22,6 @@ import {
   FaqPage,
   SuccessPage,
 } from "./pages";
-
-import {
-  Layout,
-  Products,
-  PageNotFound,
-  ProductDetail,
-  Cart,
-} from "./components";
-
-import { AnimatePresence } from "framer-motion";
-import { StateContext } from "./context/StateContext";
 
 // https://dribbble.com/shots/6890113-The-Curology-landing-product-page-interaction
 
@@ -134,24 +130,33 @@ export default App;
 // payfast component
 // research security for server
 // how to prevent many request when pressing button -> could you ui change to sort this
-// cleanup usefetch and useForm
 // implement validations in routes -> check using postman
-//
 
-// security implementations
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// SECURITY
+
 // server
 
+// input validation -> query, params, forms, json
 // limit payload size
 // limit requests
+// helmet for headers
 // validate content type header
-// input validation -> query, params, forms, json
 // output escaping
 // logging
-// parameter pollution
 // only return what is necessary
 // disable unused routes
 // hide what framework you are using in headers
+// hpp possibly for polution
+// ssl and https -> lets encrypt
+// check helmet and how to enable pictures in client for production
+// white list config files for emails, provinces, cities, urls https://stackoverflow.com/questions/36393256/express-cors-domain-whitelist https://www.tabnine.com/code/javascript/functions/express-validator/ValidationChain/isIn
 
 // client
+
 // hide what framework you are using in headers
 // customize toast to show array of messages
+// prevent multiple click requests
+// javacript: in url how to validate
+// Output Encoding and HTML Sanitization

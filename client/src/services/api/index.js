@@ -49,7 +49,7 @@ export const sendOrderData = (orderData) => API.post("/order", orderData);
 
 export const fetchOrderData = (id) => API.get(`/order/${id}`);
 
-export const confirmPayment = (id) => API.get(`/order/success/${id}`);
+export const sendPaymentId = (id) => API.get(`/order/success/${id}`);
 
 // shipping
 

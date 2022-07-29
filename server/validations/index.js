@@ -18,8 +18,10 @@ exports.validateCreateContact = makeValidation(contactChecks);
 
 function makeValidation(checks) {
   return async (req, res, next) => {
+    console.log(req.body);
     await Promise.all(checks.map((check) => check.run(req)));
     const errors = validationResult(req);
+    console.log(errors);
     const sentErrors = errors.array().map((error) => error.msg);
     if (!errors.isEmpty()) {
       res.status(400).json(sentErrors);

@@ -1,18 +1,57 @@
 import React, { createContext, useContext, useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import useForm from "../hooks/useForm";
-import validate from "../validations/";
+import validate from "../validations/validateForm";
 
-const initialShippingData = {
-  firstName: "",
-  lastName: "",
-  cellphone: "",
-  email: "",
-  street: "",
-  area: "",
-  city: "",
-  province: "",
-  zipcode: "",
+const initialState = {
+  firstName: {
+    value: "",
+    required: true,
+    specialCharacters: false,
+  },
+  lastName: {
+    value: "",
+    required: true,
+  },
+  email: {
+    value: "",
+    required: true,
+    email: true,
+    maxLength: 100,
+  },
+  cellphone: {
+    value: "",
+    required: true,
+    numeric: true,
+    maxLength: 20,
+  },
+  street: {
+    value: "",
+    required: true,
+    minLength: 1,
+    maxLength: 100,
+  },
+  area: {
+    value: "",
+    required: true,
+  },
+  city: {
+    value: "",
+    required: true,
+    minLength: 1,
+    maxLength: 50,
+  },
+  province: {
+    value: "",
+    required: true,
+    within: ["NL", "WP", "GT", "LP", "NC", "NW", "FS", "EC"],
+    maxLength: 2,
+  },
+  zipcode: {
+    value: "",
+    required: true,
+    numeric: true,
+  },
 };
 
 const Context = createContext();
@@ -24,15 +63,13 @@ export const StateContext = ({ children }) => {
   const [totalPrice, setTotalPrice] = useLocalStorage("total price", 0);
   const [totalQty, setTotalQty] = useLocalStorage("total quantity", 0);
   const [cartItems, setCartItems] = useLocalStorage("shopping cart", []);
-  const [shippingData, setShippingData] = useState(initialShippingData);
-  const [billingData, setBillingData] = useState(initialShippingData);
+  // const [shippingData, setShippingData] = useState(initialShippingData);
+  // const [billingData, setBillingData] = useState(initialShippingData);
   const [shippingRate, setShippingRate] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
 
-  const { formData, errors, cannotSubmit, confirmation } = useForm(
-    initialShippingData,
-    validate
-  );
+  const shippingForm = useForm(initialState, validate);
+  const billingForm = useForm(initialState, validate);
 
   const showToast = (message) => {
     setToastMessage(message);
@@ -143,15 +180,17 @@ export const StateContext = ({ children }) => {
         setTotalQty,
         updateCartQty,
         removeCartItem,
-        shippingData,
-        setShippingData,
+        // shippingData,
+        // setShippingData,
         shippingRate,
         setShippingRate,
         toastMessage,
         showToast,
-        billingData,
-        setBillingData,
+        // billingData,
+        // setBillingData,
         clearCart,
+        shippingForm,
+        billingForm,
       }}
     >
       {children}

@@ -38,6 +38,7 @@
 
 .order_item_container img {
   height: 80px;
+  max-width: 100px;
 }
 
 .pay_now {

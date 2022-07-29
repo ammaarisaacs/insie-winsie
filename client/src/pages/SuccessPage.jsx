@@ -2,16 +2,13 @@ import { useEffect } from "react";
 import { useStateContext } from "../context/StateContext";
 import { useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
-import { confirmPayment } from "../services/OrderService";
+import { sendPaymentId } from "../services/OrderService";
 import { motion } from "framer-motion";
 
 const SuccessPage = () => {
   const { clearCart } = useStateContext();
-
   const { id } = useParams();
-  const { data, isPending, error, styling } = useFetch(() =>
-    confirmPayment(id)
-  );
+  const { data, isPending, error, styling } = useFetch(() => sendPaymentId(id));
 
   const cardStyle = {
     width: 300,
@@ -41,14 +38,11 @@ const SuccessPage = () => {
     exit: {},
   };
 
-  if (isPending) return <p style={styling}>Loading...</p>;
-  if (error) return <p style={styling}>{error}</p>;
+  if (isPending) return <main style={styling}>Loading...</main>;
+  if (error) return <main style={styling}>{error}</main>;
 
   return (
     <motion.main
-      initial={{}}
-      animate={{}}
-      exit={{}}
       style={{
         display: "grid",
         alignItems: "center",

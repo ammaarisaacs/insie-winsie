@@ -4,7 +4,7 @@ import { Blob, ObservableDrawPath } from "..";
 import { useInView } from "react-intersection-observer";
 import { babyPath, ourStoryPaths } from "../../data/paths";
 
-const Baby = () => {
+const OurStory = () => {
   const [ref, inView] = useInView({
     threshold: 0.8,
     triggerOnce: true,
@@ -94,4 +94,4 @@ const Baby = () => {
   );
 };
 
-export default Baby;
+export default OurStory;

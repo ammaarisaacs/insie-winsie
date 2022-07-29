@@ -2,7 +2,7 @@ import useForm from "../../hooks/useForm";
 import contactFormStyles from "./contactform.module.css";
 import * as api from "../../services/api";
 import { AnimatePresence } from "framer-motion";
-import validate from "../../validations";
+import validate from "../../validations/validateForm";
 import Input from "../Forms/Input";
 import { ResponseBlock } from "../";
 
@@ -132,10 +132,3 @@ export default function ContactForm() {
     </AnimatePresence>
   );
 }
-
-// const errors = [1,3,4]
-// const cannotSubmit = false
-// const proceed = errors.length === 0 || cannotSubmit === false
-// const disabled = !proceed
-// proceed
-// disabled

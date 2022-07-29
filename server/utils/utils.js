@@ -5,7 +5,6 @@ exports.ObjectsAreIdentical = (o1, o2) => {
   if (o1Keys.length === o2Keys.length) {
     return o1Keys.every((key) => o2.hasOwnProperty(key) && o1[key] === o2[key]);
   }
-
   return false;
 };
 

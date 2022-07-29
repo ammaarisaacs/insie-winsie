@@ -16,6 +16,11 @@ const useForm = (initialState, validate) => {
       setCannotSubmit(false);
       setFormData(data);
       let errors = validate(data);
+      if (Object.keys(errors).length === 0) {
+        setCannotSubmit(false);
+      } else {
+        setCannotSubmit(true);
+      }
       setErrors(errors);
     },
     [validate]
@@ -26,7 +31,11 @@ const useForm = (initialState, validate) => {
       let updatedData;
       const { name, value, checked, files, tagName, type } = e.target ?? {};
 
-      if (tagName === "INPUT" || tagName === "TEXTAREA") {
+      if (
+        tagName === "INPUT" ||
+        tagName === "TEXTAREA" ||
+        tagName === "SELECT"
+      ) {
         updatedData = {
           ...formData,
           [name]: {
@@ -47,7 +56,6 @@ const useForm = (initialState, validate) => {
       const postData = mapStateToPost(formData);
       if (Object.keys(errors).length !== 0) return;
       setCannotSubmit(true);
-      // this cb will come from services
       cb(postData);
     };
   };

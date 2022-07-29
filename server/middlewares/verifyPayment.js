@@ -54,8 +54,8 @@ module.exports = async function verifyPayment(req, res, next) {
     next();
   } else {
     // Some checks have failed, check payment manually and log for investigation
-    // cancel the payment
     next(ApiError.internal("Invalid payment. Please contact us for support."));
+    // cancel the payment
   }
 };
 

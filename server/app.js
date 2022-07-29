@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const path = require("path");
 const db = require("./models");
+const helmet = require("helmet");
 
 require("dotenv").config();
 
@@ -14,6 +15,16 @@ const contactsRoute = require("./routes/contact");
 
 const apiErrorHandler = require("./middlewares/error");
 
+// only works over https, so only during production
+app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false,
+  })
+);
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Resource-Policy", "same-site");
+  next();
+});
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

@@ -5,23 +5,16 @@ import styles from "./ordersummary.module.css";
 import ShippingForm from "../ShippingForm/ShippingForm";
 import { randify } from "../../utils/costing";
 import { sendOrderData } from "../../services/OrderService";
+import validate from "../../validations/validatePaymentData";
 
-// const initialPayData = {
-//   firstName: "",
-//   lastName: "",
-//   email: "",
-//   orderNumber: "",
-//   amount: 0,
-//   returnUrl: "",
-//   cancelUrl: "",
-//   notifyUrl: "",
-//   signature: "",
-// };
-// const [payData, setPayData] = useState(initialPayData);
+const staticUrl = "http://localhost:5000/static/";
 
 const OrderSummary = () => {
   const [notClickable, setNotClickable] = useState(true);
   const [orderData, setOrderData] = useState({});
+  const [payData, setPayData] = useState({});
+  const [merchantId, setMerchantId] = useState("");
+  const [merchantKey, setMerchantKey] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -41,6 +34,10 @@ const OrderSummary = () => {
 
     try {
       const { data } = await sendOrderData(orderData);
+      console.log(data);
+      setPayData(data);
+      setMerchantId(data.merchant_id);
+      setMerchantKey(data.merchant_key);
       setFirstName(data.name_first);
       setLastName(data.name_last);
       setEmail(data.email_address);
@@ -56,13 +53,16 @@ const OrderSummary = () => {
   };
 
   useEffect(() => {
-    const clientAmount = (totalPrice + shippingRate).toFixed(2);
+    console.log("order data", orderData);
+    console.log("pay Data", payData);
+    const clientAmount = 500;
+    // const clientAmount = (totalPrice + shippingRate).toFixed(2);
 
-    // expand on this validation
-    if (ref.current && amount === clientAmount && signature) {
-      ref.current.submit();
+    if (Object.keys(orderData).length > 0 && Object.keys(payData).length > 0) {
+      const errors = validate(payData, orderData);
+      if (Object.keys(errors).length === 0) ref.current.submit();
     }
-  }, [amount, orderNumber, signature]);
+  }, [amount, signature, payData]);
 
   return (
     <main className={styles.order_summary_container}>
@@ -80,8 +80,12 @@ const OrderSummary = () => {
           <h4>Order Summary</h4>
           <hr />
           {cartItems.map((item, i) => {
+            const { product, orderQty } = item;
+            const { name, price, media } = product;
+            const fileName = media[0].file_name;
+            const altText = media[0].alt_text;
             return (
-              <motion.div
+              <motion.article
                 initial={{ y: 20, opacity: 0 }}
                 animate={{
                   y: 0,
@@ -94,13 +98,10 @@ const OrderSummary = () => {
                 className={styles.order_item_container}
                 key={item.product.id}
               >
-                <img
-                  src={`http://localhost:5000/static/${item.product.media[0].file_name}`}
-                  alt="product"
-                />
-                <p>{item.product.name}</p>
-                <p>{`R ${item.product.price.toFixed(2)}`}</p>
-              </motion.div>
+                <img src={`${staticUrl}${fileName}`} alt={altText} />
+                <p>{name}</p>
+                <p>{randify(price * orderQty)}</p>
+              </motion.article>
             );
           })}
           <hr />
@@ -119,24 +120,27 @@ const OrderSummary = () => {
             );
           })}
           <hr />
-
           <form
             ref={ref}
             action="https://sandbox.payfast.co.za/eng/process"
             method="post"
           >
-            <input type="hidden" name="merchant_id" value="10026685" />
-            <input type="hidden" name="merchant_key" value="hu59n36aijojn" />
-            <input type="hidden" name="return_url" value={returnUrl} />
-            <input type="hidden" name="cancel_url" value={cancelUrl} />
-            <input type="hidden" name="notify_url" value={notifyUrl} />
-            <input type="hidden" name="name_first" value={firstName} />
-            <input type="hidden" name="name_last" value={lastName} />
-            <input type="hidden" name="email_address" value={email} />
-            <input type="hidden" name="m_payment_id" value="01AB" />
-            <input type="hidden" name="amount" value={amount} />
-            <input type="hidden" name="item_name" value={orderNumber} />
-            <input type="hidden" name="signature" value={signature} />
+            {Object.keys(payData).length > 0 && (
+              <>
+                <input type="hidden" name="merchant_id" value={merchantId} />
+                <input type="hidden" name="merchant_key" value={merchantKey} />
+                <input type="hidden" name="return_url" value={returnUrl} />
+                <input type="hidden" name="cancel_url" value={cancelUrl} />
+                <input type="hidden" name="notify_url" value={notifyUrl} />
+                <input type="hidden" name="name_first" value={firstName} />
+                <input type="hidden" name="name_last" value={lastName} />
+                <input type="hidden" name="email_address" value={email} />
+                <input type="hidden" name="m_payment_id" value="01AB" />
+                <input type="hidden" name="amount" value={amount} />
+                <input type="hidden" name="item_name" value={orderNumber} />
+                <input type="hidden" name="signature" value={signature} />
+              </>
+            )}
             <motion.button
               initial={{ backgroundColor: "grey" }}
               animate={{

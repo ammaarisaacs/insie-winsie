@@ -12,6 +12,8 @@ import { Menu, Button } from "../";
 // https://youtu.be/NZKUirTtxcg
 
 const Products = () => {
+  const [showMenu, setShowMenu] = useState(false);
+
   const {
     data,
     isPending,
@@ -23,8 +25,6 @@ const Products = () => {
     setSearchQuery,
     styling,
   } = useFilterSearch(fetchProducts);
-
-  const [showMenu, setShowMenu] = useState(false);
 
   const menuProps = {
     show: showMenu,

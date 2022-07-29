@@ -1,9 +1,3 @@
-const validateEmail = (email) => {
-  const re =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email);
-};
-
 const touched = true;
 
 export default (fields, submit = false) => {
@@ -11,7 +5,7 @@ export default (fields, submit = false) => {
 
   for (let field in fields) {
     const {
-      //   touched,
+      // touched,
       required,
       value,
       requiredMessage,
@@ -25,7 +19,11 @@ export default (fields, submit = false) => {
       maxLength,
       maxLengthMessage,
       numeric,
+      numericMessage,
       within,
+      withinMessage,
+      specialCharacters,
+      specialCharactersMessage,
     } = fields[field];
 
     if (submit) {
@@ -38,14 +36,50 @@ export default (fields, submit = false) => {
         : "This field is required!";
     }
 
-    if (file && required && Object.keys(value).length === 0 && touched) {
-      errors[field] = requiredMessage
-        ? requiredMessage
-        : "This field is required!";
+    if (
+      !errors[field] &&
+      numeric &&
+      value !== "" &&
+      containsLetters(value) &&
+      touched
+    ) {
+      errors[field] = numericMessage
+        ? numericMessage
+        : "This field cannot have letters.";
+    }
+
+    if (
+      !errors[field] &&
+      value !== "" &&
+      specialCharacters === false &&
+      containsSpecialChars(value) &&
+      touched
+    ) {
+      errors[field] = specialCharactersMessage
+        ? specialCharactersMessage
+        : "Invalid characters.";
+    }
+
+    if (
+      !errors[field] &&
+      value !== "" &&
+      within &&
+      !isWithin(value, within) &&
+      touched
+    ) {
+      errors[field] = withinMessage
+        ? withinMessage
+        : "This field has an invalid option.";
     }
 
     if (!errors[field] && email && !validateEmail(value) && touched) {
       errors[field] = emailMessage ? emailMessage : "Invalid email address!";
+    }
+
+    if (file && required && Object.keys(value).length === 0 && touched) {
+      errors[field] = requiredMessage
+        ? requiredMessage
+        : "This field is required!";
     }
 
     if (
@@ -83,10 +117,6 @@ export default (fields, submit = false) => {
         : `This field must have less than ${fields[field].maxLength} characters`;
     }
 
-    // numeric check
-
-    // whiteList check
-
     // if (
     //   !errors[field] &&
     //   file &&
@@ -115,3 +145,29 @@ export default (fields, submit = false) => {
   }
   return errors;
 };
+
+function validateEmail(email) {
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
+
+function containsSpecialChars(str) {
+  const specialChars = `\`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`;
+  return specialChars.split("").some((specialChar) => {
+    if (str.includes(specialChar)) return true;
+    return false;
+  });
+}
+
+function containsLetters(str) {
+  const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  return letters.split("").some((letter) => {
+    if (str.includes(letter)) return true;
+    return false;
+  });
+}
+
+function isWithin(str, arr) {
+  return arr.indexOf(str) > -1;
+}

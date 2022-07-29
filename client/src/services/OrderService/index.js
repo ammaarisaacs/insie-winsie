@@ -1,6 +1,6 @@
 import * as api from "../api";
 
-export const getShippingCharger = (shippingData) => {
+export const sendShippingData = (shippingData) => {
   return api.sendShippingData(shippingData);
 };
 
@@ -8,6 +8,6 @@ export const sendOrderData = (orderData) => {
   return api.sendOrderData(orderData);
 };
 
-export const confirmPayment = (id) => {
-  return api.confirmPayment(id);
+export const sendPaymentId = (id) => {
+  return api.sendPaymentId(id);
 };

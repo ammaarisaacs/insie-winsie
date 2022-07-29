@@ -30,9 +30,13 @@ const useFetch = (cb, loc) => {
   // could have a refetch function here to update if the use goes away
 
   const styling = {
-    fontSize: "2rem",
+    fontSize: "1rem",
     width: "fit-content",
+    maxWidth: 500,
+    display: "flex",
+    alignItems: "center",
     margin: "auto",
+    textAlign: "center",
   };
 
   return { data, isPending, error, styling };
