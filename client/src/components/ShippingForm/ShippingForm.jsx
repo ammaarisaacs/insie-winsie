@@ -17,7 +17,7 @@ const ShippingForm = ({
   const {
     formData,
     errors,
-    handleChange: handleSuperChange,
+    handleChange,
     handleSubmit,
     confirmation,
     setConfirmation,
@@ -46,18 +46,16 @@ const ShippingForm = ({
       });
       setShippingRate(data.charge);
       setNotClickable(false);
-      // showToast("Success");
       setConfirmation("Shipping sorted!");
     } catch (error) {
       setNotClickable(true);
       setShippingRate(null);
       setConfirmation(error);
-      // showToast(error.response.data);
     }
   };
 
   return (
-    <div className={styles.shipping_form_container}>
+    <div className={styles.container}>
       <p>Please enter your shipping details.</p>
       <hr />
       <form
@@ -71,7 +69,7 @@ const ShippingForm = ({
             id={"firstName"}
             name={"firstName"}
             text={"First Name"}
-            onChange={(e) => handleSuperChange(e)}
+            onChange={(e) => handleChange(e)}
             error={errors.firstName}
           />
           <Input
@@ -79,7 +77,7 @@ const ShippingForm = ({
             id={"lastName"}
             name={"lastName"}
             text={"Last Name"}
-            onChange={(e) => handleSuperChange(e)}
+            onChange={(e) => handleChange(e)}
             error={errors.lastName}
           />
         </div>
@@ -89,7 +87,7 @@ const ShippingForm = ({
             id={"cellphone"}
             name={"cellphone"}
             text={"Contact number"}
-            onChange={(e) => handleSuperChange(e)}
+            onChange={(e) => handleChange(e)}
             error={errors.cellphone}
           />
           <Input
@@ -97,7 +95,7 @@ const ShippingForm = ({
             id={"email"}
             name={"email"}
             text={"Email"}
-            onChange={(e) => handleSuperChange(e)}
+            onChange={(e) => handleChange(e)}
             error={errors.email}
           />
         </div>
@@ -106,7 +104,7 @@ const ShippingForm = ({
           id={"street"}
           name={"street"}
           text={"Street"}
-          onChange={(e) => handleSuperChange(e)}
+          onChange={(e) => handleChange(e)}
           error={errors.street}
         />
         <Input
@@ -114,7 +112,7 @@ const ShippingForm = ({
           id={"area"}
           name={"area"}
           text={"Area"}
-          onChange={(e) => handleSuperChange(e)}
+          onChange={(e) => handleChange(e)}
           error={errors.area}
         />
         <div className={styles.fields2}>
@@ -123,7 +121,7 @@ const ShippingForm = ({
             id={"zipcode"}
             name={"zipcode"}
             text={"Zipcode"}
-            onChange={(e) => handleSuperChange(e)}
+            onChange={(e) => handleChange(e)}
             error={errors.zipcode}
           />
           <Input
@@ -131,7 +129,7 @@ const ShippingForm = ({
             id={"city"}
             name={"city"}
             text={"City"}
-            onChange={(e) => handleSuperChange(e)}
+            onChange={(e) => handleChange(e)}
             error={errors.city}
           />
           <label className={styles.field}>
@@ -142,7 +140,7 @@ const ShippingForm = ({
               className={styles.field__input}
               id="province"
               name="province"
-              onChange={(e) => handleSuperChange(e)}
+              onChange={(e) => handleChange(e)}
               value={formData.province.value}
             >
               <option hidden value>
@@ -308,21 +306,3 @@ const ShippingForm = ({
 };
 
 export default ShippingForm;
-
-// const errors = {}
-// // const errors = {first: 'something'}
-// let cannotSubmit = true;
-// if (Object.keys(errors).length === 0) cannotSubmit = false
-// cannotSubmit
-// // the contact form was easy because you only chekcing errors and color doesn't matter to you
-// const firstShip = true
-// const firstBill = true
-// const firstisSame = true
-// const firstdisabled = (firstShip && (firstisSame ? true : firstBill))
-// firstdisabled
-// // with or
-// const secondship = false
-// const secondbill = false
-// const secondsame = false
-// const seconddisabled = (secondship  || (secondsame ? false : secondbill))
-// seconddisabled

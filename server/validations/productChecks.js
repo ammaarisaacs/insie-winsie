@@ -1,5 +1,13 @@
 const { body, param, query } = require("express-validator");
 
+// search
+// sanitize
+
+// category
+// whitelist check with categories
+// can be an array
+// check if it is a number or array with number inside, return error invalidQuery()
+
 exports.fetchProductsChecks = [query("category"), query("search")];
 exports.fetchProductChecks = {};
 exports.createProductChecks = {};

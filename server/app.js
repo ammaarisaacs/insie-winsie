@@ -2,29 +2,27 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const path = require("path");
-const db = require("./models");
+const db = require("./db/models");
 const helmet = require("helmet");
-
+const corp = require("./middlewares/corp");
+const productsRoute = require("./routes/productsRoutes");
+const checkoutRoute = require("./routes/orderRoutes");
+const contactsRoute = require("./routes/contactRoutes");
+const noRoutesHandler = require("./middlewares/noRoutes");
+const apiErrorHandler = require("./middlewares/error");
 require("dotenv").config();
+
+console.clear();
 
 const PORT = process.env.PORT || 5000;
 
-const productsRoute = require("./routes/products");
-const checkoutRoute = require("./routes/order");
-const contactsRoute = require("./routes/contact");
-
-const apiErrorHandler = require("./middlewares/error");
+const helmetConfig = helmet({
+  crossOriginEmbedderPolicy: false,
+});
 
 // only works over https, so only during production
-app.use(
-  helmet({
-    crossOriginEmbedderPolicy: false,
-  })
-);
-app.use((req, res, next) => {
-  res.setHeader("Cross-Origin-Resource-Policy", "same-site");
-  next();
-});
+app.use(helmetConfig);
+app.use(corp);
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -33,7 +31,7 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 app.use("/products", productsRoute);
 app.use("/order", checkoutRoute);
 app.use("/contact", contactsRoute);
-
+app.use(noRoutesHandler);
 app.use(apiErrorHandler);
 
 db.sequelize.sync().then(() => {
@@ -42,9 +40,3 @@ db.sequelize.sync().then(() => {
     console.log(`Server listening on port: ${PORT}`);
   });
 });
-
-// search terms
-// how to pass errors between react, express and sequelize
-// error flow from sequelize to express
-// how to construct http responses for express
-// how to build a production ready express api

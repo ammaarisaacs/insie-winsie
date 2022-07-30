@@ -1,63 +1,50 @@
 const axios = require("axios");
 const crypto = require("crypto");
 const dns = require("dns");
+require("dotenv").config();
 
-const { order_detail, product } = require("../models");
-const ApiError = require("../errors/errors");
+function createPayData(order, id) {
+  const myData = [];
 
-const testingMode = true;
-const pfHost = testingMode ? "sandbox.payfast.co.za" : "www.payfast.co.za";
+  myData["merchant_id"] = "10026685";
+  myData["merchant_key"] = "hu59n36aijojn";
+  myData["return_url"] = `http://localhost:3000/checkout/success/${id}`;
+  myData["cancel_url"] = "http://localhost:3000/checkout";
+  myData["notify_url"] =
+    "https://38f4-105-243-149-77.sa.ngrok.io/order/success";
+  // myData["notify_url"] = `${process.env.SERVER_URL}/order/success`;
+  myData["name_first"] = order.first_name;
+  myData["name_last"] = order.last_name;
+  myData["email_address"] = order.email;
+  myData["m_payment_id"] = "01AB";
+  myData["amount"] = order.total.toString();
+  myData["item_name"] = order.order_number.toString();
+  myData["signature"] = generateSignature(myData);
 
-module.exports = async function verifyPayment(req, res, next) {
-  const pfData = JSON.parse(JSON.stringify(req.body));
+  return myData;
+}
 
-  console.log(pfData);
-
-  let pfParamString = "";
-  for (let key in pfData) {
-    if (pfData.hasOwnProperty(key) && key !== "signature") {
-      pfParamString += `${key}=${encodeURIComponent(pfData[key].trim()).replace(
-        /%20/g,
-        "+"
-      )}&`;
+function generateSignature(data, passPhrase = null) {
+  let pfOutput = "";
+  for (let key in data) {
+    if (data.hasOwnProperty(key)) {
+      if (data[key] !== "") {
+        pfOutput += `${key}=${encodeURIComponent(data[key].trim()).replace(
+          /%20/g,
+          "+"
+        )}&`;
+      }
     }
   }
-
-  let plainOrder, cartTotal;
-
-  try {
-    const order = await order_detail.findOne({
-      where: { order_number: parseInt(pfData.item_name) },
-      include: [{ model: product, through: { attributes: ["order_qty"] } }],
-    });
-
-    // validate ITN with other credentials here
-
-    plainOrder = order.get({ plain: true });
-
-    cartTotal = plainOrder.total;
-  } catch (error) {
-    return next(ApiError.internal());
+  let getString = pfOutput.slice(0, -1);
+  if (passPhrase !== null) {
+    getString += `&passphrase=${encodeURIComponent(passPhrase.trim()).replace(
+      /%20/g,
+      "+"
+    )}`;
   }
-
-  // Remove last ampersand
-  pfParamString = pfParamString.slice(0, -1);
-
-  const check1 = pfValidSignature(pfData, pfParamString);
-  const check2 = pfValidIP(req);
-  const check3 = pfValidPaymentData(cartTotal, pfData);
-  const check4 = pfValidServerConfirmation(pfHost, pfParamString);
-
-  if (check1 && check2 && check3 && check4) {
-    // All checks have passed, the payment is successful
-    req.body.order = plainOrder;
-    next();
-  } else {
-    // Some checks have failed, check payment manually and log for investigation
-    next(ApiError.internal("Invalid payment. Please contact us for support."));
-    // cancel the payment
-  }
-};
+  return crypto.createHash("md5").update(getString).digest("hex");
+}
 
 function pfValidSignature(pfData, pfParamString, pfPassphrase = null) {
   // Calculate security signature
@@ -136,3 +123,11 @@ async function ipLookup(domain) {
     });
   });
 }
+
+module.exports = {
+  createPayData,
+  pfValidSignature,
+  pfValidIP,
+  pfValidPaymentData,
+  pfValidServerConfirmation,
+};

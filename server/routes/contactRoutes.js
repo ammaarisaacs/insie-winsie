@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { createContact } = require("../controllers/contact");
+const { createContact } = require("../controllers/contactController");
 const { validateCreateContact } = require("../validations");
 
 router.route("/").post(validateCreateContact, createContact);

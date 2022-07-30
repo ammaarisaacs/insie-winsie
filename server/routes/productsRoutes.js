@@ -7,7 +7,7 @@ const {
   fetchProducts,
   fetchCarouselProducts,
   deleteProduct,
-} = require("../controllers/products");
+} = require("../controllers/productsController");
 
 router.route("/").get(fetchProducts).post(createProduct).delete(deleteProduct);
 

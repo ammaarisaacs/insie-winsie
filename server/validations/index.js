@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
-const { productChecks } = require("./product");
-const { ShippingRateChecks, CreateOrdersChecks } = require("./order");
-const { contactChecks } = require("./contact");
+const { productChecks } = require("./productChecks");
+const { contactChecks } = require("./contactChecks");
+const { ShippingRateChecks, CreateOrdersChecks } = require("./orderChecks");
 
 // product
 
@@ -18,10 +18,8 @@ exports.validateCreateContact = makeValidation(contactChecks);
 
 function makeValidation(checks) {
   return async (req, res, next) => {
-    console.log(req.body);
     await Promise.all(checks.map((check) => check.run(req)));
     const errors = validationResult(req);
-    console.log(errors);
     const sentErrors = errors.array().map((error) => error.msg);
     if (!errors.isEmpty()) {
       res.status(400).json(sentErrors);

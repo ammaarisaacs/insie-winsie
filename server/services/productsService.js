@@ -1,7 +1,7 @@
-const { product, media, category_detail } = require("../models");
+const { product, media, category_detail } = require("../db/models");
 
 exports.getProducts = (search, category) => {
-  const products = product.findAll({
+  return product.findAll({
     attributes: ["id", "name", "description", "price", "stock_qty"],
     where: search ? { name: search } : {},
     include: [
@@ -13,6 +13,4 @@ exports.getProducts = (search, category) => {
       },
     ],
   });
-
-  return products;
 };

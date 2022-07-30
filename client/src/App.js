@@ -13,6 +13,7 @@ import {
   PageNotFound,
   ProductDetail,
   Cart,
+  ErrorBoundary,
 } from "./components";
 import {
   AboutPage,
@@ -29,20 +30,22 @@ const AnimatedRoutes = () => {
   const location = useLocation();
 
   return (
-    <AnimatePresence exitBeforeEnter>
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/faqs" element={<FaqPage />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/products/:id" element={<ProductDetail />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/checkout/success/:id" element={<SuccessPage />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </AnimatePresence>
+    <ErrorBoundary>
+      <AnimatePresence exitBeforeEnter>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/faqs" element={<FaqPage />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/checkout/success/:id" element={<SuccessPage />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </AnimatePresence>
+    </ErrorBoundary>
   );
 };
 
@@ -113,6 +116,8 @@ export default App;
 // use uuid where you can
 // convert all static images to webp
 // rate limiting - for future?
+// how to construct http responses for express
+// how to build a production ready express api
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -152,6 +157,7 @@ export default App;
 // ssl and https -> lets encrypt
 // check helmet and how to enable pictures in client for production
 // white list config files for emails, provinces, cities, urls https://stackoverflow.com/questions/36393256/express-cors-domain-whitelist https://www.tabnine.com/code/javascript/functions/express-validator/ValidationChain/isIn
+// configure prettier to not add ; to .env file
 
 // client
 

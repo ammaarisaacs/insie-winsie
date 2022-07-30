@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const verifyPayment = require("../middlewares/verifyPayment");
+const validatePayment = require("../middlewares/validatePayment");
 
 const {
   validateCreateOrder,
@@ -17,13 +17,13 @@ const {
   fetchOrders,
   completeOrder,
   confirmPayment,
-} = require("../controllers/order");
+} = require("../controllers/orderController");
 
 router.route("/").get(fetchOrders).post(validateCreateOrder, createOrder);
 
 router.route("/shipping").post(validateFetchShippingRate, getShippingRate);
 
-router.route("/success").post(verifyPayment, completeOrder);
+router.route("/success").post(validatePayment, completeOrder);
 
 router.route("/success/:id").get(confirmPayment);
 

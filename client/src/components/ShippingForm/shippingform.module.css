@@ -1,6 +1,7 @@
-.shipping_form_container {
-  width: clamp(300px, 40%, 600px);
+.container {
+  width: fit-content;
   height: fit-content;
+  padding-inline: 1rem;
 }
 
 .form,

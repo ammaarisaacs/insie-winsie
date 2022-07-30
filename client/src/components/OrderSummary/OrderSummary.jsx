@@ -13,56 +13,30 @@ const OrderSummary = () => {
   const [notClickable, setNotClickable] = useState(true);
   const [orderData, setOrderData] = useState({});
   const [payData, setPayData] = useState({});
-  const [merchantId, setMerchantId] = useState("");
-  const [merchantKey, setMerchantKey] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [orderNumber, setOrderNumber] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [returnUrl, setReturnUrl] = useState("");
-  const [cancelUrl, setCancelUrl] = useState("");
-  const [notifyUrl, setNotifyUrl] = useState("");
-  const [signature, setSignature] = useState("");
-
+  const [paymentErrors, setPaymentErrors] = useState(null);
+  const { cartItems, totalPrice, shippingRate } = useStateContext();
   const ref = useRef();
 
-  const { cartItems, totalPrice, shippingRate, showToast } = useStateContext();
-
-  const validateOrder = async (e) => {
+  const getPaymentData = async (e) => {
     e.preventDefault();
-
     try {
       const { data } = await sendOrderData(orderData);
-      console.log(data);
       setPayData(data);
-      setMerchantId(data.merchant_id);
-      setMerchantKey(data.merchant_key);
-      setFirstName(data.name_first);
-      setLastName(data.name_last);
-      setEmail(data.email_address);
-      setOrderNumber(data.item_name);
-      setAmount(data.amount);
-      setSignature(data.signature);
-      setReturnUrl(data.return_url);
-      setCancelUrl(data.cancel_url);
-      setNotifyUrl(data.notify_url);
     } catch (error) {
-      showToast(error.response.data);
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    console.log("order data", orderData);
-    console.log("pay Data", payData);
-    const clientAmount = 500;
-    // const clientAmount = (totalPrice + shippingRate).toFixed(2);
-
     if (Object.keys(orderData).length > 0 && Object.keys(payData).length > 0) {
       const errors = validate(payData, orderData);
-      if (Object.keys(errors).length === 0) ref.current.submit();
+      if (Object.keys(errors).length !== 0) {
+        setPaymentErrors(errors);
+      } else {
+        ref.current.submit();
+      }
     }
-  }, [amount, signature, payData]);
+  }, [payData]);
 
   return (
     <main className={styles.order_summary_container}>
@@ -125,22 +99,29 @@ const OrderSummary = () => {
             action="https://sandbox.payfast.co.za/eng/process"
             method="post"
           >
-            {Object.keys(payData).length > 0 && (
-              <>
-                <input type="hidden" name="merchant_id" value={merchantId} />
-                <input type="hidden" name="merchant_key" value={merchantKey} />
-                <input type="hidden" name="return_url" value={returnUrl} />
-                <input type="hidden" name="cancel_url" value={cancelUrl} />
-                <input type="hidden" name="notify_url" value={notifyUrl} />
-                <input type="hidden" name="name_first" value={firstName} />
-                <input type="hidden" name="name_last" value={lastName} />
-                <input type="hidden" name="email_address" value={email} />
-                <input type="hidden" name="m_payment_id" value="01AB" />
-                <input type="hidden" name="amount" value={amount} />
-                <input type="hidden" name="item_name" value={orderNumber} />
-                <input type="hidden" name="signature" value={signature} />
-              </>
-            )}
+            {Object.keys(payData).length > 0 &&
+              [
+                "merchant_id",
+                "merchant_key",
+                "return_url",
+                "cancel_url",
+                "notify_url",
+                "name_first",
+                "name_last",
+                "email_address",
+                "m_payment_id",
+                "amount",
+                "item_name",
+                "signature",
+              ].map((item) => (
+                <input
+                  type="hidden"
+                  key={item}
+                  name={item}
+                  value={payData[item]}
+                />
+              ))}
+
             <motion.button
               initial={{ backgroundColor: "grey" }}
               animate={{
@@ -152,12 +133,33 @@ const OrderSummary = () => {
               whileHover={{ scale: 1.1 }}
               className={styles.pay_now}
               disabled={notClickable}
-              onClick={(e) => validateOrder(e)}
+              onClick={(e) => getPaymentData(e)}
               type="submit"
             >
               Pay Now
             </motion.button>
           </form>
+          {paymentErrors && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              style={{
+                backgroundColor: "red",
+                borderRadius: 10,
+                marginTop: "1rem",
+                padding: "1rem",
+                width: "100%",
+                color: "white",
+              }}
+            >
+              {Object.values(paymentErrors).map((error) => (
+                <p>{error}</p>
+              ))}
+              <p>Please contact us for support</p>
+            </motion.div>
+          )}
         </div>
       </div>
     </main>

@@ -2,22 +2,24 @@ const {
   product,
   ship_method,
   order_detail,
-  order_item,
   address,
   payment_detail,
   sequelize,
-} = require("../models");
-
+} = require("../db/models");
 const ApiError = require("../errors/errors");
-const createPayData = require("../utils/generateSignature");
+const { createPayData } = require("../services/paymentService");
+const {
+  getProductsById,
+  getMaxOrderNumber,
+  getShipMethod,
+  getAddress,
+  createAddress,
+  getOrderByOrderNumber,
+  createOrder,
+  createOrderItems,
+} = require("../services/orderService");
 
-const attributeConfig = {};
-
-// when you purchase something, a code must be sent to the buyer email, this can be used to track the order and look at the order details
 // therefore payment_details must contain that code
-// after payment, make a order success page, when that is rendered
-// that page must have a use effect that uses axios that makes a call to the server
-// when endpoint is hit, you have to:
 // send email to user about payment
 // send text about payment
 // take payment info from req,
@@ -25,60 +27,33 @@ const attributeConfig = {};
 // tie it to order
 
 // possibly improvements below
-//  make db models that are not connected to eachother, use promise.all
+// make db models that are not connected to eachother, use promise.all
 
 exports.createOrder = async function (req, res, next) {
-  let ship_address_id, bill_address_id;
-
-  const {
-    firstName: first_name,
-    lastName: last_name,
-    email,
-    cellphone,
-    street,
-    area,
-    city,
-    zipcode,
-    province,
-    method: { id: ship_method_id, charge },
-  } = req.body.shipping;
-
-  const {
-    street: billStreet = street,
-    area: billArea = area,
-    city: billCity = city,
-    zipcode: billZipCode = zipcode,
-    province: billProvince = province,
-  } = req.body.billing ?? {};
+  const { cart, shipping, billing = {} } = req.body;
+  const { items, total } = cart;
+  const { firstName, lastName, email, cellphone, method } = shipping;
+  const { id: shipMethodId, charge } = method;
 
   // check what it means to give something a default value, what default values are best for money and arrays
 
-  const { items = [], total = null } = req.body.cart;
-
-  const ids = items.map(({ product: cartItem }) => cartItem.id);
-
-  if (items.length < 1 || total == null) return next(ApiError.badRequest());
+  // validateProductService
 
   const t = await sequelize.transaction();
 
   try {
-    const products = await product.findAll(
-      {
-        where: { id: ids },
-        attributes: ["id", "name", "description", "price", "stock_qty"],
-        raw: true,
-      },
-      { transaction: t }
-    );
+    const ids = items.map(({ product: cartItem }) => cartItem.id);
+    if (items.length < 1 || !total) return next(ApiError.badRequest());
 
+    const products = await getProductsById(ids, t);
     if (products.length < 1) return next(ApiError.notAvailable());
-
     if (products.length !== items.length) return next(ApiError.cartError());
 
     // initialize two variables
     // serverTotal = number, checks = []
     // use one reduce, to add to servertotal and to checks
 
+    // validateCart
     const productChecks = items.map(({ product: cartProduct, orderQty }) => {
       const product = products.find((product) => cartProduct.id === product.id);
       const priceIsSame = cartProduct.price === product.price;
@@ -89,164 +64,86 @@ exports.createOrder = async function (req, res, next) {
     if (productChecks.some((check) => check === false))
       return next(ApiError.cartError());
 
+    // validateShipping
+
+    const shipMethod = await getShipMethod(shipMethodId, t);
+    const serverCharge = shipMethod.charge;
+    if (serverCharge !== charge) return next(ApiError.orderError());
+
+    // validateCost
+
     const serverTotal = products.reduce((total, product) => {
       const cartItem = items.find(
         ({ product: cartProduct }) => product.id === cartProduct.id
       );
       return total + product.price * cartItem.orderQty;
     }, 0);
-
-    const shipMethod = await ship_method.findOne(
-      {
-        where: { id: ship_method_id },
-        raw: true,
-      },
-      { transaction: t }
-    );
-
-    const serverCharge = shipMethod.charge;
-
-    if (serverCharge !== charge) return next(ApiError.orderError());
-
     const serverGrandTotal = parseFloat(
       (serverTotal + serverCharge).toFixed(2)
     );
-
     const clientGrandTotal = parseFloat((total + charge).toFixed(2));
-
     if (clientGrandTotal != serverGrandTotal) return next(ApiError.cartError());
 
-    const existingShipAddress = await address.findOne(
-      {
-        where: { street, area, city, zipcode, province },
-        raw: true,
-      },
-      { transaction: t }
-    );
-
-    if (existingShipAddress) {
-      ship_address_id = existingShipAddress.id;
-    } else {
-      const newAddress = await address.create(
-        {
-          street,
-          area,
-          city,
-          zipcode,
-          province,
-          created_at: new Date(),
-          updated_at: new Date(),
-        },
-        { transaction: t }
-      );
-
-      ship_address_id = newAddress.id;
-    }
-
-    const existingbillAddress = await address.findOne(
-      {
-        where: {
-          street: billStreet,
-          area: billArea,
-          city: billCity,
-          zipcode: billZipCode,
-          province: billProvince,
-        },
-      },
-      { transaction: t }
-    );
-
-    if (existingbillAddress) {
-      bill_address_id = existingbillAddress.id;
-    } else {
-      const newAddress = await address.create(
-        {
-          street: billStreet,
-          area: billArea,
-          city: billCity,
-          zipcode: billZipCode,
-          province: billProvince,
-          created_at: new Date(),
-          updated_at: new Date(),
-        },
-        { transaction: t }
-      );
-
-      bill_address_id = newAddress.id;
-    }
+    // validateAddressService
 
     // promise.all here for address checking and product checking
-    // validate
-    // promise.all here for address creation
+
+    let existingAddress, shippingId, billingId;
+
+    existingAddress = await getAddress(shipping);
+    if (existingAddress) {
+      shippingId = existingAddress.id;
+    } else {
+      shippingId = (await createAddress(shipping, t)).id;
+    }
+
+    if (Object.keys(billing).length > 0) {
+      existingAddress = await getAddress(billing, t);
+      if (existingAddress) {
+        billingId = existingAddress.id;
+      } else {
+        billingId = (await createAddress(billing, t)).id;
+      }
+    } else {
+      billingId = shippingId;
+    }
 
     console.log("createOrder: getting max order number");
 
-    const maxOrderNumber = await order_detail.findOne(
-      {
-        attributes: [sequelize.fn("max", sequelize.col("order_number"))],
-        raw: true,
-      },
-      { transaction: t }
-    );
+    // createOrderService
 
-    const formattedOrderNumber = Object.values(maxOrderNumber)[0];
+    const maxOrderNumber = await getMaxOrderNumber(t);
+    const orderNumber = maxOrderNumber + 1;
 
-    const order_number = formattedOrderNumber + 1;
-
-    const existingOrder = await order_detail.findOne(
-      {
-        where: { order_number },
-        raw: true,
-      },
-      { transaction: t }
-    );
-
+    const existingOrder = await getOrderByOrderNumber(orderNumber, t);
     if (existingOrder) return next(ApiError.orderError());
-
-    const order = await order_detail.create(
-      {
-        order_number,
-        first_name,
-        last_name,
-        email,
-        total: serverGrandTotal,
-        cellphone,
-        ship_address_id,
-        bill_address_id,
-        ship_method_id,
-        status: "pending",
-      },
-      { transaction: t }
+    const order = await createOrder(
+      orderNumber,
+      firstName,
+      lastName,
+      email,
+      serverGrandTotal,
+      cellphone,
+      shippingId,
+      billingId,
+      shipMethodId,
+      t
     );
 
     const orderId = order.id;
-
-    const updates = items.map(({ product: cartProduct, orderQty }) => {
-      const { id } = products.find((product) => product.id === cartProduct.id);
-      return order_item.create(
-        {
-          order_id: orderId,
-          product_id: id,
-          order_qty: orderQty,
-        },
-        { transaction: t }
-      );
-    });
-
+    const updates = createOrderItems(orderId, items, products, t);
     const results = await Promise.all(updates);
-
     if (results.some((result) => result < 1)) return next(ApiError.internal());
 
+    // createpaymentData
     console.log("createOrder: creating pay data ");
-
-    const myData = createPayData(order, orderId);
-
-    res.send({ ...myData });
+    const payData = createPayData(order, orderId);
+    res.send({ ...payData });
 
     await t.commit();
   } catch (error) {
+    console.log(error);
     await t.rollback();
-
     next(ApiError.internal());
   }
 };
@@ -270,6 +167,7 @@ exports.completeOrder = async function (req, res, next) {
   } = req.body;
 
   // any validation
+
   console.log(
     "completeOrder: notify url: received payment status as ",
     payment_status
@@ -285,6 +183,8 @@ exports.completeOrder = async function (req, res, next) {
 
   try {
     console.log("completeOrder: updating stock quantities of products bought");
+
+    //
 
     const productUpdates = products.map((cartProduct) => {
       const { id, stock_qty: stockQty } = cartProduct;
@@ -328,14 +228,9 @@ exports.completeOrder = async function (req, res, next) {
 
     await t.commit();
 
-    res.status(200);
-
-    // where are you ressing to though
-    // res.send(payment_status);
-    // use this as well to check
+    res.status(200).send();
   } catch (error) {
     await t.rollback();
-    console.log(error);
     return next(ApiError.internal());
   }
 };

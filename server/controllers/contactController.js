@@ -1,4 +1,4 @@
-const { contact, sequelize } = require("../models");
+const { contact, sequelize } = require("../db/models");
 const ApiError = require("../errors/errors");
 
 exports.createContact = async (req, res, next) => {

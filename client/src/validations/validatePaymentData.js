@@ -1,3 +1,5 @@
+import validateUrl from "./validateUrl";
+
 export default (payData, orderData) => {
   let errors = {};
 
@@ -16,16 +18,30 @@ export default (payData, orderData) => {
   } = payData;
 
   const { shipping, cart } = orderData;
-  const { email, method } = shipping;
+  const { firstName, lastName, cellphone, email, method } = shipping;
   const { charge } = method;
 
   if (
     Object.keys(payData).map((field) => {
       if (payData[field] === "" || payData[field] == null) {
-        errors[field] = "missing";
+        errors[field] = "missing value";
       }
     })
   );
+
+  if (name_first !== firstName.toLowerCase())
+    errors.firstName = "first name does not match";
+  if (name_last !== lastName.toLowerCase())
+    errors.lastName = "last name does not match";
+
+  const validatedReturnUrl = validateUrl(return_url);
+  if (!validatedReturnUrl) errors.return_url = "return url is wrong";
+
+  const validatedCancelUrl = validateUrl(cancel_url);
+  if (!validatedCancelUrl) errors.return_url = "cancel url is wrong";
+
+  const validatedNotifyUrl = validateUrl(notify_url);
+  if (!validatedNotifyUrl) errors.return_url = "notify url is wrong";
 
   const cartTotal = cart.items.reduce((tot, item) => {
     const { orderQty, product } = item;

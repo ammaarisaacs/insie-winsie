@@ -43,4 +43,5 @@ export { default as ShippingForm } from "./ShippingForm/ShippingForm";
 
 export { default as ContactForm } from "./ContactForm/ContactForm";
 
+export { default as ErrorBoundary } from "./ErrorBoundary/ErrorBoundary";
 export { default as PageNotFound } from "./PageNotFound/PageNotFound";

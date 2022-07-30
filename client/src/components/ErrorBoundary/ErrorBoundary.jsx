@@ -1,3 +1,5 @@
+import React from "react";
+
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +19,14 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <h1>Something went wrong.</h1>;
+      return (
+        <div
+          style={{ display: "grid", placeItems: "center", minHeight: "60vh" }}
+        >
+          <h1>Something went wrong.</h1>
+          <p>Please contact us for support.</p>
+        </div>
+      );
     }
 
     return this.props.children;

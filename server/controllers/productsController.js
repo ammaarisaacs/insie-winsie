@@ -1,6 +1,6 @@
-const { product, media, category_detail } = require("../models");
+const { product } = require("../db/models");
 const ApiError = require("../errors/errors");
-const { getProducts } = require("../services/products.js");
+const { getProducts } = require("../services/productsService");
 
 // const multer = require("multer");
 // const upload = multer({ dest: "./images" });
@@ -30,14 +30,6 @@ exports.createProduct = async function (req, res, next) {
 exports.fetchProducts = async function (req, res, next) {
   const { search, category } = req.query;
 
-  // search
-  // sanitize
-
-  // category
-  // whitelist check with categories
-  // can be an array
-  // check if it is a number or array with number inside, return error invalidQuery()
-
   let queries = {};
 
   if (Array.isArray(category)) queries.category = category;
@@ -51,19 +43,6 @@ exports.fetchProducts = async function (req, res, next) {
     // check if sql injection can happen here in search in queries
 
     const products = await getProducts(search, category);
-
-    // const products = await product.findAll({
-    //   attributes: ["id", "name", "description", "price", "stock_qty"],
-    //   where: req.query.search ? { name: queries.search } : {},
-    //   include: [
-    //     { model: media, attributes: ["file_name", "alt_text"] },
-    //     {
-    //       model: category_detail,
-    //       attributes: [],
-    //       where: req.query.category ? { name: queries.category } : {},
-    //     },
-    //   ],
-    // });
 
     // possible check for length here, return no products found
 
