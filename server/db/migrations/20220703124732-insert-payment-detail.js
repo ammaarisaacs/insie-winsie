@@ -6,7 +6,7 @@ module.exports = {
       {
         name: "token123",
         amount: 200,
-        provider: "fnb",
+        // provider: "fnb",
         // status: "pending",
         created_at: new Date(),
         updated_at: new Date(),
@@ -15,7 +15,7 @@ module.exports = {
       {
         name: "somethingelse",
         amount: 200,
-        provider: "standardBank",
+        // provider: "standardBank",
         // status: "pending",
         created_at: new Date(),
         updated_at: new Date(),

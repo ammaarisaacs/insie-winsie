@@ -1,5 +1,5 @@
 const { order_detail, product } = require("../db/models");
-const ApiError = require("../errors/errors");
+const { ApiError } = require("../errors");
 const {
   pfValidSignature,
   pfValidIP,
@@ -24,7 +24,7 @@ module.exports = async function validatePayment(req, res, next) {
     }
   }
 
-  let plainOrder, cartTotal;
+  let cartTotal;
 
   try {
     const order = await order_detail.findOne({
@@ -34,7 +34,7 @@ module.exports = async function validatePayment(req, res, next) {
 
     // validate ITN with other credentials here
 
-    plainOrder = order.get({ plain: true });
+    const plainOrder = order.get({ plain: true });
 
     cartTotal = plainOrder.total;
     // Remove last ampersand

@@ -6,6 +6,7 @@ import ShippingForm from "../ShippingForm/ShippingForm";
 import { randify } from "../../utils/costing";
 import { sendOrderData } from "../../services/OrderService";
 import validate from "../../validations/validatePaymentData";
+import { useNavigate } from "react-router-dom";
 
 const staticUrl = "http://localhost:5000/static/";
 
@@ -16,6 +17,7 @@ const OrderSummary = () => {
   const [paymentErrors, setPaymentErrors] = useState(null);
   const { cartItems, totalPrice, shippingRate } = useStateContext();
   const ref = useRef();
+  const navigate = useNavigate();
 
   const getPaymentData = async (e) => {
     e.preventDefault();
@@ -23,7 +25,7 @@ const OrderSummary = () => {
       const { data } = await sendOrderData(orderData);
       setPayData(data);
     } catch (error) {
-      console.log(error);
+      navigate("*");
     }
   };
 
@@ -155,7 +157,7 @@ const OrderSummary = () => {
               }}
             >
               {Object.values(paymentErrors).map((error) => (
-                <p>{error}</p>
+                <p key={error}>{error}</p>
               ))}
               <p>Please contact us for support</p>
             </motion.div>

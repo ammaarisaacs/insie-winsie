@@ -2,7 +2,7 @@
 
 const fs = require("fs");
 
-const fileNames = fs.readdirSync("./public");
+const fileNames = fs.readdirSync("../public");
 
 module.exports = {
   async up(queryInterface) {

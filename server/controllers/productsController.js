@@ -1,5 +1,5 @@
 const { product } = require("../db/models");
-const ApiError = require("../errors/errors");
+const { ApiError } = require("../errors/");
 const { getProducts } = require("../services/productsService");
 
 // const multer = require("multer");

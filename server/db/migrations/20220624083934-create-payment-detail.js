@@ -18,10 +18,10 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      provider: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
+      // provider: {
+      //   type: Sequelize.STRING,
+      //   allowNull: false,
+      // },
       order_id: {
         type: Sequelize.INTEGER,
         allowNull: false,

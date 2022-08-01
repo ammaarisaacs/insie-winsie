@@ -1,13 +1,16 @@
-const ApiError = require("../errors/errors");
-// require a logger lib because clg is synch. therefore not good for prod.
+const { UserError } = require("../errors");
 
 const apiErrorHandler = (err, req, res, next) => {
-  if (err instanceof ApiError) {
+  if (err instanceof UserError) {
     res.status(err.code).json(err.message);
-    return;
+  } else {
+    res.status(500).json("Something went wrong.");
   }
 
-  res.status(500).json("Internal server error.");
+  // logger of error
+  console.error("\x1b[31m%s\x1b[31m", err.code);
+  console.error("\x1b[31m%s\x1b[31m", err.message);
+  console.error("\x1b[31m%s\x1b[31m", err.stack);
 };
 
 module.exports = apiErrorHandler;

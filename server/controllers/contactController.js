@@ -1,5 +1,5 @@
 const { contact, sequelize } = require("../db/models");
-const ApiError = require("../errors/errors");
+const { ApiError } = require("../errors");
 
 exports.createContact = async (req, res, next) => {
   const { firstName, lastName, cellphone, email, message } = req.body;

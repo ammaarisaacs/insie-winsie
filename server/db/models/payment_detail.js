@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: { type: DataTypes.STRING, allowNull: false },
       amount: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
-      provider: { type: DataTypes.STRING, allowNull: false },
+      // provider: { type: DataTypes.STRING, allowNull: false },
       // status: { type: DataTypes.STRING, allowNull: false },
       order_id: {
         type: DataTypes.INTEGER,
