@@ -5,3 +5,4 @@ export { default as HomePage } from "./HomePage";
 export { default as CheckoutPage } from "./CheckoutPage";
 export { default as AboutPage } from "./AboutPage";
 export { default as SuccessPage } from "./SuccessPage";
+export { default as ErrorPage } from "./ErrorPage";

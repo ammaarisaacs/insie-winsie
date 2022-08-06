@@ -1,26 +1,15 @@
-const { contact, sequelize } = require("../db/models");
-const { ApiError } = require("../errors");
+const { ApiError, UserError } = require("../errors");
+const { createContactService } = require("../services/contactService");
 
 exports.createContact = async (req, res, next) => {
-  const { firstName, lastName, cellphone, email, message } = req.body;
-
   try {
-    const createdContact = await contact.create({
-      first_name: firstName,
-      last_name: lastName,
-      cellphone,
-      email,
-      message,
-      created_at: new Date(),
-      updated_at: new Date(),
-    });
-
-    if (!createdContact) return next(ApiError.contactError());
-
+    const result = await createContactService(req.body);
+    if (result instanceof ApiError || result instanceof UserError) {
+      next(result);
+      return;
+    }
     res.send("Success. We will be in contact with you.");
   } catch (error) {
-    return next(
-      ApiError.internal("Error making contact. Please try again later.")
-    );
+    return next(error);
   }
 };

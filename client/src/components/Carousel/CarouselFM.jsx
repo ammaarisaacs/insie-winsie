@@ -7,6 +7,7 @@ import { useInView } from "react-intersection-observer";
 import { carouselDrawPath, carouselPaths } from "../../data/paths";
 import useFetch from "../../hooks/useFetch";
 import { fetchCarousel } from "../../services/ProductService";
+import { STATIC_URL } from "../../constants";
 
 const CarouselFM = () => {
   const [width, setWidth] = useState(0);
@@ -21,9 +22,9 @@ const CarouselFM = () => {
     if (inView) setWidth(entry.target.scrollWidth - entry.target.offsetWidth);
   }, [inView]);
 
-  if (isPending) return <p style={styling}>Loading...</p>;
+  if (isPending) return <main style={styling}>Loading...</main>;
 
-  if (error) return <p style={styling}>{error}</p>;
+  if (error) return <main style={styling}>{error}</main>;
 
   return (
     <motion.div ref={carouselRef} className={styles.track}>
@@ -65,32 +66,22 @@ const CarouselFM = () => {
         {data?.map((product, i) => {
           const { id, name, price, description, media } = product;
           return (
-            <motion.div
+            <motion.article
               key={id}
-              initial={{
-                opacity: 0,
-                x: "200px",
-              }}
-              animate={
-                inView && {
-                  opacity: 1,
-                  x: 0,
-                  transition: {
-                    delay: i * 0.2,
-                    ease: "easeOut",
-                    duration: 1,
-                  },
-                }
-              }
+              initial={{ opacity: 0, x: 200 }}
+              animate={inView && { opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.2, ease: "easeOut", duration: 1 }}
             >
-              <img src={`http://localhost:5000/static/${media[0].file_name}`} />
-
-              <Link to={`products/${id}`} className={styles.carousel_info}>
+              <img src={`${STATIC_URL}/${media[0].file_name}`} />
+              <div className={styles.carousel_info}>
                 <h1>{name}</h1>
                 <h2>{price}</h2>
                 <p>{description}</p>
-              </Link>
-            </motion.div>
+                <Link to={`products/${id}`}>
+                  <button>details</button>
+                </Link>
+              </div>
+            </motion.article>
           );
         })}
       </motion.div>

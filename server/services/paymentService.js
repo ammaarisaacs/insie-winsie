@@ -5,14 +5,11 @@ require("dotenv").config();
 
 function createPayData(order, id) {
   const myData = [];
-
-  myData["merchant_id"] = "10026685";
-  myData["merchant_key"] = "hu59n36aijojn";
-  myData["return_url"] = `http://localhost:3000/checkout/success/${id}`;
-  myData["cancel_url"] = "http://localhost:3000/checkout";
-  myData["notify_url"] =
-    "https://38f4-105-243-149-77.sa.ngrok.io/order/success";
-  // myData["notify_url"] = `${process.env.SERVER_URL}/order/success`;
+  myData["merchant_id"] = process.env.PF_MERCHANT_ID;
+  myData["merchant_key"] = process.env.PF_MERCHANT_KEY;
+  myData["return_url"] = `${process.env.CLIENT_URL}/success/${id}`;
+  myData["cancel_url"] = `${process.env.CLIENT_URL}/checkout`;
+  myData["notify_url"] = `${process.env.HOST}/order/success`;
   myData["name_first"] = order.first_name;
   myData["name_last"] = order.last_name;
   myData["email_address"] = order.email;
@@ -20,7 +17,6 @@ function createPayData(order, id) {
   myData["amount"] = order.total.toString();
   myData["item_name"] = order.order_number.toString();
   myData["signature"] = generateSignature(myData);
-
   return myData;
 }
 

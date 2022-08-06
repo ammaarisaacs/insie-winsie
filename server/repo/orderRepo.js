@@ -142,7 +142,7 @@ exports.updateOrderDetailStatus = (id, t) => {
   );
 };
 
-exports.createPaymentDetail = (itn, t) => {
+exports.createPaymentDetail = (itn, order_id, t) => {
   const { pf_payment_id, amount_gross } = itn;
   return payment_detail.create(
     {
@@ -153,4 +153,49 @@ exports.createPaymentDetail = (itn, t) => {
     },
     { transaction: t }
   );
+};
+
+exports.getOrderInfo = (id) => {
+  return order_detail.findOne({
+    where: { id },
+    attributes: {
+      exclude: ["ship_address_id", "bill_address_id", "ship_method_id"],
+    },
+    include: [
+      {
+        model: product,
+        attributes: {
+          exclude: ["createdAt", "updatedAt", "in_carousel", "stock_qty"],
+        },
+        through: {
+          attributes: ["order_qty"],
+        },
+      },
+      {
+        model: address,
+        attributes: { exclude: ["createdAt", "updatedAt"] },
+        as: "shipAddressId",
+      },
+      {
+        model: address,
+        attributes: { exclude: ["createdAt", "updatedAt"] },
+        as: "billAddressId",
+      },
+      {
+        model: payment_detail,
+        attributes: { exclude: ["id"] },
+      },
+    ],
+  });
+};
+
+exports.getPaymentDetailByOrderId = (id) => {
+  return payment_detail.findOne({ where: { order_id: id } });
+};
+
+exports.getShippingMethodByAddress = (area, city) => {
+  return ship_method.findOne({
+    where: { area, city },
+    attributes: ["id", "charge"],
+  });
 };

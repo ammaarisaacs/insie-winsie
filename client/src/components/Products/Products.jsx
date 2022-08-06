@@ -20,9 +20,11 @@ const Products = () => {
     error,
     handleFilter,
     category,
+    searchQuery,
     search,
     setSearch,
     setSearchQuery,
+    handleClear,
     styling,
   } = useFilterSearch(fetchProducts);
 
@@ -38,15 +40,20 @@ const Products = () => {
     onClick: () => setSearch(!search),
   };
 
-  const sortProps = {
-    text: "sort",
-    // onClick: () => handleSort(sortQuery),
-  };
+  // const sortProps = {
+  //   text: "sort",
+  // onClick: () => handleSort(sortQuery),
+  // };
 
   const filterProps = {
     text: "filter",
     media: true,
     onClick: () => setShowMenu(!showMenu),
+  };
+
+  const clearProps = {
+    text: "clear",
+    onClick: handleClear,
   };
 
   const filterVariants = {
@@ -78,6 +85,7 @@ const Products = () => {
             type="search"
             placeholder="Search"
             onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchQuery}
           />
           <Button {...searchProps} />
         </div>
@@ -105,8 +113,9 @@ const Products = () => {
         ))}
 
         {/* make call to backend to sort the data then send back  */}
-        <Button {...sortProps} />
+        {/* <Button {...sortProps} /> */}
         <Button {...filterProps} />
+        <Button {...clearProps} />
         <Menu {...menuProps} />
       </div>
 
@@ -116,16 +125,17 @@ const Products = () => {
             <Product product={product} key={product.id} />
           ))
         ) : isPending ? (
-          <p style={styling}>Loading...</p>
+          <main style={styling}>Loading...</main>
         ) : error ? (
-          <p style={styling}>{error}</p>
+          <main style={styling}>{error}</main>
         ) : (
-          <motion.p
+          <motion.main
+            style={styling}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, transition: { duration: 1 } }}
           >
             No Products
-          </motion.p>
+          </motion.main>
         )}
       </motion.div>
 

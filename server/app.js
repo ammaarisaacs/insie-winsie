@@ -1,9 +1,9 @@
 const express = require("express");
 const app = express();
+const db = require("./db/models");
 const cors = require("cors");
 const path = require("path");
-const db = require("./db/models");
-const helmet = require("helmet");
+const helmetConfig = require("./middlewares/helmet");
 const corp = require("./middlewares/corp");
 const productsRoute = require("./routes/productsRoutes");
 const checkoutRoute = require("./routes/orderRoutes");
@@ -11,23 +11,18 @@ const contactsRoute = require("./routes/contactRoutes");
 const noRoutesHandler = require("./middlewares/noRoutes");
 const apiErrorHandler = require("./middlewares/error");
 require("dotenv").config();
-
-console.clear();
-
 const PORT = process.env.PORT || 5000;
 
-const helmetConfig = helmet({
-  crossOriginEmbedderPolicy: false,
-});
-
-// only works over https, so only during production
-app.use(helmetConfig);
+console.clear();
+app.use(helmetConfig); // only works over https, so only during production
 app.use(corp);
-app.use(cors());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(cors({ origin: process.env.CLIENT_URL }));
+app.use(express.urlencoded({ extended: true, limit: "5kb" }));
+app.use(express.json({ limit: "5kb" }));
+// app.use(validateContentType)
+// before processing the request, data contained in the request should be validated against the content type stated in the request headers.
+// 406 Not Acceptable response
 app.use("/static", express.static(path.join(__dirname, "public")));
-
 app.use("/products", productsRoute);
 app.use("/order", checkoutRoute);
 app.use("/contact", contactsRoute);

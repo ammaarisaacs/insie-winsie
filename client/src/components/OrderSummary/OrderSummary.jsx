@@ -7,8 +7,7 @@ import { randify } from "../../utils/costing";
 import { sendOrderData } from "../../services/OrderService";
 import validate from "../../validations/validatePaymentData";
 import { useNavigate } from "react-router-dom";
-
-const staticUrl = "http://localhost:5000/static/";
+import { STATIC_URL } from "../../constants";
 
 const OrderSummary = () => {
   const [notClickable, setNotClickable] = useState(true);
@@ -25,7 +24,7 @@ const OrderSummary = () => {
       const { data } = await sendOrderData(orderData);
       setPayData(data);
     } catch (error) {
-      navigate("*");
+      navigate("../error");
     }
   };
 
@@ -74,7 +73,7 @@ const OrderSummary = () => {
                 className={styles.order_item_container}
                 key={item.product.id}
               >
-                <img src={`${staticUrl}${fileName}`} alt={altText} />
+                <img src={`${STATIC_URL}${fileName}`} alt={altText} />
                 <p>{name}</p>
                 <p>{randify(price * orderQty)}</p>
               </motion.article>

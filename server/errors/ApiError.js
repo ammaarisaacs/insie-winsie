@@ -13,7 +13,7 @@ class ApiError extends Error {
     this.timestamp = Date.now();
   }
 
-  static notFound(msg = "Resource not found") {
+  static notFound(msg = "Resource not found.") {
     return new ApiError(404, msg);
   }
 

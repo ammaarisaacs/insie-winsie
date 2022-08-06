@@ -3,24 +3,18 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../../context/StateContext";
 import { randify } from "../../../utils/costing";
+import { STATIC_URL } from "../../../constants";
 
 const Product = ({ product, index }) => {
-  const { id, name, description, price, media } = product;
-  const { addToCart } = useStateContext();
-
-  const navigate = useNavigate();
-
-  const handleBuyNow = (product) => {
-    addToCart(product);
-    navigate("../checkout");
-  };
+  const { id, name, description, price, stock_qty, media } = product;
+  const { addToCart, handleBuyNow } = useStateContext();
 
   const productCardVariant = {
     initial: {
       opacity: 0,
     },
     animate: {
-      opacity: 1,
+      opacity: stock_qty < 100 ? 0.4 : 1,
       transition: {
         delay: index * 0.3,
         ease: "easeOut",
@@ -41,11 +35,11 @@ const Product = ({ product, index }) => {
     >
       <Link to={`${id}`}>
         <div className={styles.info_container}>
-          <img src={`http://localhost:5000/static/${media[0].file_name}`} />
+          <img src={`${STATIC_URL}${media[0].file_name}`} />
           <div>
             <p>{name}</p>
             <span>{randify(price)}</span>
-            {/* stock qty here */}
+            <p>{stock_qty} left</p>
           </div>
         </div>
       </Link>

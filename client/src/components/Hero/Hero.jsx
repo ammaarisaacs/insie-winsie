@@ -9,7 +9,7 @@ const animationTime = 1.5;
 const Hero = () => {
   return (
     <section className={styles.hero_section}>
-      <motion.div
+      <motion.article
         initial={{
           opacity: 0,
           y: -20,
@@ -34,7 +34,7 @@ const Hero = () => {
         <Link to="about">
           <button className={styles.learn_more}>learn more</button>
         </Link>
-      </motion.div>
+      </motion.article>
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{
@@ -82,7 +82,6 @@ const Hero = () => {
         morphTime={1}
         color="#FCF2F4"
         animateWhen={true}
-        className={styles.hero_blob}
       />
     </section>
   );

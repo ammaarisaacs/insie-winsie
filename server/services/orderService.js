@@ -1,16 +1,20 @@
 const { ApiError, UserError } = require("../errors");
 const { createPayData } = require("../services/paymentService");
-const { sequelize } = require("../db/models");
 const {
   createAddress,
   createOrder,
   createOrderItemsList,
+  createProductUpdatesList,
+  updateOrderDetailStatus,
   getAddress,
   getMaxOrderNumber,
   getOrderByOrderNumber,
   getProductsById,
   getShipMethod,
   createPaymentDetail,
+  getOrderInfo,
+  getPaymentDetailByOrderId,
+  getShippingMethodByAddress,
 } = require("../repo/orderRepo");
 
 exports.createOrderService = async (cart, shipping, billing, t) => {
@@ -98,6 +102,8 @@ exports.createOrderService = async (cart, shipping, billing, t) => {
     t
   );
 
+  // create index of max order 
+
   const orderId = order.id;
   const updates = createOrderItemsList(orderId, items, products, t);
   const results = await Promise.all(updates);
@@ -115,7 +121,7 @@ exports.createOrderService = async (cart, shipping, billing, t) => {
   return payData;
 };
 
-exports.completeOrderSerive = async (itn) => {
+exports.completeOrderSerive = async (itn, t) => {
   const {
     m_payment_id,
     pf_payment_id,
@@ -135,67 +141,64 @@ exports.completeOrderSerive = async (itn) => {
 
   // any validation
 
-  console.log(
-    "completeOrder: notify url: received payment status as ",
-    payment_status
-  );
+  console.log("completeOrder: received payment status as", payment_status);
 
-  if (!payment_status === "COMPLETE")
-    return next(
-      ApiError.invalidProperty(`Payment status is ${payment_status}`)
-    );
+  if (payment_status !== "COMPLETE")
+    return ApiError.invalidProperty(`Payment status is ${payment_status}`);
 
   const { id, products } = order;
 
-  console.log("completeOrder: updating stock quantities of products bought");
-
-  // let updates = [];
-
-  // const productUpdates = products.map((cartProduct) => {
-  //   const { id, stock_qty: stockQty } = cartProduct;
-  //   const orderQty = cartProduct.order_item.order_qty;
-  //   return product.update(
-  //     { stock_qty: stockQty - orderQty },
-  //     { where: { id } },
-  //     { transaction: t }
-  //   );
-  // });
-  // updates.push(productUpdates);
-  // updates.push(
-  //   order_detail.update(
-  //     { status: "paid" },
-  //     { where: { id: order.id } },
-  //     { transaction: t }
-  //   )
-  // );
+  console.log("completeOrder: updating stock quantities.");
 
   const updates = createProductUpdatesList(products, t);
   const orderStatusUpdate = updateOrderDetailStatus(id, t);
   updates.push(orderStatusUpdate);
   const results = await Promise.all(updates);
-  const plainResults = results.map((result) => result.get({ plain: true }));
-  if (plainResults.some((result) => Object.keys(result).length < 1))
+  if (results.some((result) => result < 1))
     return ApiError.internal(
       "Error when updating product stock or order status"
     );
 
-  console.log("completeOrder: creating payment in db");
+  console.log("completeOrder: creating payment detail");
 
-  const payment = await createPaymentDetail(itn, t);
-
-  //   const payment = await payment_detail.create(
-  //     {
-  //       name: pf_payment_id,
-  //       amount: amount_gross,
-  //       provider: "fnb",
-  //       order_id,
-  //     },
-  //     { transaction: t }
-  //   );
-
+  const payment = await createPaymentDetail(itn, id, t);
+  if (!payment) return ApiError.internal("Payment detail was not created.");
   return payment;
 };
 
-// email user
-// get order to populate thank you page
-// how to cancel payments and all that
+exports.confirmOrderService = async (id, t) => {
+  console.log("confirming payment: for success page");
+
+  id = parseInt(id);
+  if (Number.isNaN(id)) return UserError.invalidProperty("Invalid ID.");
+
+  console.log("confirm payment: getting order for success page");
+
+  const order = await getOrderInfo(id);
+  if (order == null) return next(ApiError.noOrder());
+
+  console.log("confirm payment: checking if payment was stored");
+
+  const payment = await getPaymentDetailByOrderId(id);
+  if (payment == null) return ApiError.internal("Could not find payment");
+
+  // therefore payment_details must contain that code
+  // email user
+  // get order to populate thank you page
+  // how to cancel payments and all that
+  // send email to user about payment
+  // send text about payment
+  // take payment info from req,
+  // populate db with payment
+  // tie it to order
+  // make db models that are not connected to eachother, use promise.all
+
+  res.send(order);
+};
+
+exports.getShippingRateService = async (area, city) => {
+  const method = await getShippingMethodByAddress(area, city);
+  if (method == null)
+    return UserError.notFound("Location not available for delivery.");
+  return method;
+};

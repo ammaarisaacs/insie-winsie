@@ -1,13 +1,10 @@
 const express = require("express");
 const router = express.Router();
-
 const validatePayment = require("../middlewares/validatePayment");
-
 const {
   validateCreateOrder,
   validateFetchShippingRate,
 } = require("../validations");
-
 const {
   getShippingRate,
   fetchOrder,

@@ -1,11 +1,11 @@
 const { validationResult } = require("express-validator");
-const { productChecks } = require("./productChecks");
+const { fetchProductsChecks } = require("./productChecks");
 const { contactChecks } = require("./contactChecks");
 const { ShippingRateChecks, CreateOrdersChecks } = require("./orderChecks");
 
 // product
 
-exports.validateFetchProducts = makeValidation(productChecks);
+exports.validateFetchProducts = makeValidation(fetchProductsChecks);
 
 // order
 
@@ -24,7 +24,6 @@ function makeValidation(checks) {
     if (!errors.isEmpty()) {
       res.status(400).json(sentErrors);
       // res.status(400).json({ errors: errors.array() });
-      // res.send(sentErrors);
       return;
     }
     return next();

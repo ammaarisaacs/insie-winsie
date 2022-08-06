@@ -1,19 +1,21 @@
-import useForm from "../../hooks/useForm";
 import contactFormStyles from "./contactform.module.css";
-import * as api from "../../services/api";
-import { AnimatePresence } from "framer-motion";
-import validate from "../../validations/validateForm";
 import Input from "../Forms/Input";
 import { ResponseBlock } from "../";
+import validate from "../../validations/validateForm";
+import useForm from "../../hooks/useForm";
+import { submitContactForm } from "../../services/ContactService";
+import { motion, AnimatePresence } from "framer-motion";
 
 const initialState = {
   firstName: {
     value: "",
     required: true,
+    specialCharacters: false,
   },
   lastName: {
     value: "",
     required: true,
+    specialCharacters: false,
   },
   email: {
     value: "",
@@ -25,6 +27,7 @@ const initialState = {
   cellphone: {
     value: "",
     required: true,
+    numeric: true,
   },
   message: {
     value: "",
@@ -47,23 +50,16 @@ export default function ContactForm() {
     cannotSubmit,
   } = useForm(initialState, validate);
 
-  const submitFn = async (formData) => {
-    try {
-      const { data } = await api.sendContactData(formData);
-      setConfirmation(data);
-    } catch (error) {
-      setConfirmation(error);
-    }
-  };
+  const fn = (postData) => submitContactForm(postData, setConfirmation);
 
   return (
     <AnimatePresence>
       <div className={contactFormStyles.contact_form_container}>
         <hr />
-        <form
+        <motion.form
           noValidate
           action="submit"
-          onSubmit={handleSubmit(submitFn)}
+          onSubmit={handleSubmit(fn)}
           className={contactFormStyles.form}
         >
           <div className={contactFormStyles.fields2}>
@@ -126,7 +122,7 @@ export default function ContactForm() {
           >
             send
           </button>
-        </form>
+        </motion.form>
         {confirmation && <ResponseBlock res={confirmation} />}
       </div>
     </AnimatePresence>

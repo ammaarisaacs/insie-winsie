@@ -1,10 +1,10 @@
-import { sendContactData } from "../api";
+import * as api from "../api";
 
-export const submitContactData = async (formData) => {
+export const submitContactForm = async (formData, setConfirmation) => {
   try {
-    const { data } = await sendContactData(formData);
-    console.log(data);
+    const { data } = await api.sendContactData(formData);
+    setConfirmation(data);
   } catch (error) {
-    console.log(error);
+    setConfirmation(error);
   }
 };

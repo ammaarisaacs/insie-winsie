@@ -1,6 +1,9 @@
 const { product } = require("../db/models");
-const { ApiError } = require("../errors/");
-const { getProducts } = require("../services/productsService");
+const { ApiError, UserError } = require("../errors/");
+const {
+  getProductsService,
+  fetchProductService,
+} = require("../services/productsService");
 
 // const multer = require("multer");
 // const upload = multer({ dest: "./images" });
@@ -23,55 +26,35 @@ exports.createProduct = async function (req, res, next) {
     );
     res.send(result);
   } catch (error) {
-    return next(ApiError.internal());
+    next(error);
   }
 };
 
 exports.fetchProducts = async function (req, res, next) {
   const { search, category } = req.query;
-
-  let queries = {};
-
-  if (Array.isArray(category)) queries.category = category;
-
-  if (typeof category === "string" || category instanceof String)
-    queries.category = category.split(",");
-
-  if (search) queries.search = search;
-
   try {
-    // check if sql injection can happen here in search in queries
-
-    const products = await getProducts(search, category);
-
-    // possible check for length here, return no products found
-
-    res.send(products);
+    const result = await getProductsService(search, category);
+    if (result instanceof ApiError || result instanceof UserError) {
+      next(result);
+      return;
+    }
+    res.send(result);
   } catch (error) {
-    return next(ApiError.internal());
+    next(error);
   }
 };
 
 exports.fetchProduct = async function (req, res, next) {
-  const id = Number.parseInt(req.params.id);
-
-  if (id.isNaN) return next(ApiError.invalidId());
-
+  const { id } = req.params;
   try {
-    const products = await product.findAll();
-
-    const numberOfProducts = products.length;
-
-    if (id > numberOfProducts) return next(ApiError.invalidId());
-
-    const foundProduct = await product.findOne({
-      include: "media",
-      where: { id },
-    });
-
-    res.send(foundProduct);
+    const result = await fetchProductService(id);
+    if (result instanceof ApiError || result instanceof UserError) {
+      next(result);
+      return;
+    }
+    res.send(result);
   } catch (error) {
-    return next(ApiError.internal());
+    next(error);
   }
 };
 

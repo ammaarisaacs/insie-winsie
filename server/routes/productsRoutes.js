@@ -9,7 +9,13 @@ const {
   deleteProduct,
 } = require("../controllers/productsController");
 
-router.route("/").get(fetchProducts).post(createProduct).delete(deleteProduct);
+const { validateFetchProducts } = require("../validations");
+
+router
+  .route("/")
+  .get(validateFetchProducts, fetchProducts)
+  .post(createProduct)
+  .delete(deleteProduct);
 
 router.route("/carousel").get(fetchCarouselProducts).post().patch().delete();
 

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import useForm from "../hooks/useForm";
 import validate from "../validations/validateForm";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   firstName: {
@@ -55,21 +56,19 @@ const initialState = {
 };
 
 const Context = createContext();
-
 export const useStateContext = () => useContext(Context);
-
 export const StateContext = ({ children }) => {
   const [orderQty, setOrderQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useLocalStorage("total price", 0);
   const [totalQty, setTotalQty] = useLocalStorage("total quantity", 0);
   const [cartItems, setCartItems] = useLocalStorage("shopping cart", []);
-  // const [shippingData, setShippingData] = useState(initialShippingData);
-  // const [billingData, setBillingData] = useState(initialShippingData);
   const [shippingRate, setShippingRate] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
-
   const shippingForm = useForm(initialState, validate);
   const billingForm = useForm(initialState, validate);
+  const navigate = useNavigate();
+
+  let foundCartItem;
 
   const showToast = (message) => {
     setToastMessage(message);
@@ -77,8 +76,6 @@ export const StateContext = ({ children }) => {
       setToastMessage(null);
     }, 3000);
   };
-
-  let foundCartItem;
 
   const removeCartItem = (id) => {
     foundCartItem = cartItems.find((item) => item.product.id === id);
@@ -121,8 +118,12 @@ export const StateContext = ({ children }) => {
   };
 
   const addToCart = (product) => {
-    const { id, price } = product;
+    const { id, price, stock_qty } = product;
     const productIsInCart = cartItems.find((item) => item.product.id === id);
+    if (stock_qty < 100 || stock_qty < orderQty + 1) {
+      showToast("Out of stock");
+      return;
+    }
     // do a db call here to verify below condition
     // if (product.stock_qty < totalQty) return
     // show toast but with out of quantity
@@ -144,6 +145,16 @@ export const StateContext = ({ children }) => {
       });
     }
     showToast("Added to cart successfully!");
+  };
+
+  const handleBuyNow = (product) => {
+    const { stock_qty } = product;
+    if (stock_qty < 100) {
+      showToast("Out of stock");
+      return;
+    }
+    addToCart(product);
+    navigate("../checkout");
   };
 
   const incQty = (maxStock) => {
@@ -180,17 +191,14 @@ export const StateContext = ({ children }) => {
         setTotalQty,
         updateCartQty,
         removeCartItem,
-        // shippingData,
-        // setShippingData,
         shippingRate,
         setShippingRate,
         toastMessage,
         showToast,
-        // billingData,
-        // setBillingData,
         clearCart,
         shippingForm,
         billingForm,
+        handleBuyNow,
       }}
     >
       {children}

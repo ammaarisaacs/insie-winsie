@@ -22,6 +22,7 @@ import {
   ContactPage,
   FaqPage,
   SuccessPage,
+  ErrorPage,
 } from "./pages";
 
 // https://dribbble.com/shots/6890113-The-Curology-landing-product-page-interaction
@@ -42,6 +43,7 @@ const AnimatedRoutes = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/checkout/success/:id" element={<SuccessPage />} />
+          <Route path="/error" element={<ErrorPage />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </AnimatePresence>
@@ -63,29 +65,38 @@ function App() {
 
 export default App;
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// to do
+
+// email functionality
+// db backup possibly, check in meeting
+// research security for server
+// how to prevent many request when pressing button -> could you ui change to sort this
+// implement validations in routes -> check using postman
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // Client
 
-// https://codesandbox.io/s/framer-motion-animate-react-router-transition-kczeg?file=/src/page.js
 // sorting of data
 // react tracked
 // what happens when user opens new tab
 // smooth scroll effect
 // fallback behavior for react intersection observer
-// sold out functionality
 // stay on paginate page when coming back from url
-// poppup to show you added to cart
-// payfast integration
-// error boundariies
 // put limit on cache length
 // how to update prices in the client side if you are storing it in cache because prices might change while in cache
 // make buttons only clickable once, do not want to send multiple requests
-// convert all static images to webp
 // make sure altext is all there
 
 ///////////////////////////////////////////////////////////////////////////////
 
 // Server
 
+// job queue to limit requests
+// cron jobs to back up db
+// exclude post man and other clients https://stackoverflow.com/questions/18498726/how-do-i-get-the-domain-originating-the-request-in-express-js/18498769#18498769
 // pagination
 //    https://sequelize.org/docs/v6/core-concepts/model-querying-basics/
 //    https://youtu.be/QoI_F_Fj8Lo
@@ -95,7 +106,7 @@ export default App;
 //    https://www.youtube.com/watch?v=mZvKPtH9Fzo&ab_channel=PedroTech
 // `  https://youtu.be/MY6ZZIn93V8
 //    https://youtu.be/x7niho285qs
-// ordering and sorting for sort functionality
+// sorting order
 // setup for production minimist
 //    https://github.com/dev-mastery/clean-architecture/blob/master/client/server/index.js
 // central error handling
@@ -107,17 +118,39 @@ export default App;
 // delete all clg
 // consider reverse proxy for serving static files => check express static files
 // sequelize config may be better to change to js file rather than json (.seqlizer file) so you can import dotenv to hide
-// when order is sent, do a validation for the prices that they must match up to prices is db incase someone changes it on frontend side
 // sequelize hooks for emailing and stuff like that
 // better to use codes or integer codes for cryptic and shorter data transfers
 // what if request sent from node code or postman, need to validate this
-// how to make sure province isn't empty
 // install snyk and check vulnabilities
 // use uuid where you can
 // convert all static images to webp
-// rate limiting - for future?
+// rate limiting
 // how to construct http responses for express
 // how to build a production ready express api
+// can you use signatures to verify requests https://gist.github.com/sachinr/838fefa9c5db42cef138c29d404d8bd2 https://github.com/auth0/node-jsonwebtoken/issues/212
+// how to handle multiple requests from different clients OR how to handle multiple requests one at a time OR using transactions to ensure requests are handled one at a time
+// implement testing
+// install snyk
+
+// no latency, be able to process data even after shutdown
+// messaging queues
+//  RabiitMQ
+
+// handling many clients req one at a time
+// job queues
+//  bull
+// transactions
+//  locks
+// can also check if process is running in middleware
+
+// scheduling jobs such as emailing clients and db backup
+//  Agenda
+//  node-scheduler
+//  node-cron
+
+// handling many requests from one client
+// custom -> redis + moment
+// rate limiter
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -126,23 +159,14 @@ export default App;
 // carousel not having correct width when coming pressing back to home page
 // clicking multiple times on a button sends many requests
 // experienced an odd error earlier https://stackoverflow.com/questions/9768444/possible-eventemitter-memory-leak-detected
-// no svg draw when selecting cart or checkout or anything else other than the center menu
 
 ///////////////////////////////////////////////////////////////////////////////
-
-// to do
-
-// payfast component
-// research security for server
-// how to prevent many request when pressing button -> could you ui change to sort this
-// implement validations in routes -> check using postman
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // SECURITY
 
 // server
 
+// possibly to submit formdata from server to payfast instead
 // input validation -> query, params, forms, json
 // limit payload size
 // limit requests
@@ -158,6 +182,8 @@ export default App;
 // check helmet and how to enable pictures in client for production
 // white list config files for emails, provinces, cities, urls https://stackoverflow.com/questions/36393256/express-cors-domain-whitelist https://www.tabnine.com/code/javascript/functions/express-validator/ValidationChain/isIn
 // configure prettier to not add ; to .env file
+// sort out errors in payfast checks
+// custom ip validator and white listing https://stackoverflow.com/questions/43866071/how-to-do-whitelist-of-ips-in-express
 
 // client
 
@@ -166,3 +192,38 @@ export default App;
 // prevent multiple click requests
 // javacript: in url how to validate
 // Output Encoding and HTML Sanitization
+// hpp implementation
+// rate limit
+// content type check
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// for them to do
+// convert all static images to webp
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// COMPLETED
+
+// CLIENT
+
+// https://codesandbox.io/s/framer-motion-animate-react-router-transition-kczeg?file=/src/page.js
+// sold out functionality
+// poppup to show you added to cart
+// payfast integration
+// error boundariies
+
+// SERVER
+// when order is sent, do a validation for the prices that they must match up to prices is db incase someone changes it on frontend side
+// how to make sure province isn't empty
+// ordering

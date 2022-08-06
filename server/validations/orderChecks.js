@@ -1,22 +1,42 @@
 const { body, param, query, check } = require("express-validator");
+const noSpecialChars = require("../utils/noSpecialChars");
+
+// https://www.freecodecamp.org/news/how-to-perform-custom-validation-in-your-express-js-app-432eb423510f
 
 const provinces = ["NL", "WP", "GT", "LP", "NC", "NW", "FS", "EC"];
 
 exports.FetchOrdersChecks = () => {};
 exports.FetchOrderChecks = () => {};
 
-// write custom validator to check all inputs for special characters
-// do it after length check
-
 exports.ShippingRateChecks = [
-  body("firstName").notEmpty().isLength({ min: 1, max: 50 }),
-  body("lastName").notEmpty().isLength({ min: 1, max: 50 }),
-  body("email").notEmpty().isLength({ min: 1, max: 50 }),
+  body("firstName")
+    .notEmpty()
+    .isLength({ min: 1, max: 50 })
+    .custom((val) => noSpecialChars(val))
+    .trim()
+    .toLowerCase(),
+  body("lastName")
+    .notEmpty()
+    .isLength({ min: 1, max: 50 })
+    .custom((val) => noSpecialChars(val))
+    .trim()
+    .toLowerCase(),
+  body("email")
+    .notEmpty()
+    .isLength({ min: 1, max: 50 })
+    .custom((val) => noSpecialChars(val))
+    .trim()
+    .toLowerCase(),
   body("cellphone").notEmpty().isNumeric().isLength({ min: 1, max: 100 }),
-  body("street").notEmpty().isLength({ min: 1, max: 100 }),
-  body("area").notEmpty().isLength({ min: 1, max: 50 }),
+  body("street")
+    .notEmpty()
+    .isLength({ min: 1, max: 100 })
+    .custom((val) => noSpecialChars(val))
+    .trim()
+    .toLowerCase(),
+  body("area").notEmpty().isLength({ min: 1, max: 50 }).trim().toLowerCase(),
   body("zipcode").notEmpty().isNumeric().isLength({ min: 1, max: 10 }),
-  body("province").notEmpty().isAlpha().isIn(provinces),
+  body("province").notEmpty().isAlpha().isIn(provinces).trim().toLowerCase(),
 ];
 
 exports.CreateOrdersChecks = [

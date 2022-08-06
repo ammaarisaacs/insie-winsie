@@ -31,8 +31,6 @@ export { default as Blob } from "./Blob/Blob";
 export { default as ObservableBlob } from "./Blob/ObservableBlob";
 export { default as DrawPath } from "./DrawPath/DrawPath";
 export { default as ObservableDrawPath } from "./DrawPath/ObservableDrawPath";
-export { default as PageTransition } from "./PageTransition/PageTransition";
-export { default as AnimateWord } from "./AnimateWord/AnimateWord";
 
 export { default as OurStory } from "./OurStory/OurStory";
 export { default as Story } from "./OurStory/Story/Story";

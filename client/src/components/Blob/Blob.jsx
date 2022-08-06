@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 
 const Blob = ({
@@ -29,18 +28,14 @@ const Blob = ({
         ...(left && { left: left }),
         ...(right && { right: right }),
         ...(bottom && { bottom: bottom }),
-
         ...(minWidth && { minWidth: minWidth }),
         ...(width && { width: width }),
         ...(maxWidth && { maxWidth: maxWidth }),
         ...(height && { height: height }),
-
         ...(translateX && { translateX: translateX }),
         ...(translateY && { translateY: translateY }),
         ...(scale && { scale: scale }),
-
         ...(zIndex && { zIndex: zIndex }),
-
         position: "absolute",
         fill: "white",
         zIndex: -1,

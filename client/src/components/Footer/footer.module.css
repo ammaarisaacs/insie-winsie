@@ -1,22 +1,39 @@
 .container {
-  height: var(--footer-height);
+  min-height: var(--footer-height);
   margin-top: var(--footer-top-margin);
   width: 100%;
-  border: 1px solid blue;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  background-color: rgb(212, 240, 253);
+}
+
+.container img {
+  min-width: 200px;
+  width: 10vw;
+  max-width: 150;
 }
 
 .container div {
-  border: 1px solid blue;
+}
+
+.media {
+  display: flex;
+  gap: 1rem;
 }
 
 .container span {
   display: inline-block;
-  border: 1px solid red;
 }
 
 .container span:not(:last-child) {
   margin-right: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
 }

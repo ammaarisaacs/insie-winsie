@@ -3,8 +3,7 @@ import styles from "./cartitem.module.css";
 import { randify } from "../../../utils/costing";
 import { motion } from "framer-motion";
 import { useStateContext } from "../../../context/StateContext";
-
-const staticUrl = "http://localhost:5000/static/";
+import { STATIC_URL } from "../../../constants";
 
 const CartItem = ({ item, i }) => {
   const { updateCartQty, removeCartItem } = useStateContext();
@@ -32,7 +31,7 @@ const CartItem = ({ item, i }) => {
       className={styles.cart_item_container}
     >
       <article className={styles.cart_item}>
-        <img src={`${staticUrl}${fileName}`} alt={alt_text} />
+        <img src={`${STATIC_URL}${fileName}`} alt={alt_text} />
         <ul className={styles.cart_item_details}>
           <li>{name}</li>
           <li>{randify(price)}</li>

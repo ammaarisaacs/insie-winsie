@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
 function useFilterSearch(cb) {
+  const [category, setCategory] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [search, setSearch] = useState(false);
-  const [category, setCategory] = useState("");
   const [data, setData] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
@@ -27,6 +27,12 @@ function useFilterSearch(cb) {
     setCategory((prevCategories) => [...prevCategories, query]);
   };
 
+  const handleClear = () => {
+    setCategory("");
+    setSearchQuery("");
+    setSearch(!search);
+  };
+
   useEffect(() => {
     if (!cb) return;
     setIsPending(true);
@@ -34,9 +40,13 @@ function useFilterSearch(cb) {
   }, [category, search]);
 
   const styling = {
-    fontSize: "2rem",
+    fontSize: "1rem",
     width: "fit-content",
+    maxWidth: 500,
+    display: "flex",
+    alignItems: "center",
     margin: "auto",
+    textAlign: "center",
   };
 
   return {
@@ -47,7 +57,9 @@ function useFilterSearch(cb) {
     setSearchQuery,
     setSearch,
     category,
+    searchQuery,
     handleFilter,
+    handleClear,
     styling,
   };
 }

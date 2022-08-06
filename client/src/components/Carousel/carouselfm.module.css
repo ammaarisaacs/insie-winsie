@@ -13,8 +13,16 @@
   margin: 2rem 1rem;
 }
 
+.slider article {
+  padding: 1rem;
+  background-color: rgb(241, 238, 238);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
 .slider img {
-  min-width: 350px;
+  min-width: 300px;
   width: 350px;
   max-width: 400px;
   border-radius: 2rem;
@@ -22,5 +30,22 @@
 }
 
 .carousel_info {
-  border: 1px solid red;
+  height: fit-content;
+  margin-top: auto;
+}
+
+.carousel_info button {
+  padding: 5px;
+  border-radius: 10px;
+  border-color: lightgoldenrodyellow;
+  width: 100%;
+  text-align: center;
+  margin-top: 1rem;
+  background-color: white;
+}
+
+.carousel_info * {
+  text-align: justify;
+  text-justify: inter-word;
+  margin-top: 5px;
 }

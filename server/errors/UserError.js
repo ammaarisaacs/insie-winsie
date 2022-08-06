@@ -9,8 +9,8 @@ class UserError extends Error {
     return new UserError(400, msg);
   }
 
-  static notFound() {
-    return new ApiError(404, `The requested item is not available.`);
+  static notFound(msg = "The requested item is not available.") {
+    return new UserError(404, msg);
   }
 
   static invalidProperty(msg = "Invalid property.") {

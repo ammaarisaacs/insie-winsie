@@ -1,4 +1,5 @@
-const { body, param, query } = require("express-validator");
+const { param, query } = require("express-validator");
+const noSpecialChars = require("../utils/noSpecialChars");
 
 // search
 // sanitize
@@ -8,20 +9,26 @@ const { body, param, query } = require("express-validator");
 // can be an array
 // check if it is a number or array with number inside, return error invalidQuery()
 
-exports.fetchProductsChecks = [query("category"), query("search")];
-exports.fetchProductChecks = {};
+exports.fetchProductsChecks = [
+  query("category")
+    // .if(query("category").exists({ checkNull: true }))
+    // .replace()
+    .default("")
+    .if(query("category").isString())
+    .trim()
+    .toLowerCase()
+    .if(query("category").isArray()),
+  query("category.*").isString().trim().toLowerCase(),
+
+  query("search")
+    // .if(query("search").exists({ checkNull: true }))
+    .default("")
+    .if(query("search").isString())
+    .trim()
+    .toLowerCase(),
+];
+// must change id to uuid
+exports.fetchProductChecks = [param("id").notEmpty().isInt()];
 exports.createProductChecks = {};
 exports.deleteProductChecks = {};
 exports.updateProductChecks = {};
-
-// const { makeValidateProduct } = require("./validate");
-// const { body, param, query, validationResult } = require("express-validator");
-// exports.validateFetchProducts = makeValidateProduct(
-//   param,
-//   query,
-//   validationResult
-// );
-// exports.validateFetchProduct = makeValidateProduct(param, validationResult);
-// exports.validateCreateProduct = makeValidateProduct(body, validationResult);
-// exports.validateUpdateProduct = makeValidateProduct(body, validationResult);
-// exports.validateDeleteProduct = makeValidateProduct(param, validationResult);
