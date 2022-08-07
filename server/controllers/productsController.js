@@ -10,6 +10,7 @@ const {
 
 exports.createProduct = async function (req, res, next) {
   const { name, description, price, stock_qty, in_carousel } = req.body;
+
   //  also need the media info
   // validate info
 

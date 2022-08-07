@@ -1,6 +1,10 @@
 const { param, query } = require("express-validator");
 const noSpecialChars = require("../utils/noSpecialChars");
 
+const hasJavascript = (val) => {
+  if (!val.includes("javascript")) return true;
+  return false;
+};
 // search
 // sanitize
 
@@ -11,8 +15,6 @@ const noSpecialChars = require("../utils/noSpecialChars");
 
 exports.fetchProductsChecks = [
   query("category")
-    // .if(query("category").exists({ checkNull: true }))
-    // .replace()
     .default("")
     .if(query("category").isString())
     .trim()
@@ -21,7 +23,6 @@ exports.fetchProductsChecks = [
   query("category.*").isString().trim().toLowerCase(),
 
   query("search")
-    // .if(query("search").exists({ checkNull: true }))
     .default("")
     .if(query("search").isString())
     .trim()

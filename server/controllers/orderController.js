@@ -8,6 +8,9 @@ const {
 } = require("../services/orderService");
 
 exports.getShippingRate = async function (req, res, next) {
+  console.log(req.headers);
+  console.log(req.headers["content-type"]);
+  console.log(req.body);
   const { area, city } = req.body;
   try {
     const result = await getShippingRateService(area, city);

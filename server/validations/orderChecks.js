@@ -1,14 +1,16 @@
-const { body, param, query, check } = require("express-validator");
+const { body, check } = require("express-validator");
 const noSpecialChars = require("../utils/noSpecialChars");
 
 // https://www.freecodecamp.org/news/how-to-perform-custom-validation-in-your-express-js-app-432eb423510f
+
+// change all id's to uuid
 
 const provinces = ["NL", "WP", "GT", "LP", "NC", "NW", "FS", "EC"];
 
 exports.FetchOrdersChecks = () => {};
 exports.FetchOrderChecks = () => {};
-
 exports.ShippingRateChecks = [
+  body().isObject(),
   body("firstName")
     .notEmpty()
     .isLength({ min: 1, max: 50 })
@@ -38,27 +40,27 @@ exports.ShippingRateChecks = [
   body("zipcode").notEmpty().isNumeric().isLength({ min: 1, max: 10 }),
   body("province").notEmpty().isAlpha().isIn(provinces).trim().toLowerCase(),
 ];
-
 exports.CreateOrdersChecks = [
-  // cart
-
-  body("cart").notEmpty().isLength({ min: 1, max: 100 }),
+  body().isObject(),
+  body("cart").notEmpty().isObject(),
   body("cart.items").notEmpty().isArray({ min: 1 }),
   body("cart.items.*.product").notEmpty().isObject(),
   body("cart.items.*.orderQty").notEmpty().isInt(),
   // change all id's to uuid's
   body("cart.items.*.product.id").notEmpty().isInt(),
-  body("cart.items.*.product.name").notEmpty().isLength({ min: 1, max: 50 }),
-  body("cart.items.*.product.description").notEmpty(),
+  body("cart.items.*.product.name")
+    .notEmpty()
+    .isLength({ min: 1, max: 50 })
+    .custom((val) => noSpecialChars(val)),
+  body("cart.items.*.product.description")
+    .notEmpty()
+    .custom((val) => noSpecialChars(val)),
   body("cart.items.*.product.price")
     .notEmpty()
     .isDecimal({ decimal_digits: 2 }),
-  body("cart.items.*.product.stock_qty").notEmpty(),
+  body("cart.items.*.product.stock_qty").notEmpty().isInt(),
   body("cart.total").isDecimal().isDecimal({ decimal_digits: 2 }),
-
-  // shipping
-
-  body("shipping").notEmpty(),
+  body("shipping").notEmpty().isObject(),
   body("shipping.firstName")
     .notEmpty()
     .trim()
@@ -68,21 +70,32 @@ exports.CreateOrdersChecks = [
     .notEmpty()
     .trim()
     .toLowerCase()
-    .isLength({ min: 1, max: 30 }),
+    .isLength({ min: 1, max: 30 })
+    .custom((val) => noSpecialChars(val)),
   body("shipping.email")
     .notEmpty()
     .trim()
     .normalizeEmail()
     .toLowerCase()
-    .isLength({ min: 1, max: 50 }),
-  body("shipping.cellphone").notEmpty().trim().isLength({ min: 1, max: 20 }),
-  body("shipping.street").notEmpty().trim().isLength({ min: 1, max: 50 }),
-  body("shipping.area").notEmpty().trim().isLength({ min: 1, max: 30 }),
+    .isLength({ min: 1, max: 50 })
+    .custom((val) => noSpecialChars(val)),
+  body("shipping.cellphone")
+    .notEmpty()
+    .trim()
+    .isLength({ min: 1, max: 20 })
+    .custom((val) => noSpecialChars(val)),
+  body("shipping.street")
+    .notEmpty()
+    .trim()
+    .isLength({ min: 1, max: 50 })
+    .custom((val) => noSpecialChars(val)),
+  body("shipping.area")
+    .notEmpty()
+    .trim()
+    .isLength({ min: 1, max: 30 })
+    .custom((val) => noSpecialChars(val)),
   body("shipping.zipcode").notEmpty().trim().isLength({ min: 1, max: 10 }),
   body("shipping.province").notEmpty().trim().isAlpha().isIn(provinces),
-
-  // billing
-
   check("billing").optional().isObject(),
   check("billing.firstName")
     .if(body("billing").exists())
@@ -120,10 +133,6 @@ exports.CreateOrdersChecks = [
     .isAlpha()
     .isIn(provinces),
 ];
-
 exports.ITNChecks = [];
 exports.UpdateOrdersChecks = [];
 exports.DeletOrdersChecks = [];
-// check could work
-// oneOf
-// https://stackoverflow.com/questions/39756415/how-to-check-for-a-presence-of-at-least-one-parameter-using-express-validator

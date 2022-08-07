@@ -26,7 +26,6 @@ module.exports = (sequelize, DataTypes) => {
     });
     product.belongsToMany(models.category_detail, {
       through: "category_item",
-      // timestamps: false,
       foreignKey: "product_id",
       onDelete: "cascade",
       hooks: true,
