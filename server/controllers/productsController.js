@@ -3,21 +3,14 @@ const { ApiError, UserError } = require("../errors/");
 const {
   getProductsService,
   fetchProductService,
+  fetchCarouseProductsService,
 } = require("../services/productsService");
-
-// const multer = require("multer");
-// const upload = multer({ dest: "./images" });
 
 exports.createProduct = async function (req, res, next) {
   const { name, description, price, stock_qty, in_carousel } = req.body;
-
-  //  also need the media info
-  // validate info
-
   try {
     // need to add an SKU to identify unique product to check if it exists
     // maybe create some sort of lookup first and let admin know you have it or not
-
     const result = await product.create(
       name,
       description,
@@ -35,7 +28,7 @@ exports.fetchProducts = async function (req, res, next) {
   const { search, category } = req.query;
   try {
     const result = await getProductsService(search, category);
-    if (result instanceof ApiError || result instanceof UserError) {
+    if (result instanceof Error) {
       next(result);
       return;
     }
@@ -49,7 +42,7 @@ exports.fetchProduct = async function (req, res, next) {
   const { id } = req.params;
   try {
     const result = await fetchProductService(id);
-    if (result instanceof ApiError || result instanceof UserError) {
+    if (result instanceof Error) {
       next(result);
       return;
     }
@@ -61,14 +54,15 @@ exports.fetchProduct = async function (req, res, next) {
 
 exports.fetchCarouselProducts = async function (req, res, next) {
   try {
-    const products = await product.findAll({
-      include: "media",
-      where: { in_carousel: true },
-    });
-
-    res.send(products);
+    const result = await fetchCarouseProductsService();
+    if (result instanceof Error) {
+      next(result);
+      return;
+    }
+    res.send(result);
   } catch (error) {
-    return next(ApiError.internal());
+    next(error);
+    return;
   }
 };
 

@@ -28,6 +28,7 @@ const initialState = {
     value: "",
     required: true,
     numeric: true,
+    specialCharacters: false,
   },
   message: {
     value: "",
@@ -36,6 +37,7 @@ const initialState = {
     minLengthMessage: "Must have a message!",
     maxLength: 300,
     maxLengthMessage: "Too many characters!",
+    // specialCharacters: false,
   },
 };
 

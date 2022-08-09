@@ -4,6 +4,8 @@ const validatePayment = require("../middlewares/validatePayment");
 const {
   validateCreateOrder,
   validateFetchShippingRate,
+  validateConfirmPayment,
+  validateCompleteOrder,
 } = require("../validations");
 const {
   getShippingRate,
@@ -20,9 +22,11 @@ router.route("/").get(fetchOrders).post(validateCreateOrder, createOrder);
 
 router.route("/shipping").post(validateFetchShippingRate, getShippingRate);
 
-router.route("/success").post(validatePayment, completeOrder);
+router
+  .route("/success")
+  .post(validatePayment, validateCompleteOrder, completeOrder);
 
-router.route("/success/:id").get(confirmPayment);
+router.route("/success/:id").get(validateConfirmPayment, confirmPayment);
 
 router.route("/:id").get(fetchOrder).patch(updateOrder).delete(deleteOrder);
 

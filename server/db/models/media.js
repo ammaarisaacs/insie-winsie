@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       file_name: { type: DataTypes.STRING, allowNull: false },
       alt_text: { type: DataTypes.STRING, allowNull: false },
-      product_id: { type: DataTypes.INTEGER, allowNull: false },
+      product_id: { type: DataTypes.UUID, allowNull: false },
+      // product_id: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
       tableName: "media",

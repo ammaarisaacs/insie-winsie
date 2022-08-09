@@ -1,5 +1,4 @@
 "use strict";
-
 const types = [
   "beanies",
   "bibs",
@@ -17,7 +16,7 @@ const sizes = ["small", "medium", "large", "xlarge", "xxlarge"];
 const color = ["red", "blue", "grey", "purple", "grey", "black"];
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  async up(queryInterface) {
     queryInterface.bulkInsert(
       "category_detail",
       types.map((type) => {
@@ -30,7 +29,7 @@ module.exports = {
     );
   },
 
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     queryInterface.bulkDelete("category_detail", null, {});
   },
 };

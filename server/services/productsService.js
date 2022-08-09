@@ -1,7 +1,8 @@
-const { ApiError, UserError } = require("../errors");
+const { ApiError } = require("../errors");
 const {
   getProductsBySearchAndFilter,
   getProductById,
+  getCarouselProducts,
 } = require("../repo/productRepo");
 
 exports.getProductsService = async (search, category) => {
@@ -29,8 +30,9 @@ exports.getProductsService = async (search, category) => {
 };
 
 exports.fetchProductService = async (id) => {
-  const validatedId = parseInt(id);
-  if (Number.isNaN(validatedId))
-    return UserError.invalidProperty("Invalid ID.");
-  return (product = await getProductById(validatedId));
+  return await getProductById(id);
+};
+
+exports.fetchCarouseProductsService = async () => {
+  return await getCarouselProducts();
 };

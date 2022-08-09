@@ -17,7 +17,8 @@ module.exports = {
         allowNull: false,
       },
       product_id: {
-        type: Sequelize.INTEGER,
+        // type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         onDelete: "cascade",
         references: {
@@ -37,7 +38,7 @@ module.exports = {
       },
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable("media");
   },
 };

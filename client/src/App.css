@@ -18,7 +18,7 @@
 
   /* layout */
 
-  --min-app-width: 300px;
+  --min-app-width: 400px;
   --navbar-height: 10vh;
   --footer-height: 30vh;
 
@@ -29,8 +29,8 @@
   --footer-top-margin: 5rem;
   --section-margin: 5rem;
 
-  /* font sizes */
-
+  /* font */
+  --app-font-family: "operator mono", sans-serif;
   --paragraph-size: calc(0.8rem + 0.25vw);
   --header-size: calc(2rem + 1vw);
 }
@@ -46,10 +46,11 @@ html {
 }
 
 body {
-  font-family: "dank mono", sans-serif;
+  font-family: var(--app-font-family);
+  /* font-family: "dank mono", sans-serif; */
+  font-weight: 100;
   background-color: #fcfefe;
-  min-width: 400px;
-  /* min-width: var(--min-app-width); */
+  min-width: var(--min-app-width);
   overflow-x: hidden;
   cursor: url(assets/svgs/spider.svg), auto;
 }
@@ -74,4 +75,12 @@ hr {
   background-color: var(--color-lighter-gray);
   border: 0;
   margin: 2rem 0;
+}
+
+button,
+span,
+input,
+select {
+  font-family: var(--app-font-family);
+  font-weight: 100;
 }

@@ -19,9 +19,9 @@ const ProductDetail = () => {
   const [x, setX] = useState(0);
   const { id } = useParams();
   const wrapper = () => fetchProduct(id);
+  const { data, isPending, error, styling } = useFetch(wrapper, "*");
   const { orderQty, incQty, decQty, addToCart, handleBuyNow } =
     useStateContext();
-  const { data, isPending, error, styling } = useFetch(wrapper, "*");
 
   const slideLeft = () => {
     if (x == 0) return;

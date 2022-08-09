@@ -4,9 +4,8 @@ module.exports = {
     await queryInterface.createTable("order_detail", {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
       },
       order_number: {
@@ -34,14 +33,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      // payment_id: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false,
-      //   references: {
-      //     model: "payment_detail",
-      //     key: "id",
-      //   },
-      // },
       ship_address_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -82,7 +73,7 @@ module.exports = {
       },
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable("order_detail", null, {});
   },
 };

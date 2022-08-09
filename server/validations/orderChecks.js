@@ -1,4 +1,4 @@
-const { body, check } = require("express-validator");
+const { body, check, param } = require("express-validator");
 const noSpecialChars = require("../utils/noSpecialChars");
 
 // https://www.freecodecamp.org/news/how-to-perform-custom-validation-in-your-express-js-app-432eb423510f
@@ -7,9 +7,7 @@ const noSpecialChars = require("../utils/noSpecialChars");
 
 const provinces = ["NL", "WP", "GT", "LP", "NC", "NW", "FS", "EC"];
 
-exports.FetchOrdersChecks = () => {};
-exports.FetchOrderChecks = () => {};
-exports.ShippingRateChecks = [
+exports.shippingRateChecks = [
   body().isObject(),
   body("firstName")
     .notEmpty()
@@ -29,7 +27,12 @@ exports.ShippingRateChecks = [
     .custom((val) => noSpecialChars(val))
     .trim()
     .toLowerCase(),
-  body("cellphone").notEmpty().isNumeric().isLength({ min: 1, max: 100 }),
+  body("cellphone")
+    .notEmpty()
+    .isLength({ min: 1, max: 20 })
+    .isNumeric()
+    .replace(" ", "")
+    .trim(),
   body("street")
     .notEmpty()
     .isLength({ min: 1, max: 100 })
@@ -37,17 +40,16 @@ exports.ShippingRateChecks = [
     .trim()
     .toLowerCase(),
   body("area").notEmpty().isLength({ min: 1, max: 50 }).trim().toLowerCase(),
-  body("zipcode").notEmpty().isNumeric().isLength({ min: 1, max: 10 }),
+  body("zipcode").notEmpty().isNumeric().trim().isLength({ min: 1, max: 4 }),
   body("province").notEmpty().isAlpha().isIn(provinces).trim().toLowerCase(),
 ];
-exports.CreateOrdersChecks = [
+exports.createOrdersChecks = [
   body().isObject(),
   body("cart").notEmpty().isObject(),
   body("cart.items").notEmpty().isArray({ min: 1 }),
   body("cart.items.*.product").notEmpty().isObject(),
   body("cart.items.*.orderQty").notEmpty().isInt(),
-  // change all id's to uuid's
-  body("cart.items.*.product.id").notEmpty().isInt(),
+  body("cart.items.*.product.id").notEmpty().isUUID(),
   body("cart.items.*.product.name")
     .notEmpty()
     .isLength({ min: 1, max: 50 })
@@ -94,7 +96,11 @@ exports.CreateOrdersChecks = [
     .trim()
     .isLength({ min: 1, max: 30 })
     .custom((val) => noSpecialChars(val)),
-  body("shipping.zipcode").notEmpty().trim().isLength({ min: 1, max: 10 }),
+  body("shipping.zipcode")
+    .notEmpty()
+    .isNumeric()
+    .trim()
+    .isLength({ min: 1, max: 4 }),
   body("shipping.province").notEmpty().trim().isAlpha().isIn(provinces),
   check("billing").optional().isObject(),
   check("billing.firstName")
@@ -126,13 +132,21 @@ exports.CreateOrdersChecks = [
     .if(body("billing").exists())
     .notEmpty()
     .isNumeric()
-    .isLength({ min: 1, max: 10 }),
+    .trim()
+    .isLength({ min: 1, max: 4 }),
   check("billing.province")
     .if(body("billing").exists())
     .notEmpty()
     .isAlpha()
     .isIn(provinces),
 ];
-exports.ITNChecks = [];
+exports.completeOrderChecks = [
+  body("item_name").notEmpty().isInt(),
+  body("pf_payment_id").notEmpty(),
+  body("order").notEmpty().isObject(),
+];
+exports.confirmPaymentChecks = [param("id").notEmpty().isUUID()];
+exports.FetchOrdersChecks = [];
+exports.FetchOrderChecks = [];
 exports.UpdateOrdersChecks = [];
 exports.DeletOrdersChecks = [];

@@ -7,7 +7,7 @@ function createPayData(order, id) {
   const myData = [];
   myData["merchant_id"] = process.env.PF_MERCHANT_ID;
   myData["merchant_key"] = process.env.PF_MERCHANT_KEY;
-  myData["return_url"] = `${process.env.CLIENT_URL}/success/${id}`;
+  myData["return_url"] = `${process.env.CLIENT_URL}/checkout/success/${id}`;
   myData["cancel_url"] = `${process.env.CLIENT_URL}/checkout`;
   myData["notify_url"] = `${process.env.HOST}/order/success`;
   myData["name_first"] = order.first_name;

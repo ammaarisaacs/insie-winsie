@@ -30,6 +30,7 @@ const SuccessPage = () => {
 
   useEffect(() => {
     clearCart();
+    console.log(id);
   }, []);
 
   const pageVariants = {
@@ -52,6 +53,7 @@ const SuccessPage = () => {
     >
       <hr />
       <h3>order Summary</h3>
+      <p>thank you for your purchase</p>
       <hr />
       <article
         style={{

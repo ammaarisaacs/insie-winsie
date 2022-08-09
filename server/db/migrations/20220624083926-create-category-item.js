@@ -10,7 +10,8 @@ module.exports = {
       // },
       product_id: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        // type: Sequelize.INTEGER,
         primaryKey: true,
         onDelete: "cascade",
         references: {
@@ -24,7 +25,7 @@ module.exports = {
         primaryKey: true,
         onDelete: "cascade",
         references: {
-          model: "product",
+          model: "category_detail",
           key: "id",
         },
       },

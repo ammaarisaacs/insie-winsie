@@ -9,9 +9,13 @@ module.exports = (sequelize, DataTypes) => {
       // provider: { type: DataTypes.STRING, allowNull: false },
       // status: { type: DataTypes.STRING, allowNull: false },
       order_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
       },
+      // order_id: {
+      //   type: DataTypes.INTEGER,
+      //   allowNull: false,
+      // },
     },
     {
       tableName: "payment_detail",

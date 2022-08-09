@@ -1,4 +1,4 @@
-const { order_detail, product } = require("../db/models");
+const { getOrderAndQtyByOrderNumber } = require("../repo/orderRepo");
 const { ApiError } = require("../errors");
 const {
   pfValidSignature,
@@ -14,6 +14,8 @@ const pfHost = testingMode ? "sandbox.payfast.co.za" : "www.payfast.co.za";
 module.exports = async function validatePayment(req, res, next) {
   const pfData = JSON.parse(JSON.stringify(req.body));
 
+  console.log("validating payment: creating pf string.");
+
   let pfParamString = "";
   for (let key in pfData) {
     if (pfData.hasOwnProperty(key) && key !== "signature") {
@@ -24,21 +26,18 @@ module.exports = async function validatePayment(req, res, next) {
     }
   }
 
-  let cartTotal;
+  // validate ITN with other credentials here
 
   try {
-    const order = await order_detail.findOne({
-      where: { order_number: parseInt(pfData.item_name) },
-      include: [{ model: product, through: { attributes: ["order_qty"] } }],
-    });
+    console.log("validating payment: getting cart total details");
 
-    // validate ITN with other credentials here
-
+    const order = await getOrderAndQtyByOrderNumber(parseInt(pfData.item_name));
     const plainOrder = order.get({ plain: true });
+    const cartTotal = plainOrder.total;
 
-    cartTotal = plainOrder.total;
-    // Remove last ampersand
-    pfParamString = pfParamString.slice(0, -1);
+    console.log("validating payment: validating itn");
+
+    pfParamString = pfParamString.slice(0, -1); // Remove last ampersand
     const check1 = pfValidSignature(pfData, pfParamString);
     const check2 = pfValidIP(req);
     const check3 = pfValidPaymentData(cartTotal, pfData);
@@ -46,14 +45,15 @@ module.exports = async function validatePayment(req, res, next) {
 
     if (check1 && check2 && check3 && check4) {
       // All checks have passed, the payment is successful
+      console.log("validating payment: checks passed.");
       req.body.order = plainOrder;
       next();
+      return;
     }
   } catch (error) {
-    return next(
-      // Some checks have failed, check payment manually and log for investigation
-      // cancel the payment
-      ApiError.internal("Invalid payment. Please contact us for support.")
-    );
+    // Some checks have failed, check payment manually and log for investigation
+    // cancel the payment
+    next(ApiError.internal("Payment validation failed."));
+    return;
   }
 };

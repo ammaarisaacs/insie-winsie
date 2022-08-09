@@ -1,16 +1,24 @@
 const { validationResult } = require("express-validator");
-const { fetchProductsChecks } = require("./productChecks");
+const { fetchProductsChecks, fetchProductChecks } = require("./productChecks");
 const { contactChecks } = require("./contactChecks");
-const { ShippingRateChecks, CreateOrdersChecks } = require("./orderChecks");
+const {
+  shippingRateChecks,
+  createOrdersChecks,
+  confirmPaymentChecks,
+  completeOrderChecks,
+} = require("./orderChecks");
 
 // product
 
 exports.validateFetchProducts = makeValidation(fetchProductsChecks);
+exports.validateFetchProduct = makeValidation(fetchProductChecks);
 
 // order
 
-exports.validateFetchShippingRate = makeValidation(ShippingRateChecks);
-exports.validateCreateOrder = makeValidation(CreateOrdersChecks);
+exports.validateFetchShippingRate = makeValidation(shippingRateChecks);
+exports.validateCreateOrder = makeValidation(createOrdersChecks);
+exports.validateCompleteOrder = makeValidation(completeOrderChecks);
+exports.validateConfirmPayment = makeValidation(confirmPaymentChecks);
 
 // contact
 

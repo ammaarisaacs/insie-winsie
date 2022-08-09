@@ -23,9 +23,7 @@ const CarouselFM = () => {
   }, [inView]);
 
   if (isPending) return <main style={styling}>Loading...</main>;
-
   if (error) return <main style={styling}>{error}</main>;
-
   return (
     <motion.div ref={carouselRef} className={styles.track}>
       <Blob
@@ -74,8 +72,8 @@ const CarouselFM = () => {
             >
               <img src={`${STATIC_URL}/${media[0].file_name}`} />
               <div className={styles.carousel_info}>
-                <h1>{name}</h1>
-                <h2>{price}</h2>
+                <h3>{name}</h3>
+                <p>{price}</p>
                 <p>{description}</p>
                 <Link to={`products/${id}`}>
                   <button>details</button>

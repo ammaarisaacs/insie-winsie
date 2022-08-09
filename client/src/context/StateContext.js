@@ -120,13 +120,15 @@ export const StateContext = ({ children }) => {
   const addToCart = (product) => {
     const { id, price, stock_qty } = product;
     const productIsInCart = cartItems.find((item) => item.product.id === id);
-    if (stock_qty < 100 || stock_qty < orderQty + 1) {
+    const cartOrderQty = productIsInCart?.orderQty;
+    if (stock_qty < cartOrderQty + orderQty) {
+      showToast("Not enough stock");
+      return;
+    }
+    if (stock_qty < 1) {
       showToast("Out of stock");
       return;
     }
-    // do a db call here to verify below condition
-    // if (product.stock_qty < totalQty) return
-    // show toast but with out of quantity
     setTotalPrice((prevTotalPrice) => prevTotalPrice + price * orderQty);
     setTotalQty((prevTotalQty) => prevTotalQty + orderQty);
     setOrderQuantity(1);
@@ -149,7 +151,7 @@ export const StateContext = ({ children }) => {
 
   const handleBuyNow = (product) => {
     const { stock_qty } = product;
-    if (stock_qty < 100) {
+    if (stock_qty < 1) {
       showToast("Out of stock");
       return;
     }
@@ -159,7 +161,7 @@ export const StateContext = ({ children }) => {
 
   const incQty = (maxStock) => {
     setOrderQuantity((prevQ) => {
-      if (prevQ + 1 > maxStock) return maxStock;
+      if (prevQ + 1 > maxStock) return prevQ;
       return prevQ + 1;
     });
   };

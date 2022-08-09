@@ -5,12 +5,14 @@ module.exports = (sequelize, DataTypes) => {
     "order_item",
     {
       order_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        // type: DataTypes.INTEGER,
         onDelete: "cascade",
         allowNull: false,
       },
       product_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        // type: DataTypes.INTEGER,
         onDelete: "cascade",
         allowNull: false,
       },

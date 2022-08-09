@@ -121,9 +121,7 @@ const Products = () => {
 
       <motion.div layout className={styles.products_grid}>
         {data.length > 0 ? (
-          data.map((product, i) => (
-            <Product product={product} key={product.id} />
-          ))
+          data.map((product) => <Product product={product} key={product.id} />)
         ) : isPending ? (
           <main style={styling}>Loading...</main>
         ) : error ? (

@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 const {
   fetchProduct,
   createProduct,
@@ -9,7 +8,10 @@ const {
   deleteProduct,
 } = require("../controllers/productsController");
 
-const { validateFetchProducts } = require("../validations");
+const {
+  validateFetchProducts,
+  validateFetchProduct,
+} = require("../validations");
 
 router
   .route("/")
@@ -19,6 +21,6 @@ router
 
 router.route("/carousel").get(fetchCarouselProducts).post().patch().delete();
 
-router.route("/:id").get(fetchProduct);
+router.route("/:id").get(validateFetchProduct, fetchProduct);
 
 module.exports = router;

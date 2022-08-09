@@ -22,3 +22,10 @@ exports.getProductById = (id) => {
     where: { id },
   });
 };
+
+exports.getCarouselProducts = () => {
+  return product.findAll({
+    include: "media",
+    where: { in_carousel: true },
+  });
+};

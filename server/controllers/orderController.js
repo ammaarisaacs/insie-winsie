@@ -8,9 +8,6 @@ const {
 } = require("../services/orderService");
 
 exports.getShippingRate = async function (req, res, next) {
-  console.log(req.headers);
-  console.log(req.headers["content-type"]);
-  console.log(req.body);
   const { area, city } = req.body;
   try {
     const result = await getShippingRateService(area, city);
@@ -29,7 +26,7 @@ exports.createOrder = async function (req, res, next) {
   const t = await sequelize.transaction();
   try {
     const result = await createOrderService(cart, shipping, billing, t);
-    if (result instanceof ApiError || result instanceof UserError) {
+    if (result instanceof Error) {
       await t.rollback();
       next(result);
       return;
@@ -47,7 +44,7 @@ exports.completeOrder = async function (req, res, next) {
   const t = await sequelize.transaction();
   try {
     const result = await completeOrderSerive(body, t);
-    if (result instanceof ApiError || result instanceof UserError) {
+    if (result instanceof Error) {
       await t.rollback();
       next(result);
       return;
@@ -65,7 +62,7 @@ exports.confirmPayment = async function (req, res, next) {
   const t = await sequelize.transaction();
   try {
     const result = await confirmOrderService(id);
-    if (result instanceof ApiError || result instanceof UserError) {
+    if (result instanceof Error) {
       await t.rollback();
       next(result);
       return;
@@ -80,7 +77,7 @@ exports.confirmPayment = async function (req, res, next) {
 exports.fetchOrders = async function (req, res, next) {
   try {
     const result = fetchAllOrders();
-    if (result instanceof ApiError || result instanceof UserError) {
+    if (result instanceof Error) {
       await t.rollback();
       next(result);
       return;
@@ -97,6 +94,17 @@ exports.fetchOrder = async function (req, res, next) {
 
   // below shouldn't be id but actually the TOKEN sent by payfast
   const { id } = req.params;
+
+  try {
+    const result = await fetchOrderService(id);
+    if (result instanceof Error) {
+      next(result);
+      return;
+    }
+    res.send(result);
+  } catch (error) {
+    next(error);
+  }
 
   // need also logic to get any refund info of any kind
 

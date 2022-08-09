@@ -1,27 +1,24 @@
 "use strict";
+const { order_detail } = require("../models");
 
 module.exports = {
   async up(queryInterface) {
-    queryInterface.bulkInsert("payment_detail", [
-      {
-        name: "token123",
+    const orderIds = await order_detail.findAll({
+      attributes: ["id"],
+      raw: true,
+    });
+    const data = orderIds.map(({ id }, i) => {
+      return {
+        name: `pf payment id ${i}`,
         amount: 200,
-        // provider: "fnb",
-        // status: "pending",
         created_at: new Date(),
         updated_at: new Date(),
-        order_id: 1,
-      },
-      {
-        name: "somethingelse",
-        amount: 200,
-        // provider: "standardBank",
-        // status: "pending",
-        created_at: new Date(),
-        updated_at: new Date(),
-        order_id: 2,
-      },
-    ]);
+        order_id: id,
+      };
+    });
+
+    await queryInterface.bulkInsert("payment_detail", data);
+    return;
   },
 
   async down(queryInterface) {

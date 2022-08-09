@@ -36,7 +36,7 @@ exports.createOrderService = async (cart, shipping, billing, t) => {
   const validCart = items.map(({ product: cartProduct, orderQty }) => {
     const product = products.find((product) => cartProduct.id === product.id);
     const priceIsSame = cartProduct.price === product.price;
-    const enoughStock = orderQty < product.stock_qty;
+    const enoughStock = orderQty <= product.stock_qty;
     return priceIsSame && enoughStock;
   });
   if (validCart.some((check) => check === false))
@@ -86,6 +86,7 @@ exports.createOrderService = async (cart, shipping, billing, t) => {
   const maxOrderNumber = await getMaxOrderNumber(t);
   const formattedMaxOrderNumber = Object.values(maxOrderNumber)[0];
   const orderNumber = formattedMaxOrderNumber + 1;
+  // index or cache this number
 
   const existingOrder = await getOrderByOrderNumber(orderNumber, t);
   if (existingOrder) return ApiError.invalidProperty("Order already exists.");
@@ -102,7 +103,7 @@ exports.createOrderService = async (cart, shipping, billing, t) => {
     t
   );
 
-  // create index of max order 
+  // create index of max order
 
   const orderId = order.id;
   const updates = createOrderItemsList(orderId, items, products, t);
@@ -117,8 +118,7 @@ exports.createOrderService = async (cart, shipping, billing, t) => {
 
   console.log("createOrder: creating pay data ");
 
-  const payData = createPayData(order, orderId);
-  return payData;
+  return createPayData(order, orderId);
 };
 
 exports.completeOrderSerive = async (itn, t) => {
@@ -140,6 +140,8 @@ exports.completeOrderSerive = async (itn, t) => {
   } = itn;
 
   // any validation
+  // check hash
+  // check amount
 
   console.log("completeOrder: received payment status as", payment_status);
 
@@ -166,16 +168,12 @@ exports.completeOrderSerive = async (itn, t) => {
   return payment;
 };
 
-exports.confirmOrderService = async (id, t) => {
-  console.log("confirming payment: for success page");
-
-  id = parseInt(id);
-  if (Number.isNaN(id)) return UserError.invalidProperty("Invalid ID.");
-
+exports.confirmOrderService = async (id) => {
   console.log("confirm payment: getting order for success page");
 
   const order = await getOrderInfo(id);
-  if (order == null) return next(ApiError.noOrder());
+  if (order == null)
+    return next(ApiError.notFound("Could not find order with id:", id));
 
   console.log("confirm payment: checking if payment was stored");
 
@@ -183,17 +181,10 @@ exports.confirmOrderService = async (id, t) => {
   if (payment == null) return ApiError.internal("Could not find payment");
 
   // therefore payment_details must contain that code
-  // email user
-  // get order to populate thank you page
   // how to cancel payments and all that
-  // send email to user about payment
-  // send text about payment
-  // take payment info from req,
-  // populate db with payment
-  // tie it to order
+  // send email or text to user about payment
   // make db models that are not connected to eachother, use promise.all
-
-  res.send(order);
+  return order;
 };
 
 exports.getShippingRateService = async (area, city) => {

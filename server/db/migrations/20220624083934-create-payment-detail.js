@@ -23,7 +23,8 @@ module.exports = {
       //   allowNull: false,
       // },
       order_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        // type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: "order_detail",

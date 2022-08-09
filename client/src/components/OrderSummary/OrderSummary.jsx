@@ -8,6 +8,7 @@ import { sendOrderData } from "../../services/OrderService";
 import validate from "../../validations/validatePaymentData";
 import { useNavigate } from "react-router-dom";
 import { STATIC_URL } from "../../constants";
+import validateUrl from "../../validations/validateUrl";
 
 const OrderSummary = () => {
   const [notClickable, setNotClickable] = useState(true);
@@ -97,7 +98,7 @@ const OrderSummary = () => {
           <hr />
           <form
             ref={ref}
-            action="https://sandbox.payfast.co.za/eng/process"
+            action={validateUrl("https://sandbox.payfast.co.za/eng/process")}
             method="post"
           >
             {Object.keys(payData).length > 0 &&
