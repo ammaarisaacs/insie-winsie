@@ -1,5 +1,6 @@
 const { body, check, param } = require("express-validator");
 const noSpecialChars = require("../validators/noSpecialChars");
+const { checkString } = require("../validators/checkString");
 
 // https://www.freecodecamp.org/news/how-to-perform-custom-validation-in-your-express-js-app-432eb423510f
 
@@ -9,46 +10,57 @@ const provinces = ["NL", "WP", "GT", "LP", "NC", "NW", "FS", "EC"];
 
 exports.shippingRateChecks = [
   body().isObject(),
+  checkString("firstName").isAlpha(),
+  checkString("lastName").isAlpha(),
   body("firstName")
     .notEmpty()
     .isLength({ min: 1, max: 50 })
     .custom((val) => noSpecialChars(val))
+    .isAlpha()
     .trim()
     .toLowerCase(),
+
   body("lastName")
     .notEmpty()
     .isLength({ min: 1, max: 50 })
+    .isAlpha()
     .custom((val) => noSpecialChars(val))
     .trim()
     .toLowerCase(),
+
   body("email")
     .notEmpty()
     .isLength({ min: 1, max: 50 })
     .custom((val) => noSpecialChars(val))
     .trim()
     .toLowerCase(),
+
   body("cellphone")
     .notEmpty()
     .isLength({ min: 1, max: 20 })
     .isNumeric()
     .replace(" ", "")
     .trim(),
+
   body("street")
     .notEmpty()
     .isLength({ min: 1, max: 100 })
     .custom((val) => noSpecialChars(val))
     .trim()
     .toLowerCase(),
+
   body("area").notEmpty().isLength({ min: 1, max: 50 }).trim().toLowerCase(),
+
   body("zipcode").notEmpty().isNumeric().trim().isLength({ min: 1, max: 4 }),
+
   body("province").notEmpty().isAlpha().isIn(provinces).trim().toLowerCase(),
 ];
 exports.createOrdersChecks = [
   body().isObject(),
   body("cart").notEmpty().isObject(),
+
   body("cart.items").notEmpty().isArray({ min: 1 }),
   body("cart.items.*.product").notEmpty().isObject(),
-  body("cart.items.*.orderQty").notEmpty().isInt(),
   body("cart.items.*.product.id").notEmpty().isUUID(),
   body("cart.items.*.product.name")
     .notEmpty()
@@ -61,7 +73,10 @@ exports.createOrdersChecks = [
     .notEmpty()
     .isDecimal({ decimal_digits: 2 }),
   body("cart.items.*.product.stock_qty").notEmpty().isInt(),
-  body("cart.total").isDecimal().isDecimal({ decimal_digits: 2 }),
+  body("cart.items.*.orderQty").notEmpty().isInt(),
+
+  body("cart.total").isDecimal({ decimal_digits: 2 }),
+
   body("shipping").notEmpty().isObject(),
   body("shipping.firstName")
     .notEmpty()
