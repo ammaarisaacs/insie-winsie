@@ -1,6 +1,6 @@
+import styles from "./menu.module.css";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import styles from "./menu.module.css";
 
 const Menu = ({ show, setShow, links, filters, handleFilter, category }) => {
   const navigate = useNavigate();
@@ -10,50 +10,19 @@ const Menu = ({ show, setShow, links, filters, handleFilter, category }) => {
     navigate(`../${url}`);
   };
 
-  const menuVariants = {
-    initial: { clipPath: "ellipse(200% 0 at 0 0)" },
-    animate: {
-      clipPath: "ellipse(200% 200% at 0 0)",
-      transition: { duration: 1.2 },
-    },
-    exit: {
-      clipPath: "ellipse(200% 0% at 0 0)",
-      transition: { duration: 0.7 },
-    },
-  };
-
-  const menuItemVariants = {
-    initial: { y: -10, opacity: 0 },
-    animate: (i) => ({
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.8, delay: 0.2 * i },
-    }),
-  };
-
   const filterVariants = {
-    grow: {
-      width: "100%",
-      transition: {
-        duration: 0.3,
-      },
-    },
-    shrink: {
-      width: "0%",
-      transition: {
-        duration: 0.3,
-      },
-    },
+    grow: { width: "100%" },
+    shrink: { width: "0%" },
   };
 
   return (
     <AnimatePresence>
       {show && (
         <motion.menu
-          variants={menuVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
+          initial={{ clipPath: "ellipse(200% 0 at 0 0)" }}
+          animate={{ clipPath: "ellipse(200% 200% at 0 0)" }}
+          exit={{ clipPath: "ellipse(200% 0% at 0 0)" }}
+          transition={{ duration: 0.7 }}
           className={
             styles[links ? "nav_menu_container" : "filter_menu_container"]
           }
@@ -63,10 +32,9 @@ const Menu = ({ show, setShow, links, filters, handleFilter, category }) => {
               return (
                 <motion.p
                   key={text}
-                  variants={menuItemVariants}
-                  initial="initial"
-                  animate="animate"
-                  custom={i}
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.2 * i }}
                   className={styles.nav_item}
                   onClick={() => movePage(url)}
                 >
@@ -85,10 +53,9 @@ const Menu = ({ show, setShow, links, filters, handleFilter, category }) => {
                 }}
               >
                 <motion.p
-                  variants={menuItemVariants}
-                  initial="initial"
-                  animate="animate"
-                  custom={i}
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.2 * i }}
                 >
                   {query}
                 </motion.p>
@@ -96,6 +63,7 @@ const Menu = ({ show, setShow, links, filters, handleFilter, category }) => {
                   variants={filterVariants}
                   initial={{ width: 0 }}
                   animate={category.includes(query) ? "grow" : "shrink"}
+                  transition={{ duration: 0.3 }}
                   className={styles.underline}
                 />
               </motion.div>

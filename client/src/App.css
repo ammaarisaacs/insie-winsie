@@ -80,7 +80,8 @@ hr {
 button,
 span,
 input,
-select {
+select,
+textarea {
   font-family: var(--app-font-family);
   font-weight: 100;
 }

@@ -6,7 +6,7 @@ const {
   validateFetchShippingRate,
   validateConfirmPayment,
   validateCompleteOrder,
-} = require("../validations");
+} = require("../middlewares/validateData");
 const {
   getShippingRate,
   fetchOrder,

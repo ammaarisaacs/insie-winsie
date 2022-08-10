@@ -7,14 +7,7 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
-import {
-  Layout,
-  Products,
-  PageNotFound,
-  ProductDetail,
-  Cart,
-  ErrorBoundary,
-} from "./components";
+import { Layout, ErrorBoundary } from "./components";
 import {
   AboutPage,
   HomePage,
@@ -23,6 +16,10 @@ import {
   FaqPage,
   SuccessPage,
   ErrorPage,
+  ProductDetailPage,
+  ProductsPage,
+  PageNotFound,
+  CartPage,
 } from "./pages";
 
 // https://dribbble.com/shots/6890113-The-Curology-landing-product-page-interaction
@@ -38,9 +35,9 @@ const AnimatedRoutes = () => {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faqs" element={<FaqPage />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/products/:id" element={<ProductDetail />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/:id" element={<ProductDetailPage />} />
+          <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/checkout/success/:id" element={<SuccessPage />} />
           <Route path="/error" element={<ErrorPage />} />
@@ -140,32 +137,24 @@ export default App;
 // server
 
 // possibly to submit formdata from server to payfast instead
-// input validation -> query, params, forms, json
 // limit payload size
 // limit requests
 // helmet for headers
-// validate content type header
-// output escaping
 // logging
 // only return what is necessary
 // disable unused routes
 // hide what framework you are using in headers
 // hpp possibly for polution
 // ssl and https -> lets encrypt
-// check helmet and how to enable pictures in client for production
 // white list config files for emails, provinces, cities, urls https://stackoverflow.com/questions/36393256/express-cors-domain-whitelist https://www.tabnine.com/code/javascript/functions/express-validator/ValidationChain/isIn
-// configure prettier to not add ; to .env file
 // sort out errors in payfast checks
 // custom ip validator and white listing https://stackoverflow.com/questions/43866071/how-to-do-whitelist-of-ips-in-express
 
 // client
 
 // hide what framework you are using in headers
-// customize toast to show array of messages
 // prevent multiple click requests
-// javacript: in url how to validate
 // Output Encoding and HTML Sanitization
-// hpp implementation
 // rate limit
 // check accept header
 
@@ -193,6 +182,8 @@ export default App;
 //    https://www.youtube.com/watch?v=mZvKPtH9Fzo&ab_channel=PedroTech
 //    https://youtu.be/MY6ZZIn93V8
 //    https://youtu.be/x7niho285qs
+// javacript: in url how to validate => handled with htmml escaping
+// hpp implementation
 
 // SERVER
 // when order is sent, do a validation for the prices that they must match up to prices is db incase someone changes it on frontend side
@@ -200,15 +191,11 @@ export default App;
 // ordering
 // use uuid where you can
 // content type check
+// input validation -> query, params, forms, json
+// validate content type header => express validator will check if json, or if object, or if url, or if uuid etc
+// check helmet and how to enable pictures in client for production
+// configure prettier to not add ; to .env file
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// white board
-
-// things you have
-//  ips => localhost etc
-//  sources =>
-//  origins =>
-//  referrer

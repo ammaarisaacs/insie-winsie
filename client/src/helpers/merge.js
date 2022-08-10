@@ -1,14 +1,35 @@
-// grabs all value attributes in form data
-export const mapStateToPost = (formData) => {
-  let postData = {};
-  for (let field in formData) {
-    const { value } = formData[field];
-    postData[field] = value;
+export const mapStateToProps = (state, keys) => {
+  let propConfig = [];
+
+  for (let field in state) {
+    const props = {
+      id: field,
+      name: field,
+      text: state[field].text,
+      value: state[field].text,
+    };
+
+    propConfig.push(props);
   }
-  return postData;
+  return propConfig;
 };
 
-const mapStateToInputProps = (state, keys, handler, error) => {
+// state object you need
+// state[field];
+// actual valie of the key you want
+// state[field][key];
+
+// const propsObj = {};
+
+// loop thorugh state
+// for each state check each key and see if it is in keys obj
+// if it is:
+// propsObj[key] = state[field][key];
+
+// push probsObh to props
+// loop again
+
+export const mapStateToInputProps = (state, keys, handler, error) => {
   let props = [];
   for (let field in state) {
     let prop = {};
@@ -22,11 +43,11 @@ const mapStateToInputProps = (state, keys, handler, error) => {
   }
 };
 
-export const formatOrderData = (...args) => {
-  const [cartItems, shippingData, billingData, isSame, totalPrice, data] = args;
-  return {
-    shipping: { ...shippingData, method: data },
-    ...(!isSame && { billing: billingData }),
-    cart: { items: cartItems, total: parseFloat(totalPrice.toFixed(2)) },
-  };
+export const mapStateToPost = (formData) => {
+  let postData = {};
+  for (let field in formData) {
+    const { value } = formData[field];
+    postData[field] = value;
+  }
+  return postData;
 };

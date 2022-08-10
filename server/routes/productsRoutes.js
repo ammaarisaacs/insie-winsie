@@ -11,7 +11,7 @@ const {
 const {
   validateFetchProducts,
   validateFetchProduct,
-} = require("../validations");
+} = require("../middlewares/validateData");
 
 router
   .route("/")
