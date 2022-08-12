@@ -1,166 +1,81 @@
 const { body, check, param } = require("express-validator");
-const noSpecialChars = require("../validators/noSpecialChars");
-const { checkString } = require("../validators/checkString");
+const {
+  checkEmail,
+  checkNumeric,
+  checkCell,
+  checkUnspecialString,
+  checkOptionalString,
+  checkOptionalCell,
+  checkOptionalEmail,
+  checkOptionalNumeric,
+  checkString,
+} = require("../validators/common");
 
 // https://www.freecodecamp.org/news/how-to-perform-custom-validation-in-your-express-js-app-432eb423510f
-
-// change all id's to uuid
 
 const provinces = ["NL", "WP", "GT", "LP", "NC", "NW", "FS", "EC"];
 
 exports.shippingRateChecks = [
   body().isObject(),
-  checkString("firstName").isAlpha(),
-  checkString("lastName").isAlpha(),
-  body("firstName")
-    .notEmpty()
-    .isLength({ min: 1, max: 50 })
-    .custom((val) => noSpecialChars(val))
-    .isAlpha()
-    .trim()
-    .toLowerCase(),
-
-  body("lastName")
-    .notEmpty()
-    .isLength({ min: 1, max: 50 })
-    .isAlpha()
-    .custom((val) => noSpecialChars(val))
-    .trim()
-    .toLowerCase(),
-
-  body("email")
-    .notEmpty()
-    .isLength({ min: 1, max: 50 })
-    .custom((val) => noSpecialChars(val))
-    .trim()
-    .toLowerCase(),
-
-  body("cellphone")
-    .notEmpty()
-    .isLength({ min: 1, max: 20 })
-    .isNumeric()
-    .replace(" ", "")
-    .trim(),
-
-  body("street")
-    .notEmpty()
-    .isLength({ min: 1, max: 100 })
-    .custom((val) => noSpecialChars(val))
-    .trim()
-    .toLowerCase(),
-
-  body("area").notEmpty().isLength({ min: 1, max: 50 }).trim().toLowerCase(),
-
-  body("zipcode").notEmpty().isNumeric().trim().isLength({ min: 1, max: 4 }),
-
-  body("province").notEmpty().isAlpha().isIn(provinces).trim().toLowerCase(),
+  checkUnspecialString("firstName"),
+  checkUnspecialString("lastName").isAlpha(),
+  checkEmail("email", 50),
+  checkCell("cellphone", 20),
+  checkUnspecialString("street", 100),
+  checkUnspecialString("area", 50),
+  checkNumeric("zipcode", 4),
+  body("province").notEmpty().isAlpha().trim().isIn(provinces).toLowerCase(),
 ];
+
 exports.createOrdersChecks = [
   body().isObject(),
   body("cart").notEmpty().isObject(),
-
   body("cart.items").notEmpty().isArray({ min: 1 }),
   body("cart.items.*.product").notEmpty().isObject(),
   body("cart.items.*.product.id").notEmpty().isUUID(),
-  body("cart.items.*.product.name")
-    .notEmpty()
-    .isLength({ min: 1, max: 50 })
-    .custom((val) => noSpecialChars(val)),
-  body("cart.items.*.product.description")
-    .notEmpty()
-    .custom((val) => noSpecialChars(val)),
+  checkUnspecialString("cart.items.*.product.name", 50),
+  checkString("cart.items.*.product.description", 300),
   body("cart.items.*.product.price")
     .notEmpty()
     .isDecimal({ decimal_digits: 2 }),
   body("cart.items.*.product.stock_qty").notEmpty().isInt(),
   body("cart.items.*.orderQty").notEmpty().isInt(),
-
   body("cart.total").isDecimal({ decimal_digits: 2 }),
 
   body("shipping").notEmpty().isObject(),
-  body("shipping.firstName")
-    .notEmpty()
-    .trim()
-    .toLowerCase()
-    .isLength({ min: 1, max: 30 }),
-  body("shipping.lastName")
-    .notEmpty()
-    .trim()
-    .toLowerCase()
-    .isLength({ min: 1, max: 30 })
-    .custom((val) => noSpecialChars(val)),
-  body("shipping.email")
-    .notEmpty()
-    .trim()
-    .normalizeEmail()
-    .toLowerCase()
-    .isLength({ min: 1, max: 50 })
-    .custom((val) => noSpecialChars(val)),
-  body("shipping.cellphone")
-    .notEmpty()
-    .trim()
-    .isLength({ min: 1, max: 20 })
-    .custom((val) => noSpecialChars(val)),
-  body("shipping.street")
-    .notEmpty()
-    .trim()
-    .isLength({ min: 1, max: 50 })
-    .custom((val) => noSpecialChars(val)),
-  body("shipping.area")
-    .notEmpty()
-    .trim()
-    .isLength({ min: 1, max: 30 })
-    .custom((val) => noSpecialChars(val)),
-  body("shipping.zipcode")
-    .notEmpty()
-    .isNumeric()
-    .trim()
-    .isLength({ min: 1, max: 4 }),
+  checkUnspecialString("shipping.firstName", 30),
+  checkUnspecialString("shipping.lastName", 30),
+  checkEmail("shipping.email", 50),
+  checkCell("shipping.cellphone", 20),
+  checkUnspecialString("shipping.street", 50),
+  checkUnspecialString("shipping.area", 30),
+  checkNumeric("shipping.zipcode", 4),
   body("shipping.province").notEmpty().trim().isAlpha().isIn(provinces),
+
   check("billing").optional().isObject(),
-  check("billing.firstName")
-    .if(body("billing").exists())
-    .notEmpty()
-    .isLength({ min: 1, max: 30 }),
-  check("billing.lastName")
-    .if(body("billing").exists())
-    .notEmpty()
-    .isLength({ min: 1, max: 30 }),
-  check("billing.email")
-    .if(body("billing").exists())
-    .notEmpty()
-    .isLength({ min: 1, max: 50 }),
-  check("billing.cellphone")
-    .if(body("billing").exists())
-    .isLength({ min: 1, max: 20 })
-    .notEmpty()
-    .isNumeric(),
-  check("billing.street")
-    .if(body("billing").exists())
-    .notEmpty()
-    .isLength({ min: 1, max: 50 }),
-  check("billing.area")
-    .if(body("billing").exists())
-    .notEmpty()
-    .isLength({ min: 1, max: 30 }),
-  check("billing.zipcode")
-    .if(body("billing").exists())
-    .notEmpty()
-    .isNumeric()
-    .trim()
-    .isLength({ min: 1, max: 4 }),
+  checkOptionalString("billing", "billing.firstName", 30),
+  checkOptionalString("billing", "billing.lastName", 30),
+  checkOptionalEmail("billing", "billing.email", 50),
+  checkOptionalCell("billing", "billing.cellphone", 20),
+  checkOptionalString("billing", "billing.street", 30),
+  checkOptionalString("billing", "billing.area", 30),
+  checkOptionalNumeric("billing", "billing.zipcode", 10),
   check("billing.province")
     .if(body("billing").exists())
     .notEmpty()
     .isAlpha()
     .isIn(provinces),
 ];
+
 exports.completeOrderChecks = [
   body("item_name").notEmpty().isInt(),
   body("pf_payment_id").notEmpty(),
   body("order").notEmpty().isObject(),
+  body("signature").isHash("md5"),
 ];
+
 exports.confirmPaymentChecks = [param("id").notEmpty().isUUID()];
+
 exports.FetchOrdersChecks = [];
 exports.FetchOrderChecks = [];
 exports.UpdateOrdersChecks = [];

@@ -1,9 +1,9 @@
 const { validationResult } = require("express-validator");
+const { contactChecks } = require("../validations/checks/contactChecks");
 const {
   fetchProductsChecks,
   fetchProductChecks,
 } = require("../validations/checks/productChecks");
-const { contactChecks } = require("../validations/checks/contactChecks");
 const {
   shippingRateChecks,
   createOrdersChecks,
@@ -20,7 +20,7 @@ exports.validateFetchProduct = makeValidation(fetchProductChecks);
 
 exports.validateFetchShippingRate = makeValidation(shippingRateChecks);
 exports.validateCreateOrder = makeValidation(createOrdersChecks);
-exports.validateCompleteOrder = makeValidation(completeOrderChecks);
+exports.validateCompleteOrder = makeInternalValidation(completeOrderChecks);
 exports.validateConfirmPayment = makeValidation(confirmPaymentChecks);
 
 // contact
@@ -37,6 +37,23 @@ function makeValidation(checks) {
       // res.status(400).json({ errors: errors.array() });
       return;
     }
-    return next();
+    next();
+    return;
+  };
+}
+
+function makeInternalValidation(checks) {
+  return async (req, res, next) => {
+    await Promise.all(checks.map((check) => check.run(req)));
+    const errors = validationResult(req);
+    // log this to file
+    if (!errors.isEmpty()) {
+      // send to apierrorhandler
+      // have a way of showing errors that are arrays
+      console.log(errors);
+      return;
+    }
+    next();
+    return;
   };
 }

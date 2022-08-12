@@ -23,7 +23,7 @@ const initialState = {
   cellphone: {
     value: "",
     required: true,
-    numeric: true,
+    // numeric: true,
     maxLength: 20,
   },
   street: {

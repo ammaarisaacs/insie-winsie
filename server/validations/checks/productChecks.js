@@ -1,10 +1,4 @@
 const { param, query } = require("express-validator");
-const noSpecialChars = require("../validators/noSpecialChars");
-
-const hasJavascript = (val) => {
-  if (!val.includes("javascript")) return true;
-  return false;
-};
 
 // category
 // whitelist check with categories
@@ -26,8 +20,8 @@ exports.fetchProductsChecks = [
     .toLowerCase()
     .escape(),
 ];
-// must change id to uuid
 exports.fetchProductChecks = [param("id").notEmpty().isUUID()];
+
 exports.createProductChecks = {};
 exports.deleteProductChecks = {};
 exports.updateProductChecks = {};

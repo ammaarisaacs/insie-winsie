@@ -1,5 +1,7 @@
+import { useEffect, useRef } from "react";
 import { randify } from "../../utils/costing";
 import { STATIC_URL } from "../../constants";
+import validate from "../../validations/validatePaymentData";
 import validateUrl from "../../validations/validateUrl";
 import { motion } from "framer-motion";
 import styles from "./ordersummary.module.css";
@@ -9,11 +11,25 @@ const OrderSummary = ({
   getPaymentData,
   shippingRate,
   paymentErrors,
+  setPaymentErrors,
   cartItems,
   totalPrice,
+  orderData,
   payData,
-  ref,
 }) => {
+  const ref = useRef();
+
+  useEffect(() => {
+    if (Object.keys(orderData).length > 0 && Object.keys(payData).length > 0) {
+      const errors = validate(payData, orderData);
+      if (Object.keys(errors).length !== 0) {
+        setPaymentErrors(errors);
+      } else {
+        ref.current.submit();
+      }
+    }
+  }, [payData]);
+
   return (
     <div className={styles.order_items_container}>
       <h4>Order Summary</h4>

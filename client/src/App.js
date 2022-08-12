@@ -149,6 +149,7 @@ export default App;
 // white list config files for emails, provinces, cities, urls https://stackoverflow.com/questions/36393256/express-cors-domain-whitelist https://www.tabnine.com/code/javascript/functions/express-validator/ValidationChain/isIn
 // sort out errors in payfast checks
 // custom ip validator and white listing https://stackoverflow.com/questions/43866071/how-to-do-whitelist-of-ips-in-express
+// send email to client when placing order, if it rejects, stop order
 
 // client
 

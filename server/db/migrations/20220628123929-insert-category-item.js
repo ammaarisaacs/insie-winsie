@@ -3,7 +3,7 @@ const { product, category_detail } = require("../models");
 
 module.exports = {
   async up(queryInterface) {
-    const categories = await category_detail.findAll({ attributes: [id] });
+    const categories = await category_detail.findAll({ attributes: ["id"] });
     const ids = await product.findAll({ attributes: ["id"], raw: true });
     const data = ids.map(({ id }) => {
       return {
