@@ -30,7 +30,6 @@ const SuccessPage = () => {
 
   useEffect(() => {
     clearCart();
-    console.log(id);
   }, []);
 
   const pageVariants = {

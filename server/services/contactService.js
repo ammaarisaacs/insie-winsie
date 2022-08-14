@@ -1,4 +1,4 @@
-const { ApiError, UserError } = require("../errors");
+const { ApiError } = require("../errors");
 const { createContact } = require("../repo/contactRepo");
 
 exports.createContactService = async (body) => {

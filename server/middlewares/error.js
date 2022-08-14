@@ -1,4 +1,5 @@
 const { UserError } = require("../errors");
+const { errLogger } = require("../lib/logger");
 
 const apiErrorHandler = (err, req, res, next) => {
   if (err instanceof UserError) {
@@ -7,10 +8,11 @@ const apiErrorHandler = (err, req, res, next) => {
     res.status(500).json("Something went wrong.");
   }
 
-  // logger of error
-  console.error("\x1b[31m%s\x1b[31m", err.code);
-  console.error("\x1b[31m%s\x1b[31m", err.message);
-  console.error("\x1b[31m%s\x1b[31m", err.stack);
+  errLogger.error({
+    message: err.message,
+    code: err.code,
+    stack: err.stack,
+  });
 };
 
 module.exports = apiErrorHandler;

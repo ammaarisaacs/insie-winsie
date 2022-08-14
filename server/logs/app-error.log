@@ -1,0 +1,144 @@
+2022-08-13 19:50:45 [ERROR] [31m 	Could not find payment 500 Error: Could not find payment
+    at Function.internal (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\ApiError.js:37:12)
+    at exports.confirmOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:186:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.confirmPayment (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:63:20)[0m
+2022-08-13 19:50:45 [ERROR] [31m 	Could not find payment 500 Error: Could not find payment
+    at Function.internal (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\ApiError.js:37:12)
+    at exports.confirmOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:186:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.confirmPayment (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:63:20)[0m
+2022-08-13 19:51:52 [ERROR] [31m 	Could not find payment 500 Error: Could not find payment
+    at Function.internal (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\ApiError.js:37:12)
+    at exports.confirmOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:186:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.confirmPayment (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:63:20)[0m
+2022-08-13 19:51:52 [ERROR] [31m 	Could not find payment 500 Error: Could not find payment
+    at Function.internal (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\ApiError.js:37:12)
+    at exports.confirmOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:186:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.confirmPayment (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:63:20)[0m
+2022-08-13 19:53:26 [ERROR] [31m 	Could not find payment 500 Error: Could not find payment
+    at Function.internal (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\ApiError.js:37:12)
+    at exports.confirmOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:186:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.confirmPayment (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:63:20)[0m
+2022-08-13 19:53:26 [ERROR] [31m 	Could not find payment 500 Error: Could not find payment
+    at Function.internal (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\ApiError.js:37:12)
+    at exports.confirmOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:186:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.confirmPayment (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:63:20)[0m
+2022-08-13 20:01:20 [ERROR] [31m 	Could not find payment 500 Error: Could not find payment
+    at Function.internal (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\ApiError.js:37:12)
+    at exports.confirmOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:186:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.confirmPayment (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:63:20)[0m
+2022-08-13 20:01:20 [ERROR] [31m 	Could not find payment 500 Error: Could not find payment
+    at Function.internal (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\ApiError.js:37:12)
+    at exports.confirmOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:186:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.confirmPayment (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:63:20)[0m
+2022-08-13 20:04:19 [ERROR] [31m 	Could not find payment 500 Error: Could not find payment
+    at Function.internal (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\ApiError.js:37:12)
+    at exports.confirmOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:186:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.confirmPayment (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:63:20)[0m
+2022-08-13 20:04:19 [ERROR] [31m 	Could not find payment 500 Error: Could not find payment
+    at Function.internal (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\ApiError.js:37:12)
+    at exports.confirmOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:186:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.confirmPayment (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:63:20)[0m
+2022-08-13 20:09:25 [ERROR] [31m 	Could not find payment 500 Error: Could not find payment
+    at Function.internal (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\ApiError.js:37:12)
+    at exports.confirmOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:186:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.confirmPayment (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:63:20)[0m
+2022-08-13 20:09:26 [ERROR] [31m 	Could not find payment 500 Error: Could not find payment
+    at Function.internal (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\ApiError.js:37:12)
+    at exports.confirmOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:186:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.confirmPayment (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:63:20)[0m
+2022-08-13 20:18:32 [ERROR] [31m 	Operation timeout undefined SequelizeConnectionAcquireTimeoutError: Operation timeout
+    at ConnectionManager.getConnection (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\dialects\abstract\connection-manager.js:204:15)
+    at async C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\sequelize.js:301:26
+    at async MySQLQueryInterface.select (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\dialects\abstract\query-interface.js:407:12)
+    at async Function.findAll (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1134:21)
+    at async exports.createOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:29:20)
+    at async exports.createOrder (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:27:20)[0m
+2022-08-13 20:19:32 [ERROR] [31m 	Operation timeout undefined SequelizeConnectionAcquireTimeoutError: Operation timeout
+    at ConnectionManager.getConnection (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\dialects\abstract\connection-manager.js:204:15)
+    at async C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\sequelize.js:301:26
+    at async MySQLQueryInterface.select (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\dialects\abstract\query-interface.js:407:12)
+    at async Function.findAll (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1134:21)
+    at async exports.createOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:29:20)
+    at async exports.createOrder (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:27:20)[0m
+2022-08-13 23:11:48 [ERROR] [31m 	result.get is not a function undefined TypeError: result.get is not a function
+    at C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1183:37
+    at Array.reduce (<anonymous>)
+    at C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1182:50
+    at Array.map (<anonymous>)
+    at Function._findSeparate (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1180:39)
+    at Function.findAll (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1147:24)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.fetchCarouseProductsService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\productsService.js:47:10)
+    at async exports.fetchCarouselProducts (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\productsController.js:57:20)[0m
+2022-08-13 23:11:48 [ERROR] [31m 	result.get is not a function undefined TypeError: result.get is not a function
+    at C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1183:37
+    at Array.reduce (<anonymous>)
+    at C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1182:50
+    at Array.map (<anonymous>)
+    at Function._findSeparate (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1180:39)
+    at Function.findAll (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1147:24)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.fetchCarouseProductsService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\productsService.js:47:10)
+    at async exports.fetchCarouselProducts (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\productsController.js:57:20)[0m
+2022-08-13 23:12:04 [ERROR] [31m 	result.get is not a function undefined TypeError: result.get is not a function
+    at C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1183:37
+    at Array.reduce (<anonymous>)
+    at C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1182:50
+    at Array.map (<anonymous>)
+    at Function._findSeparate (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1180:39)
+    at Function.findAll (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1147:24)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.getProductsService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\productsService.js:35:12)
+    at async exports.fetchProducts (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\productsController.js:30:20)[0m
+2022-08-13 23:12:04 [ERROR] [31m 	result.get is not a function undefined TypeError: result.get is not a function
+    at C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1183:37
+    at Array.reduce (<anonymous>)
+    at C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1182:50
+    at Array.map (<anonymous>)
+    at Function._findSeparate (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1180:39)
+    at Function.findAll (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1147:24)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.getProductsService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\productsService.js:35:12)
+    at async exports.fetchProducts (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\productsController.js:30:20)[0m
+2022-08-13 23:14:31 [ERROR] [31m 	result.get is not a function undefined TypeError: result.get is not a function
+    at C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1183:37
+    at Array.reduce (<anonymous>)
+    at C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1182:50
+    at Array.map (<anonymous>)
+    at Function._findSeparate (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1180:39)
+    at Function.findAll (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1147:24)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.getProductsService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\productsService.js:35:12)
+    at async exports.fetchProducts (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\productsController.js:30:20)[0m
+2022-08-13 23:14:31 [ERROR] [31m 	result.get is not a function undefined TypeError: result.get is not a function
+    at C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1183:37
+    at Array.reduce (<anonymous>)
+    at C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1182:50
+    at Array.map (<anonymous>)
+    at Function._findSeparate (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1180:39)
+    at Function.findAll (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\node_modules\sequelize\lib\model.js:1147:24)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.getProductsService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\productsService.js:35:12)
+    at async exports.fetchProducts (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\productsController.js:30:20)[0m
+2022-08-13 23:25:16 [ERROR] [31m 	Could not find payment 500 Error: Could not find payment
+    at Function.internal (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\ApiError.js:37:12)
+    at exports.confirmOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:186:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.confirmPayment (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:63:20)[0m
+2022-08-13 23:25:16 [ERROR] [31m 	Could not find payment 500 Error: Could not find payment
+    at Function.internal (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\ApiError.js:37:12)
+    at exports.confirmOrderService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:186:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.confirmPayment (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:63:20)[0m

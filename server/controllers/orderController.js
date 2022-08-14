@@ -1,5 +1,4 @@
 const { sequelize } = require("../db/models");
-const { UserError, ApiError } = require("../errors");
 const {
   createOrderService,
   completeOrderSerive,
@@ -8,11 +7,10 @@ const {
 } = require("../services/orderService");
 
 exports.getShippingRate = async function (req, res, next) {
-  console.log(req.body);
   const { area, city } = req.body;
   try {
     const result = await getShippingRateService(area, city);
-    if (result instanceof ApiError || result instanceof UserError) {
+    if (result instanceof Error) {
       next(result);
       return;
     }
@@ -92,7 +90,6 @@ exports.fetchOrders = async function (req, res, next) {
 
 exports.fetchOrder = async function (req, res, next) {
   // this request for now will come from they're email and come to this page
-
   // below shouldn't be id but actually the TOKEN sent by payfast
   const { id } = req.params;
 
@@ -109,45 +106,45 @@ exports.fetchOrder = async function (req, res, next) {
 
   // need also logic to get any refund info of any kind
 
-  try {
-    const order = await order_detail.findOne({
-      where: { id },
-      attributes: {
-        exclude: ["ship_address_id", "bill_address_id", "ship_method_id"],
-      },
-      include: [
-        {
-          model: product,
-          attributes: {
-            exclude: ["createdAt", "updatedAt", "in_carousel", "stock_qty"],
-          },
-          through: {
-            attributes: ["order_qty"],
-          },
-        },
-        {
-          model: address,
-          attributes: { exclude: ["createdAt", "updatedAt"] },
-          as: "shipAddressId",
-        },
-        {
-          model: address,
-          attributes: { exclude: ["createdAt", "updatedAt"] },
-          as: "billAddressId",
-        },
-        {
-          model: payment_detail,
-          attributes: { exclude: ["id"] },
-        },
-      ],
-    });
+  //   try {
+  //     const order = await order_detail.findOne({
+  //       where: { id },
+  //       attributes: {
+  //         exclude: ["ship_address_id", "bill_address_id", "ship_method_id"],
+  //       },
+  //       include: [
+  //         {
+  //           model: product,
+  //           attributes: {
+  //             exclude: ["createdAt", "updatedAt", "in_carousel", "stock_qty"],
+  //           },
+  //           through: {
+  //             attributes: ["order_qty"],
+  //           },
+  //         },
+  //         {
+  //           model: address,
+  //           attributes: { exclude: ["createdAt", "updatedAt"] },
+  //           as: "shipAddressId",
+  //         },
+  //         {
+  //           model: address,
+  //           attributes: { exclude: ["createdAt", "updatedAt"] },
+  //           as: "billAddressId",
+  //         },
+  //         {
+  //           model: payment_detail,
+  //           attributes: { exclude: ["id"] },
+  //         },
+  //       ],
+  //     });
 
-    if (order == null) return next(ApiError.noOrder());
+  //     if (order == null) return next(ApiError.noOrder());
 
-    res.send(order);
-  } catch (error) {
-    return next(ApiError.internal());
-  }
+  //     res.send(order);
+  //   } catch (error) {
+  //     return next(ApiError.internal());
+  //   }
 };
 
 exports.updateOrder = async function (req, res, next) {
@@ -155,7 +152,7 @@ exports.updateOrder = async function (req, res, next) {
   const t = await sequelize.transaction();
   try {
     const result = updateOrderService(id, t);
-    if (result instanceof ApiError || result instanceof UserError) {
+    if (result instanceof Error) {
       await t.rollback();
       next(result);
       return;
@@ -173,7 +170,7 @@ exports.deleteOrder = async function (req, res, next) {
   const { id } = req.params;
   try {
     const result = deleteOrderById();
-    if (result instanceof ApiError || result instanceof UserError) {
+    if (result instanceof Error) {
       await t.rollback();
       next(result);
       return;

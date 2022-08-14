@@ -11,8 +11,7 @@ const checkoutRoute = require("./routes/orderRoutes");
 const contactsRoute = require("./routes/contactRoutes");
 const noRoutesHandler = require("./middlewares/noRoutes");
 const apiErrorHandler = require("./middlewares/error");
-const logger = require("./lib/logger");
-const { info } = require("console");
+const { logger, errLogger } = require("./lib/logger");
 require("dotenv").config();
 const PORT = process.env.PORT || 5000;
 
@@ -41,7 +40,8 @@ app.use(apiErrorHandler);
 db.sequelize.sync().then(() => {
   logger.log({ level: "info", message: "Database Synced" });
   app.listen(PORT, (err) => {
-    if (err) console.log(err);
+    if (err)
+      errLogger.log({ level: "info", message: "Error connecting to server" });
     logger.log({
       level: "info",
       message: `Server listening on port: ${PORT}`,

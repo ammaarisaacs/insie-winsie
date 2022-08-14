@@ -81,7 +81,7 @@ exports.getOrderByOrderNumber = (order_number, t) => {
 exports.getOrderAndQtyByOrderNumber = (order_number) => {
   return order_detail.findOne({
     where: { order_number },
-    include: [{ model: product, through: { attributes: ["order_qty"] } }],
+    include: [{ model: product, through: { attributes: ["id", "order_qty"] } }],
   });
 };
 

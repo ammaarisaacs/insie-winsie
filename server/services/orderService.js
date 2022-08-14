@@ -16,6 +16,7 @@ const {
   getPaymentDetailByOrderId,
   getShippingMethodByAddress,
 } = require("../repo/orderRepo");
+const { logger } = require("../lib/logger");
 
 exports.createOrderService = async (cart, shipping, billing, t) => {
   const { items, total } = cart;
@@ -31,7 +32,7 @@ exports.createOrderService = async (cart, shipping, billing, t) => {
   if (products.length !== items.length)
     return ApiError.mismatch("Cart length mismatch.");
 
-  console.log("createOrder: checking if cart is up to date");
+  logger.info({ message: `Checking cart items ids ( ${ids.join(", ")} ) ` });
 
   const validCart = items.map(({ product: cartProduct, orderQty }) => {
     const product = products.find((product) => cartProduct.id === product.id);
@@ -42,12 +43,14 @@ exports.createOrderService = async (cart, shipping, billing, t) => {
   if (validCart.some((check) => check === false))
     return ApiError.mismatch("Cart data mismatch.");
 
-  console.log("createOrder: checking if shipping method charge is correct");
+  logger.info({ message: "Verifying shipping method" });
 
   const shipMethod = await getShipMethod(shipMethodId, t);
   const serverCharge = shipMethod.charge;
   if (serverCharge !== charge)
     return ApiError.mismatch("Shipping method charge mismatch.");
+
+  logger.info({ message: "Verifying payable amounts" });
 
   const serverTotal = products.reduce((total, product) => {
     const cartItem = items.find(
@@ -61,7 +64,7 @@ exports.createOrderService = async (cart, shipping, billing, t) => {
   if (clientGrandTotal != serverGrandTotal)
     return ApiError.mismatch("Payment amount mismatch.");
 
-  console.log("createOrder: checking if address and billing are the same");
+  logger.info({ message: "Verifying addresses" });
 
   let existingAddress, shippingId, billingId;
   existingAddress = await getAddress(shipping);
@@ -81,12 +84,12 @@ exports.createOrderService = async (cart, shipping, billing, t) => {
     billingId = shippingId;
   }
 
-  console.log("createOrder: getting max order number");
-
   const maxOrderNumber = await getMaxOrderNumber(t);
   const formattedMaxOrderNumber = Object.values(maxOrderNumber)[0];
   const orderNumber = formattedMaxOrderNumber + 1;
   // index or cache this number
+
+  logger.info({ message: `Generated order number ${orderNumber}` });
 
   const existingOrder = await getOrderByOrderNumber(orderNumber, t);
   if (existingOrder) return ApiError.invalidProperty("Order already exists.");
@@ -116,7 +119,7 @@ exports.createOrderService = async (cart, shipping, billing, t) => {
   )
     return ApiError.internal("Order items could not be created.");
 
-  console.log("createOrder: creating pay data ");
+  logger.info(`Generating pay information for ${orderId}`);
 
   return createPayData(order, orderId);
 };
@@ -139,29 +142,33 @@ exports.completeOrderSerive = async (itn, t) => {
     order,
   } = itn;
 
-  // any validation
-  // check hash
-  // check amount
-
-  console.log("completeOrder: received payment status as", payment_status);
-
   if (payment_status !== "COMPLETE")
     return ApiError.invalidProperty(`Payment status is ${payment_status}`);
 
   const { id, products } = order;
 
-  console.log("completeOrder: updating stock quantities.");
+  logger.info({
+    message: `Received payment as ${payment_status} for order ${item_name}`,
+  });
+
+  logger.info({
+    message: `Updating stock for products (${products
+      .map((product) => product.id)
+      .join(", ")})`,
+  });
 
   const updates = createProductUpdatesList(products, t);
-  const orderStatusUpdate = updateOrderDetailStatus(id, t);
-  updates.push(orderStatusUpdate);
   const results = await Promise.all(updates);
   if (results.some((result) => result < 1))
-    return ApiError.internal(
-      "Error when updating product stock or order status"
-    );
+    return ApiError.internal("Error when updating product stock");
 
-  console.log("completeOrder: creating payment detail");
+  const updatedOrder = await updateOrderDetailStatus(id, t);
+  if (updatedOrder.some((result) => result < 1))
+    return ApiError.internal(`Order status was not updated`);
+
+  logger.info({
+    message: `Creating payment for order ${item_name}`,
+  });
 
   const payment = await createPaymentDetail(itn, id, t);
   if (!payment) return ApiError.internal("Payment detail was not created.");
@@ -169,16 +176,16 @@ exports.completeOrderSerive = async (itn, t) => {
 };
 
 exports.confirmOrderService = async (id) => {
-  console.log("confirm payment: getting order for success page");
+  logger.info({ message: "Confirming payment" });
 
   const order = await getOrderInfo(id);
   if (order == null)
     return next(ApiError.notFound("Could not find order with id:", id));
 
-  console.log("confirm payment: checking if payment was stored");
-
   const payment = await getPaymentDetailByOrderId(id);
   if (payment == null) return ApiError.internal("Could not find payment");
+
+  logger.info({ message: "Payment successful" });
 
   // therefore payment_details must contain that code
   // how to cancel payments and all that
@@ -188,6 +195,7 @@ exports.confirmOrderService = async (id) => {
 };
 
 exports.getShippingRateService = async (area, city) => {
+  logger.info({ message: "Getting shipping charge" });
   const method = await getShippingMethodByAddress(area, city);
   if (method == null)
     return UserError.notFound("Location not available for delivery.");

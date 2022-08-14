@@ -1,28 +1,10 @@
 const { product } = require("../db/models");
-const { ApiError, UserError } = require("../errors/");
+const { ApiError } = require("../errors/");
 const {
   getProductsService,
   fetchProductService,
   fetchCarouseProductsService,
 } = require("../services/productsService");
-
-exports.createProduct = async function (req, res, next) {
-  const { name, description, price, stock_qty, in_carousel } = req.body;
-  try {
-    // need to add an SKU to identify unique product to check if it exists
-    // maybe create some sort of lookup first and let admin know you have it or not
-    const result = await product.create(
-      name,
-      description,
-      price,
-      stock_qty,
-      in_carousel
-    );
-    res.send(result);
-  } catch (error) {
-    next(error);
-  }
-};
 
 exports.fetchProducts = async function (req, res, next) {
   const { search, category } = req.query;
@@ -66,23 +48,51 @@ exports.fetchCarouselProducts = async function (req, res, next) {
   }
 };
 
-exports.deleteProduct = async function (req, res, next) {
-  // validate admin user
-
-  const { id } = req.params;
-
-  if (isNaN(id)) return next(ApiError.invalidId());
-
+exports.createProduct = async function (req, res, next) {
+  const { name, description, price, stock_qty, in_carousel } = req.body;
   try {
-    const result = await product.destroy({ where: { id } });
+    const result = await createProductService(
+      name,
+      description,
+      price,
+      stock_qty,
+      in_carousel
+    );
 
-    if (!result) return res.send("Product wasn't found, could not delete.");
-
-    res.send("Product successfully deleted.");
+    if (result instanceof Error) {
+      next(result);
+      return;
+    }
+    res.send("Product was succesfully created");
   } catch (error) {
-    console.log(error);
-    return next(ApiError.internal());
+    next(error);
+    return;
   }
 };
 
-exports.updateProduct = async function (req, res, next) {};
+exports.deleteProduct = async function (req, res, next) {
+  const { id } = req.params;
+  try {
+    const result = await deleteProdutService(id);
+    if (result instanceof Error) {
+      next(result);
+      return;
+    }
+    res.send("Product successfully deleted.");
+  } catch (error) {
+    next(error);
+    return;
+  }
+};
+
+exports.updateProduct = async function (req, res, next) {
+  const { id } = req.params;
+  const { update } = req.body;
+  try {
+    const result = await updateProductSerice(id, update);
+    res.send("Product has been updated");
+  } catch (error) {
+    next(error);
+    return;
+  }
+};

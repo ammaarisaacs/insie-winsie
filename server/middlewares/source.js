@@ -13,8 +13,6 @@ const validateSource = (req, res, next) => {
   // use that to check if it is a valid ip
   // make origin either that dns lookup domain name || req.headers.origin
 
-  console.log(req.headers);
-
   const origin = req.headers.origin;
 
   // check how you can get the source of the user-agent

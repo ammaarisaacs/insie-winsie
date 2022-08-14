@@ -46,11 +46,8 @@ function makeInternalValidation(checks) {
   return async (req, res, next) => {
     await Promise.all(checks.map((check) => check.run(req)));
     const errors = validationResult(req);
-    // log this to file
     if (!errors.isEmpty()) {
-      // send to apierrorhandler
-      // have a way of showing errors that are arrays
-      console.log(errors);
+      next(errors);
       return;
     }
     next();

@@ -12,7 +12,6 @@ exports.getProductsBySearchAndFilter = (search, category) => {
         where: category,
       },
     ],
-    // raw: true,
   });
 };
 
@@ -28,4 +27,18 @@ exports.getCarouselProducts = () => {
     include: "media",
     where: { in_carousel: true },
   });
+};
+
+exports.createProduct = (name, description, price, stock_qty, in_carousel) => {
+  return product.create(name, description, price, stock_qty, in_carousel);
+};
+
+exports.findProduct = (name, description, price, stock_qty, in_carousel) => {
+  return product.findAll({
+    where: { name, description, price, stock_qty, in_carousel },
+  });
+};
+
+exports.deleteProduct = (id) => {
+  return product.destroy({ where: { id } });
 };
