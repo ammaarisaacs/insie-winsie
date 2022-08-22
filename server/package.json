@@ -22,6 +22,7 @@
     "fs": "^0.0.1-security",
     "helmet": "^5.1.1",
     "mysql2": "^2.3.3",
+    "node-cron": "^3.0.2",
     "path": "^0.12.7",
     "sequelize": "^6.20.1",
     "uuid": "^8.3.2",

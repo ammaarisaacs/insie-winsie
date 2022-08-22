@@ -1,5 +1,3 @@
-const { product } = require("../db/models");
-const { ApiError } = require("../errors/");
 const {
   getProductsService,
   fetchProductService,

@@ -66,6 +66,7 @@ exports.confirmPayment = async function (req, res, next) {
       next(result);
       return;
     }
+    await t.commit();
     res.send(result);
   } catch (error) {
     await t.rollback();
