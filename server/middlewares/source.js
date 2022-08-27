@@ -1,5 +1,6 @@
 const dns = require("dns");
 const { ApiError } = require("../errors");
+const { logger } = require("../lib/logger");
 
 const validateSource = (req, res, next) => {
   const ip =
@@ -9,22 +10,14 @@ const validateSource = (req, res, next) => {
     req.socket.remoteAddress ||
     req.connection.socket.remoteAddress;
 
-  // use dns to lookup
-  // use that to check if it is a valid ip
-  // make origin either that dns lookup domain name || req.headers.origin
-
+  const { hostname, method } = req;
+  // use dns to lookup, use that to check if it is a valid ip, make origin either that dns lookup domain name || req.headers.origin
   const origin = req.headers.origin;
+  // check how you can get the source of the user-agent, possible solution: use white list of only the valid url and nothing else, origin contains everything with http and all that, so need to check for http / https in there, white list userAgent
+  const ua = req.headers["user-agent"];
 
-  // check how you can get the source of the user-agent
-  // possible solution: use white list of only the valid url and nothing else
-  // origin contains everything with http and all that, so need to check for http / https in there
-
-  const source = req.headers["user-agent"];
-
-  // white list userAgent
-
-  if (!!source.match(/Postman/) || !!source.match(/curl/)) {
-    next(ApiError.invalidProperty("Invalid user agent detected as " + source));
+  if (!!ua.match(/Postman/) || !!ua.match(/curl/)) {
+    next(ApiError.invalidProperty("Invalid user agent detected as " + ua));
     return;
   }
 
@@ -41,6 +34,10 @@ const validateSource = (req, res, next) => {
     return;
   }
 
+  logger.log({
+    level: "info",
+    message: `${method} | ${ip} | ${hostname} | ${ua}`,
+  });
   next();
 };
 

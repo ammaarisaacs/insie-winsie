@@ -99,11 +99,8 @@ export default App;
 //    https://www.youtube.com/watch?v=UVAMha41dwo&list=TLPQMjIwNjIwMjKhJoymYyYsag&index=5&ab_channel=Gravity
 //    https://youtu.be/xdsm3QMSX6c?list=TLPQMjIwNjIwMjKhJoymYyYsag
 //    https://youtu.be/DyqVqaf1KnA
-// consider reverse proxy for serving static files => check express static files
 // sequelize hooks for emailing and stuff like that
-// better to use codes or integer codes for cryptic and shorter data transfers
 // install snyk and check vulnabilities
-// rate limiting
 // how to construct http responses for express
 // how to build a production ready express api
 // how to handle multiple requests from different clients OR how to handle multiple requests one at a time OR using transactions to ensure requests are handled one at a time
@@ -186,19 +183,3 @@ export default App;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// next actions
-
-// CLIENT
-
-// possibly to submit formdata from server to payfast instead
-// react tracked
-// what happens when user opens new tab
-// sorting of data
-
-// SERVER
-
-// need some sort of parsing to check if an error is a database error because we do not want to send that back
-// more security
-// hpp implementation
-// can you use signatures to verify requests https://gist.github.com/sachinr/838fefa9c5db42cef138c29d404d8bd2 https://github.com/auth0/node-jsonwebtoken/issues/212
