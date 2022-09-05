@@ -12,7 +12,6 @@ const {
 exports.getProductsService = async (search, category) => {
   let validatedSearch, validatedCategory;
 
-  console.log(typeof search, typeof category);
   //hpp protection
 
   if (search || category) {

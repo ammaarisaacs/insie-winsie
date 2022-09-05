@@ -15,7 +15,10 @@ const makeDevLogger = ({ createLogger, transports, addColors, format }) => {
   return createLogger({
     format: logFormat,
     level: process.env.LOG_LEVEL,
-    transports: [new transports.Console()],
+    transports: [
+      new transports.Console(),
+      new transports.File({ filename: "logs/app.log", level: "info" }),
+    ],
   });
 };
 

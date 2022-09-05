@@ -1,33 +1,56 @@
 const cron = require("node-cron");
-const moment = require("moment");
 const fs = require("fs");
 const spawn = require("child_process").spawn;
+const { logger, errLogger } = require("../lib/logger");
+require("dotenv").config;
 
-// You can adjust the backup frequency as you like, this case will run once a day
-cron.schedule("0 * * * *", () => {
-  // Use moment.js or any other way to dynamically generate file name
-  // use new Date() but make sure the timezone is included so that you know when it was created on the hosting server
-  const currentDate = new Date().toISOString();
-  const fileName = `${process.env.PROD_DB_NAME}_${currentDate}`;
-  //   const fileName = `${process.env.DB_NAME}_${moment().format(
-  //     "YYYY_MM_DD"
-  //   )}.sql`;
-  const wstream = fs.createWriteStream(`/Path/You/Want/To/Save/${fileName}`);
-  console.log("---------------------");
-  console.log("Running Database Backup Cron Job");
+const backup = cron.schedule(process.env.CRON_STRING, () => {
+  const currDate = new Date().toDateString().split(" ").join("");
+  const fileName = `${process.env.PROD_DB_NAME}_${currDate}.sql`;
+  const wstream = fs.createWriteStream(`${process.env.BACKUP_DIR}${fileName}`, {
+    flags: "w",
+  });
+
+  logger.log({
+    level: "info",
+    message: "--------------------------------------------------",
+  });
+  logger.log({ level: "info", message: "Running Database Backup Cron Job" });
+
   const mysqldump = spawn("mysqldump", [
     "-u",
-    process.env.DB_USER,
-    `-p${process.env.DB_PASSWORD}`,
-    process.env.DB_NAME,
+    process.env.PROD_DB_USERNAME,
+    `-p${process.env.PROD_DB_PASSWORD}`,
+    process.env.PROD_DB_NAME,
   ]);
-
   mysqldump.stdout
     .pipe(wstream)
     .on("finish", () => {
-      console.log("DB Backup Completed!");
+      logger.info({ message: "Database backup successful" });
+      logger.info({
+        message: "--------------------------------------------------",
+      });
     })
     .on("error", (err) => {
-      console.log(err);
+      logger.info({
+        message: "--------------------------------------------------",
+      });
+      errLogger.error({
+        message: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      });
+      errLogger.error({ message: "Database backup failed" });
+      errLogger.error({ message: err });
+      errLogger.error({
+        message: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      });
+    })
+    .on("stderr", (stderr) => {
+      errLogger.error({ message: "Database backup failed" });
+      errLogger.error({ message: stderr });
+      errLogger.error({
+        message: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      });
     });
 });
+
+module.exports = backup;

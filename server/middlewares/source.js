@@ -16,6 +16,17 @@ const validateSource = (req, res, next) => {
   // check how you can get the source of the user-agent, possible solution: use white list of only the valid url and nothing else, origin contains everything with http and all that, so need to check for http / https in there, white list userAgent
   const ua = req.headers["user-agent"];
 
+  console.log(req.headers);
+
+  console.log("origin", origin);
+  console.log("hostname", hostname);
+
+  // be aware of this if you have a proxy
+  const ipAddress = dns.resolve(hostname, (err, value) => {
+    if (err) return console.log("the dns error is: ", err);
+    console.log("the ip address from dns is: ", value);
+  });
+
   if (!!ua.match(/Postman/) || !!ua.match(/curl/)) {
     next(ApiError.invalidProperty("Invalid user agent detected as " + ua));
     return;
@@ -33,6 +44,12 @@ const validateSource = (req, res, next) => {
     next(ApiError.invalidProperty("Invalid request origin as ", origin));
     return;
   }
+
+  logger.log({
+    level: "info",
+    message:
+      "------------------- INCOMING REQUEST MADE ------------------------",
+  });
 
   logger.log({
     level: "info",

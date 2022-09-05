@@ -86,8 +86,8 @@ export default App;
 
 // Server
 
+// api versioning
 // job queue to limit requests
-// cron jobs to back up db
 // exclude post man and other clients https://stackoverflow.com/questions/18498726/how-do-i-get-the-domain-originating-the-request-in-express-js/18498769#18498769
 // pagination
 //    https://sequelize.org/docs/v6/core-concepts/model-querying-basics/
@@ -179,6 +179,7 @@ export default App;
 // configure prettier to not add ; to .env file
 // limit payload size
 // sequelize config may be better to change to js file rather than json (.seqlizer file) so you can import dotenv to hide
+// cron jobs to back up db
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////

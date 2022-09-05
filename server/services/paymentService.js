@@ -2,6 +2,7 @@ const axios = require("axios");
 const crypto = require("crypto");
 const dns = require("dns");
 require("dotenv").config();
+const { errLogger } = require("../lib/logger");
 
 function createPayData(order, id) {
   const myData = [];
@@ -75,8 +76,8 @@ async function pfValidIP(req) {
       validIps = [...validIps, ...ips];
     }
   } catch (err) {
-    console.error(err);
-    // need to log error here
+    errLogger.error({ message: "Invalid IP found during payment validation" });
+    errLogger.error({ message: err.message, stack: err.stack, code: err.code });
   }
 
   const uniqueIps = [...new Set(validIps)];
