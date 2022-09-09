@@ -1,8 +1,8 @@
-const express = require(express);
 const db = require("./db/models");
 const app = require("./api/v1");
 require("dotenv").config;
 const PORT = process.env.PORT || 5000;
+const { logger, errLogger } = require("./lib/logger");
 
 db.sequelize.sync().then(() => {
   logger.log({ level: "info", message: "Database Synced" });

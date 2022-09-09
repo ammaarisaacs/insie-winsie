@@ -48,7 +48,7 @@ const validateSource = (req, res, next) => {
   logger.log({
     level: "info",
     message:
-      "------------------- INCOMING REQUEST MADE ------------------------",
+      "---------------------- INCOMING REQUEST MADE ------------------------",
   });
 
   logger.log({
