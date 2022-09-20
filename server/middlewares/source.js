@@ -1,8 +1,11 @@
 const dns = require("dns");
 const { ApiError } = require("../errors");
-const { logger } = require("../lib/logger");
+const { logger, errLogger } = require("../lib/logger");
 
-const validateSource = (req, res, next) => {
+const allowedBrowsers = ["mozilla", "firefox", "safari", "opera mini"];
+const allowedUrl = ["your url of your frontend"];
+
+const validateSource = async (req, res, next) => {
   const ip =
     req.ip ||
     req.headers["x-forwarded-for"] ||
@@ -10,52 +13,60 @@ const validateSource = (req, res, next) => {
     req.socket.remoteAddress ||
     req.connection.socket.remoteAddress;
 
-  const { hostname, method } = req;
   // use dns to lookup, use that to check if it is a valid ip, make origin either that dns lookup domain name || req.headers.origin
-  const origin = req.headers.origin;
-  // check how you can get the source of the user-agent, possible solution: use white list of only the valid url and nothing else, origin contains everything with http and all that, so need to check for http / https in there, white list userAgent
+  const { hostname, method, protocol } = req;
+  const { origin, referer } = req.headers; // for post requests and CORS
   const ua = req.headers["user-agent"];
+  // check how you can get the source of the user-agent, possible solution: use white list of only the valid url and nothing else, origin contains everything with http and all that, so need to check for http / https in there, white list userAgent
 
-  console.log(req.headers);
-
-  console.log("origin", origin);
-  console.log("hostname", hostname);
-
-  // be aware of this if you have a proxy
-  const ipAddress = dns.resolve(hostname, (err, value) => {
-    if (err) return console.log("the dns error is: ", err);
-    console.log("the ip address from dns is: ", value);
+  logger.info({
+    message: `\n
+    ---------------------- INCOMING REQUEST ------------------------\n
+    ${method} -- ${ip} -- ${referer || origin} -- ${ua}\n
+    ----------------------------------------------------------------`,
   });
 
-  if (!!ua.match(/Postman/) || !!ua.match(/curl/)) {
-    next(ApiError.invalidProperty("Invalid user agent detected as " + ua));
-    return;
+  // validate protocol
+  // console.log("full url apparently", req.get("Host"));
+  // console.log("remoteadress", req.socket.remoteAddress);
+  // console.log(req);
+  // console.log(ip);
+
+  try {
+    const parsed = new URL(origin || referer);
+
+    // valid url
+    const isValidUrl = ["https:", "http:"].includes(parsed.protocol);
+    if (!isValidUrl)
+      return next(ApiError.invalidProperty("Invalid origin: ", origin));
+
+    // allowlist using referer || origin || hostname
+    const clientIp = await ipLookup(parsed.host);
+    logger.info({ message: `Client IP Address received as: ${clientIp}` });
+
+    if (!!ua.match(/Postman/) || !!ua.match(/curl/))
+      return next(ApiError.invalidProperty("Invalid user agent: ", ua));
+  } catch (error) {
+    // next(error);
   }
 
-  if (!origin) {
-    next(ApiError.notFound("No origin found in request headers."));
-    return;
-  }
-
-  const parsed = new URL(origin);
-  const isValidUrl = ["https:", "http:"].includes(parsed.protocol);
-
-  if (isValidUrl === false) {
-    next(ApiError.invalidProperty("Invalid request origin as ", origin));
-    return;
-  }
-
-  logger.log({
-    level: "info",
-    message:
-      "---------------------- INCOMING REQUEST MADE ------------------------",
-  });
-
-  logger.log({
-    level: "info",
-    message: `${method} | ${ip} | ${hostname} | ${ua}`,
-  });
+  // ua, instead make allowlist for browsers
   next();
 };
 
 module.exports = validateSource;
+
+async function ipLookup(domain) {
+  return new Promise((resolve, reject) => {
+    dns.lookup(domain, { all: true }, (err, address, family) => {
+      if (err) {
+        reject(err);
+      } else {
+        const addressIps = address.map(function (item) {
+          return item.address;
+        });
+        resolve(addressIps);
+      }
+    });
+  });
+}

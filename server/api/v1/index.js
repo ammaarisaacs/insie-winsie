@@ -14,6 +14,8 @@ const apiErrorHandler = require("../../middlewares/error");
 const backup = require("../../jobs/backup");
 require("dotenv").config();
 
+// images
+backup.start();
 console.clear();
 app.use(helmetConfig); // only works over https, so only during production
 app.use(validateSource);
@@ -22,12 +24,11 @@ app.use(corp);
 app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.urlencoded({ extended: true, limit: "5kb" }));
 app.use(express.json({ limit: "5kb" }));
-app.use("/static", express.static(path.join(__dirname, "public")));
+app.use("/static", express.static(path.resolve(__dirname, "../../public")));
 app.use("/products", productsRoute);
 app.use("/order", checkoutRoute);
 app.use("/contact", contactsRoute);
 app.use(noRoutesHandler);
 app.use(apiErrorHandler);
-backup.start();
 
 module.exports = app;

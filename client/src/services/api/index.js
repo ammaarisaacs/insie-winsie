@@ -14,8 +14,7 @@ export const fetchProducts = (searchQuery, category) => {
   });
 };
 
-export const fetchImage = (fileName) =>
-  API.get(`http://localhost:5000/static/${fileName}`);
+export const fetchImage = (fileName) => API.get(`/static/${fileName}`);
 
 export const fetchProduct = (id) => API.get(`/products/${id}`);
 

@@ -155,7 +155,8 @@ exports.createPaymentDetail = (itn, order_id, t) => {
     {
       name: pf_payment_id,
       amount: amount_gross,
-      provider: "fnb",
+      // provider: "fnb",
+      // status: 'unpaid',
       order_id,
     },
     { transaction: t }

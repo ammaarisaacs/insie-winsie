@@ -1,9 +1,11 @@
 const { sequelize } = require("../db/models");
 const {
   createOrderService,
-  completeOrderSerive,
+  completeOrderService,
   confirmOrderService,
   getShippingRateService,
+  fetchOrderService,
+  fetchAllOrders,
 } = require("../services/orderService");
 
 exports.getShippingRate = async function (req, res, next) {
@@ -42,7 +44,7 @@ exports.completeOrder = async function (req, res, next) {
   const { body } = req;
   const t = await sequelize.transaction();
   try {
-    const result = await completeOrderSerive(body, t);
+    const result = await completeOrderService(body, t);
     if (result instanceof Error) {
       await t.rollback();
       next(result);
@@ -76,15 +78,13 @@ exports.confirmPayment = async function (req, res, next) {
 
 exports.fetchOrders = async function (req, res, next) {
   try {
-    const result = fetchAllOrders();
+    const result = await fetchAllOrders();
     if (result instanceof Error) {
-      await t.rollback();
       next(result);
       return;
     }
     res.send(result);
   } catch (error) {
-    await t.rollback();
     next(error);
   }
 };

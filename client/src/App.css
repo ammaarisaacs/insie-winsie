@@ -52,7 +52,7 @@ body {
   background-color: #fcfefe;
   min-width: var(--min-app-width);
   overflow-x: hidden;
-  cursor: url(assets/svgs/spider.svg), auto;
+  cursor: url(assets/svgs/spider-cursor.svg), auto;
 }
 
 main {

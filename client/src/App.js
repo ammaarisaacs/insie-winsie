@@ -86,6 +86,7 @@ export default App;
 
 // Server
 
+// notify url not being hit https://support.payfast.co.za/portal/en/kb/articles/why-am-i-not-receiving-the-itn-callback
 // api versioning
 // job queue to limit requests
 // exclude post man and other clients https://stackoverflow.com/questions/18498726/how-do-i-get-the-domain-originating-the-request-in-express-js/18498769#18498769

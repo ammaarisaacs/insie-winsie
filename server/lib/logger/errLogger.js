@@ -13,9 +13,11 @@ const makeErrLogger = ({ createLogger, transports, format }) => {
     errors({ stack: true }),
     align(),
     printf(({ level, message, timestamp, code, stack }) => {
-      return `${timestamp} [${level.toUpperCase()}] ${
-        colors[level]
-      } ${message} ${code ? code : ""} ${stack ? stack : ""}\x1b[0m`;
+      return `${timestamp} [${level.toUpperCase()}]${colors[level]}
+      ${code ? code : ""}
+      ${message}
+      ${stack ? stack : ""}
+        \x1b[0m`;
     })
   );
 

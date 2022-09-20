@@ -16,7 +16,8 @@ const {
   getPaymentDetailByOrderId,
   getShippingMethodByAddress,
 } = require("../repo/orderRepo");
-const { logger } = require("../lib/logger");
+const { logger, errLogger } = require("../lib/logger");
+const e = require("express");
 
 exports.createOrderService = async (cart, shipping, billing, t) => {
   const { items, total } = cart;
@@ -124,7 +125,7 @@ exports.createOrderService = async (cart, shipping, billing, t) => {
   return createPayData(order, orderId);
 };
 
-exports.completeOrderSerive = async (itn, t) => {
+exports.completeOrderService = async (itn, t) => {
   const {
     m_payment_id,
     pf_payment_id,
@@ -171,6 +172,7 @@ exports.completeOrderSerive = async (itn, t) => {
   });
 
   const payment = await createPaymentDetail(itn, id, t);
+  errLogger.error({ message: JSON.stringify(payment) });
   if (!payment) return ApiError.internal("Payment detail was not created.");
   return payment;
 };
@@ -179,10 +181,13 @@ exports.confirmOrderService = async (id) => {
   logger.info({ message: "Confirming payment" });
 
   const order = await getOrderInfo(id);
+
   if (order == null)
     return next(ApiError.notFound("Could not find order with id:", id));
 
   const payment = await getPaymentDetailByOrderId(id);
+
+  errLogger.error({ message: JSON.stringify(payment) });
   if (payment == null) return ApiError.internal("Could not find payment");
 
   logger.info({ message: "Payment successful" });
@@ -194,10 +199,29 @@ exports.confirmOrderService = async (id) => {
   return order;
 };
 
+exports.fetchOrderService = async (id) => {
+  logger.info({ message: "Fetching Order with Id ", id });
+
+  const order = await getOrderInfo(id);
+
+  if (order == null)
+    return ApiError.notFound("Could not find order with id:", id);
+
+  return order;
+};
+
 exports.getShippingRateService = async (area, city) => {
   logger.info({ message: "Getting shipping charge" });
   const method = await getShippingMethodByAddress(area, city);
   if (method == null)
     return UserError.notFound("Location not available for delivery.");
   return method;
+};
+
+exports.fetchAllOrders = async (user) => {
+  logger.info({ message: "Fetching orders" });
+  const orders = await getAllOrdersByUser(user);
+  if (orders == null) return ApiError.internal();
+  if (orders.length < 1) return UserError.notFound("No orders found");
+  return orders;
 };
