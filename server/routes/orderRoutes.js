@@ -17,6 +17,7 @@ const {
   completeOrder,
   confirmPayment,
 } = require("../controllers/orderController");
+const { postLimiter } = require("../middlewares/rateLimiter");
 
 router.route("/shipping").post(validateFetchShippingRate, getShippingRate);
 
@@ -26,7 +27,10 @@ router
 
 router.route("/success/:id").get(validateConfirmPayment, confirmPayment);
 
-router.route("/").get(fetchOrders).post(validateCreateOrder, createOrder);
+router
+  .route("/")
+  .get(fetchOrders)
+  .post(postLimiter, validateCreateOrder, createOrder);
 
 router.route("/:id").get(fetchOrder).patch(updateOrder).delete(deleteOrder);
 

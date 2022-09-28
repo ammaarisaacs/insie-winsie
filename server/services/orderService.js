@@ -16,7 +16,7 @@ const {
   getPaymentDetailByOrderId,
   getShippingMethodByAddress,
 } = require("../repo/orderRepo");
-const { logger, errLogger } = require("../lib/logger");
+const { logger } = require("../lib/logger");
 const e = require("express");
 
 exports.createOrderService = async (cart, shipping, billing, t) => {
@@ -172,7 +172,6 @@ exports.completeOrderService = async (itn, t) => {
   });
 
   const payment = await createPaymentDetail(itn, id, t);
-  errLogger.error({ message: JSON.stringify(payment) });
   if (!payment) return ApiError.internal("Payment detail was not created.");
   return payment;
 };
@@ -187,7 +186,6 @@ exports.confirmOrderService = async (id) => {
 
   const payment = await getPaymentDetailByOrderId(id);
 
-  errLogger.error({ message: JSON.stringify(payment) });
   if (payment == null) return ApiError.internal("Could not find payment");
 
   logger.info({ message: "Payment successful" });

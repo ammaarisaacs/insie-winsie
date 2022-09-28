@@ -6,13 +6,15 @@ const {
   pfValidPaymentData,
   pfValidServerConfirmation,
 } = require("../services/paymentService");
-const { logger, errLogger } = require("../lib/logger");
+const { logger } = require("../lib/logger");
 
 const testingMode = true;
 const pfHost = testingMode ? "sandbox.payfast.co.za" : "www.payfast.co.za";
 
 module.exports = async function validatePayment(req, res, next) {
   const pfData = JSON.parse(JSON.stringify(req.body));
+
+  const { item_name } = pfData;
 
   let pfParamString = "";
   for (let key in pfData) {
@@ -25,11 +27,11 @@ module.exports = async function validatePayment(req, res, next) {
   }
 
   try {
-    const order = await getOrderAndQtyByOrderNumber(parseInt(pfData.item_name));
+    const order = await getOrderAndQtyByOrderNumber(parseInt(item_name));
     const plainOrder = order.get({ plain: true });
     const cartTotal = plainOrder.total;
 
-    logger.info({ message: `Validating ITN for order ${pfData.item_name}` });
+    logger.info({ message: `Validating order ${item_name}` });
 
     pfParamString = pfParamString.slice(0, -1);
     const check1 = pfValidSignature(pfData, pfParamString);
@@ -37,30 +39,18 @@ module.exports = async function validatePayment(req, res, next) {
     const check3 = pfValidPaymentData(cartTotal, pfData);
     const check4 = pfValidServerConfirmation(pfHost, pfParamString);
 
-    errLogger.error({ message: JSON.stringify(check1) });
-    errLogger.error({ message: JSON.stringify(check2) });
-    errLogger.error({ message: JSON.stringify(check3) });
-    errLogger.error({ message: JSON.stringify(check4) });
-
     if (check1 && check2 && check3 && check4) {
-      logger.info({
-        message: `Payment validation for order ${pfData.item_name} successful`,
-      });
+      logger.info({ message: `Payment validation successful` });
       req.body.order = plainOrder;
       next();
       return;
     } else {
-      next(
-        ApiError.mismatch(
-          `Payment ${pfData.item_name} information incorrect. Payment has been cancelled.`
-        )
-      );
+      next(ApiError.mismatch(`Payment ${item_name} information incorrect`));
+      return;
     }
   } catch (error) {
     // cancel the payment
-    next(
-      ApiError.internal(`Payment validation failed for ${pfData.item_name}`)
-    );
+    next(ApiError.internal(`Payment validation failed for ${item_name}`));
     return;
   }
 };

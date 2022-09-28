@@ -10,11 +10,7 @@ function createPayData(order, id) {
   myData["merchant_key"] = process.env.PF_MERCHANT_KEY;
   myData["return_url"] = `${process.env.CLIENT_URL}/checkout/success/${id}`;
   myData["cancel_url"] = `${process.env.CLIENT_URL}/checkout`;
-  // myData[
-  //   "notify_url"
-  // ] = `https://67e4-105-243-149-77.sa.ngrok.io/order/success`;
-  // myData["notify_url"] = `${process.env.HOST}/order/success`;
-  myData["notify_url"] = `https://insie-winsie-server.loca.lt/order/success`;
+  myData["notify_url"] = `${process.env.HOST}/order/success`;
   myData["name_first"] = order.first_name;
   myData["name_last"] = order.last_name;
   myData["email_address"] = order.email;

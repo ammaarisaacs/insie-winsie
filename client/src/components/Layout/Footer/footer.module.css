@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  background-color: rgb(212, 240, 253);
+  /* background-color: rgb(212, 240, 253); */
 }
 
 .container img {
