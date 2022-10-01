@@ -21,7 +21,6 @@ import {
 } from "./pages";
 import { StateContext } from "./context/StateContext";
 import { AnimatePresence } from "framer-motion";
-
 // https://dribbble.com/shots/6890113-The-Curology-landing-product-page-interaction
 
 const AnimatedRoutes = () => {
@@ -160,7 +159,6 @@ export default App;
 // how to prevent many request when pressing button -> could you ui change to sort this
 // api versioning
 // exclude post man and other clients https://stackoverflow.com/questions/18498726/how-do-i-get-the-domain-originating-the-request-in-express-js/18498769#18498769
-// logging
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////

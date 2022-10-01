@@ -5,10 +5,6 @@ import { useStateContext } from "../../context/StateContext";
 import { randify } from "../../utils/costing";
 import { motion } from "framer-motion";
 
-// line between heading and table must be drawn accross slowly
-// all other words must fade in slowly
-// svg splashes that morph when either hovered or pressed on for quantity selector and remove
-
 const Cart = () => {
   const { cartItems, totalPrice, totalQty } = useStateContext();
 

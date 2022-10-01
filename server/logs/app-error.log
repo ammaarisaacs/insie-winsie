@@ -8613,3 +8613,409 @@
       Error: getaddrinfo ENOTFOUND localhost:3000
     at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
         [0m
+2022-09-28 19:59:28 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 19:59:28 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 19:59:28 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 19:59:28 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 19:59:28 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 19:59:28 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 19:59:28 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 19:59:28 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 19:59:28 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:04:36 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:04:46 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:06:30 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:56:51 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:56:51 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:57:18 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:57:18 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:57:18 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:57:18 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:57:18 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:57:18 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:57:18 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:57:18 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:57:43 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:57:43 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 20:57:44 [ERROR][31m
+      404
+      	Location not available for delivery.
+      Error: Location not available for delivery.
+    at Function.notFound (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\errors\UserError.js:13:12)
+    at exports.getShippingRateService (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\services\orderService.js:215:22)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async exports.getShippingRate (C:\Users\User\OneDrive\Desktop\insie-winsie project file\insie-winsie\server\controllers\orderController.js:14:20)
+        [0m
+2022-09-28 20:57:48 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 21:21:54 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 21:21:54 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 21:21:54 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 21:21:54 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 21:21:55 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 21:21:55 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 21:21:55 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 21:21:57 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 21:21:57 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 21:21:58 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 21:21:58 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 21:21:58 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 21:21:58 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-28 21:21:58 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:21:51 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:21:51 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:21:51 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:21:51 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:21:51 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:21:51 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:21:51 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:01 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:01 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:01 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:21 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:21 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:22 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:22 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:22 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:22 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:22 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:22 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:38 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:38 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:44 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:45 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:45 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:45 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:45 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:45 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m
+2022-09-29 15:22:45 [ERROR][31m
+      ENOTFOUND
+      	getaddrinfo ENOTFOUND localhost:3000
+      Error: getaddrinfo ENOTFOUND localhost:3000
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:79:26)
+        [0m

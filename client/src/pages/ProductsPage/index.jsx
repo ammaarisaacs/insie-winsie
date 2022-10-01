@@ -7,10 +7,6 @@ import { fetchProducts } from "../../services/api";
 import { filterIcons } from "../../data/icons";
 import { Button, Menu } from "../../components";
 
-// https://dribbble.com/shots/17246781-GLASS-LIZZARD-Products
-// infinite scrolling
-// https://youtu.be/NZKUirTtxcg
-
 const Products = () => {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -136,8 +132,6 @@ const Products = () => {
           </motion.main>
         )}
       </motion.div>
-
-      <div className={styles.pagination}>pagination</div>
     </motion.main>
   );
 };
