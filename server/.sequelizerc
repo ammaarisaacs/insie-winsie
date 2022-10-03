@@ -5,9 +5,3 @@ module.exports = {
   "models-path": path.resolve("db", "models"),
   "migrations-path": path.resolve("db", "migrations"),
 };
-
-// module.exports = {
-//   "config-path": path.resolve("db", "config"),
-//   "models-path": path.resolve("db", "models"),
-//   "migrations-path": path.resolve("db", "migrations"),
-// };

@@ -21,11 +21,9 @@ import {
 } from "./pages";
 import { StateContext } from "./context/StateContext";
 import { AnimatePresence } from "framer-motion";
-// https://dribbble.com/shots/6890113-The-Curology-landing-product-page-interaction
 
 const AnimatedRoutes = () => {
   const location = useLocation();
-
   return (
     <ErrorBoundary>
       <AnimatePresence exitBeforeEnter>
