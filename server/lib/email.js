@@ -7,7 +7,7 @@ const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   secure: true,
   auth: {
-    user: process.env.INSIE_WINSIE_EMAIL,
+    user: process.env.EMAIL,
     pass: process.env.APP_PWD,
   },
   disableUrlAccess: true,
@@ -16,8 +16,8 @@ const transporter = nodemailer.createTransport({
 exports.sendDbBackupEmail = (filename) => {
   transporter.sendMail(
     {
-      from: process.env.INSIE_WINSIE_EMAIL,
-      to: process.env.INSIE_WINSIE_EMAIL,
+      from: process.env.EMAIL,
+      to: process.env.EMAIL,
       subject: "Insie Winsie Data Backup",
       text: `Insie winsie data backup ${filename}.`,
       attachments: [
@@ -28,6 +28,7 @@ exports.sendDbBackupEmail = (filename) => {
       if (err) {
         const { message, code, stack } = err;
         errLogger.error({ message, code, stack });
+        // some logic to report to you
       } else {
         logger.info({ message: JSON.stringify(info) });
       }
@@ -36,39 +37,22 @@ exports.sendDbBackupEmail = (filename) => {
 };
 
 exports.sendContactUsEmail = (contact) => {
+  const { firstname, lastname, email, message } = contact;
   return transporter.sendMail(
     {
-      from: contact.email,
-      to: process.env.INSIE_WINSIE_EMAIL,
-      subject: `Insie Winsie Contact ${new Date()} `,
-      text: contact.text,
+      from: email,
+      to: process.env.EMAIL,
+      subject: `Insie Winsie Contact - ${firstname} ${lastname} ${new Date()} `,
+      text: message,
     },
-    (err, info) => (err ? err : info)
+    (err, info) => {
+      if (err) {
+        const { message, code, stack } = err;
+        errLogger.error({ message, code, stack });
+        // some logic to report to you
+      } else {
+        logger.info({ message: JSON.stringify(info) });
+      }
+    }
   );
 };
-
-exports.sendOrderEmail = (itn) => {
-  return transporter.sendMail(
-    {
-      from: process.env.INSIE_WINSIE_EMAIL,
-      to: itn.email_address,
-      subject: `Insie Winsie Order ${itn.order_item}`,
-    },
-    (err, info) => (err ? err : info)
-  );
-};
-
-//   const mail = {
-//     from: contact.email,
-//     to: process.env.INSIE_WINSIE_EMAIL,
-//     subject: `Insie Winsie Contact ${new Date()} `,
-//     text: contact.text,
-//   };
-
-//   try {
-//     const info = await transporter.sendMail(mail);
-//     return info;
-//   } catch (error) {
-//     console.log(error);
-//     return error;
-//   }

@@ -38,7 +38,7 @@ const handleSuccess = (fileName) => {
   logger.info({ message: "Database backup successful" });
   logger.info({ message: infoLineBreak });
   logger.info({ message: "Sending Db backup email" });
-  sendDbBackupEmail(fileName);
+  // sendDbBackupEmail(fileName);
 };
 
 const handleFailure = (err) => {

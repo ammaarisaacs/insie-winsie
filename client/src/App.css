@@ -49,10 +49,10 @@ body {
   font-family: var(--app-font-family);
   /* font-family: "dank mono", sans-serif; */
   font-weight: 100;
-  background-color: #fcfefe;
+  /* background-color: #fcfefe; */
   min-width: var(--min-app-width);
   overflow-x: hidden;
-  cursor: url(assets/svgs/spider-cursor.svg), auto;
+  cursor: url(assets/svgs/spider-cursor.svg);
 }
 
 main {
@@ -62,7 +62,8 @@ main {
 
 a {
   text-decoration: none;
-  color: black;
+  color: rgb(46, 25, 82);
+  /* color: black; */
 }
 
 li {

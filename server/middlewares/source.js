@@ -3,20 +3,7 @@ const { ApiError } = require("../errors");
 const { logger, errLogger } = require("../lib/logger");
 const useragent = require("useragent");
 
-// check how you can get the source of the user-agent, possible solution: use white list of only the valid url and nothing else, origin contains everything with http and all that, so need to check for http / https in there, white list userAgent
-// validate protocol
-// console.log("full url apparently", req.get("Host"));
-// console.log("remoteadress", req.socket.remoteAddress);
-// console.log(req);
-// console.log(ip);
-// use dns to lookup, use that to check if it is a valid ip, make origin either that dns lookup domain name || req.headers.origin
-
-const allowedBrowsers = ["mozilla", "firefox", "safari", "opera mini"];
-const allowedUrl = ["your url of your frontend"];
-
 const validateSource = async (req, res, next) => {
-  console.log(req.headers);
-
   const ip =
     req.ip ||
     req.headers["x-forwarded-for"] ||
@@ -24,49 +11,37 @@ const validateSource = async (req, res, next) => {
     req.socket.remoteAddress ||
     req.connection.socket.remoteAddress;
 
-  const { hostname, method, protocol } = req;
-  const { origin, referer } = req.headers; // for post requests and CORS
   const ua = req.headers["user-agent"];
   const agent = useragent.parse(ua);
 
   logger.info({
     message: `\n
     ---------------------- INCOMING REQUEST ------------------------
-    method -- ${method} 
+    method -- ${req.method} 
     ip -- ${ip} 
-    origin -- ${referer || origin} 
+    origin -- ${req.headers.referer || req.headers.origin} 
     user-agent -- ${agent}
     ----------------------------------------------------------------`,
   });
 
   try {
+    // only browsers
     if (agent.family == "Other") {
       next(ApiError.invalidProperty(`Invalid user agent: ${agent.source}`));
       return;
-    } // only allow browsers
-
+    }
     const parsed = new URL(origin || referer);
-
-    console.log(req.get("User-Agent"));
-
-    const isValidUrl = ["https:", "http:"].includes(parsed.protocol); // valid url
-
+    // valid url
+    const isValidUrl = ["https:", "http:"].includes(parsed.protocol);
     if (!isValidUrl) {
       next(ApiError.invalidProperty(`Invalid origin: ${origin}`));
       return;
     }
-
-    const clientIp = await ipLookup(parsed.host); // allowlist using referer || origin || hostname
-
+    // get ip
+    const clientIp = await ipLookup(parsed.host);
     logger.info({ message: `Client IP Address received as: ${clientIp}` });
-
-    // if (!!ua.match(/Postman/) || !!ua.match(/curl/))
-    //   return next(ApiError.invalidProperty("Invalid user agent: ", ua));
   } catch ({ message, code, stack }) {
     errLogger.error({ message, code, stack });
-    // } catch (error) {
-    // next(error);
-    // return;
   }
   next();
   return;
@@ -88,3 +63,11 @@ async function ipLookup(domain) {
     });
   });
 }
+
+// check how you can get the source of the user-agent, possible solution: use white list of only the valid url and nothing else, origin contains everything with http and all that, so need to check for http / https in there, white list userAgent
+// validate protocol
+// console.log("full url apparently", req.get("Host"));
+// console.log("remoteadress", req.socket.remoteAddress);
+// console.log(req);
+// console.log(ip);
+// use dns to lookup, use that to check if it is a valid ip, make origin either that dns lookup domain name || req.headers.origin

@@ -14,21 +14,6 @@ export const mapStateToProps = (state, keys) => {
   return propConfig;
 };
 
-// state object you need
-// state[field];
-// actual valie of the key you want
-// state[field][key];
-
-// const propsObj = {};
-
-// loop thorugh state
-// for each state check each key and see if it is in keys obj
-// if it is:
-// propsObj[key] = state[field][key];
-
-// push probsObh to props
-// loop again
-
 export const mapStateToInputProps = (state, keys, handler, error) => {
   let props = [];
   for (let field in state) {
@@ -49,5 +34,10 @@ export const mapStateToPost = (formData) => {
     const { value } = formData[field];
     postData[field] = value;
   }
+  for (let i = 0; i < formData.length; i++) {
+    const { name, value } = formData[i];
+    postData[name] = value;
+  }
+
   return postData;
 };

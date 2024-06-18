@@ -45,7 +45,7 @@ const useForm = (initialState, validate) => {
           },
         };
       }
-      setDataAndErrors(updatedData, name);
+      setDataAndErrors(updatedData);
     },
     [setDataAndErrors, formData]
   );

@@ -1,0 +1,80 @@
+2022-10-03 19:23:29 [INFO] 	Database Synced
+2022-10-03 19:23:29 [INFO] 	Server listening on port: 5000
+2022-10-03 19:23:42 [INFO] 	
+
+    ---------------------- INCOMING REQUEST ------------------------
+    method -- GET 
+    ip -- ::1 
+    origin -- http://localhost:3000/ 
+    user-agent -- Chrome 106.0.0 / Windows 10.0.0
+    ----------------------------------------------------------------
+2022-10-03 19:23:42 [INFO] 	
+
+    ---------------------- INCOMING REQUEST ------------------------
+    method -- GET 
+    ip -- ::1 
+    origin -- http://localhost:3000/ 
+    user-agent -- Chrome 106.0.0 / Windows 10.0.0
+    ----------------------------------------------------------------
+2022-10-03 19:23:42 [INFO] 	
+
+    ---------------------- INCOMING REQUEST ------------------------
+    method -- GET 
+    ip -- ::1 
+    origin -- http://localhost:3000/ 
+    user-agent -- Chrome 106.0.0 / Windows 10.0.0
+    ----------------------------------------------------------------
+2022-10-03 19:23:42 [INFO] 	
+
+    ---------------------- INCOMING REQUEST ------------------------
+    method -- GET 
+    ip -- ::1 
+    origin -- http://localhost:3000/ 
+    user-agent -- Chrome 106.0.0 / Windows 10.0.0
+    ----------------------------------------------------------------
+2022-10-03 19:23:42 [INFO] 	
+
+    ---------------------- INCOMING REQUEST ------------------------
+    method -- GET 
+    ip -- ::1 
+    origin -- http://localhost:3000/ 
+    user-agent -- Chrome 106.0.0 / Windows 10.0.0
+    ----------------------------------------------------------------
+2022-10-03 19:23:42 [INFO] 	
+
+    ---------------------- INCOMING REQUEST ------------------------
+    method -- GET 
+    ip -- ::1 
+    origin -- http://localhost:3000/ 
+    user-agent -- Chrome 106.0.0 / Windows 10.0.0
+    ----------------------------------------------------------------
+2022-10-03 19:23:42 [INFO] 	
+
+    ---------------------- INCOMING REQUEST ------------------------
+    method -- GET 
+    ip -- ::1 
+    origin -- http://localhost:3000/ 
+    user-agent -- Chrome 106.0.0 / Windows 10.0.0
+    ----------------------------------------------------------------
+2022-10-03 19:24:00 [INFO] 	--------------------------------------------------
+2022-10-03 19:24:00 [INFO] 	Running Database Backup Cron Job
+2022-10-03 19:24:00 [INFO] 	Database backup successful
+2022-10-03 19:24:00 [INFO] 	--------------------------------------------------
+2022-10-03 19:24:00 [INFO] 	Sending Db backup email
+2022-10-03 19:24:04 [INFO] 	{"accepted":["isaacsammaar@gmail.com"],"rejected":[],"envelopeTime":568,"messageTime":1227,"messageSize":82673,"response":"250 2.0.0 OK  1664817843 m21-20020a05600c4f5500b003a5f54e3bbbsm19015847wmq.38 - gsmtp","envelope":{"from":"isaacsammaar@gmail.com","to":["isaacsammaar@gmail.com"]},"messageId":"<ac0be590-e050-b198-4580-8dc8c7b2c3d9@gmail.com>"}
+2022-10-04 22:57:20 [INFO] 	Database Synced
+2022-10-04 22:57:20 [INFO] 	Server listening on port: 5000
+2022-10-04 23:01:14 [INFO] 	Database Synced
+2022-10-04 23:01:14 [INFO] 	Server listening on port: 5000
+2022-10-18 16:12:55 [INFO] 	Database Synced
+2022-10-18 16:12:55 [INFO] 	Server listening on port: 5000
+2022-10-18 16:13:00 [INFO] 	--------------------------------------------------
+2022-10-18 16:13:00 [INFO] 	Running Database Backup Cron Job
+2022-10-18 16:13:00 [INFO] 	Database backup successful
+2022-10-18 16:13:00 [INFO] 	--------------------------------------------------
+2022-10-18 16:13:00 [INFO] 	Sending Db backup email
+2022-10-18 23:53:00 [INFO] 	--------------------------------------------------
+2022-10-18 23:53:01 [INFO] 	Running Database Backup Cron Job
+2022-10-18 23:53:01 [INFO] 	Database backup successful
+2022-10-18 23:53:01 [INFO] 	--------------------------------------------------
+2022-10-18 23:53:01 [INFO] 	Sending Db backup email
